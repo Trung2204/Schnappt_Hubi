@@ -1,4 +1,4 @@
-package Main;
+package main;
 public enum FieldType {
 
     CLOCK1(1),

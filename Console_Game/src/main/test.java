@@ -1,4 +1,4 @@
-package Main;
+package main;
 
 public class test {
     private Type type;
@@ -6,7 +6,7 @@ public class test {
     test(Type type){
     	this.type = type;
     }
-    public Type getType() { return type; }
+    public Type getType() { return type; } 	
 	public void setType(Type type) { this.type = type; }
     public static void swap(test cell1, test cell2) {
         Type temp = cell1.getType();

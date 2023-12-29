@@ -1,4 +1,4 @@
-package Main;
+package main;
 
 public enum Type {
 	NONE_WALL,

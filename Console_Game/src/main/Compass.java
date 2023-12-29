@@ -1,24 +1,25 @@
-package Main;
+package main;
 import java.util.Random;
 
 public class Compass {
 
 //    protected static FieldType[] fields;
-    protected static FieldType fieldType;
     // private String[] fields = {"clock", "two", "three", "clock", "ghost"};
     // private int[] numberOfAction = {1, 2, 3, 1, 1};
-    private static Clock clock;
-    private static Random random = new Random();
+//    private static Clock clock;
+    private static final Random random = new Random();
+    
+    private static FieldType fieldType;
 
 //    Compass()   {
 //        fields = FieldType.values();
 //    };
 
-    public void setClock(Clock clock) {
-        Compass.clock = clock;
-    }
+//    public void setClock(Clock clock) {
+//        Compass.clock = clock;
+//    }
 
-    public void spin() {
+    public static void spin() {
         int angle = random.nextInt(360);
 
         if (angle <= 72) { // CLOCK1
@@ -34,49 +35,49 @@ public class Compass {
         }
     }
     
-    public FieldType getFieldType() {
+    public static FieldType getFieldType() {
     	return fieldType;
     }
-    public int getNumberOfAction() {
+    public static int getNumberOfAction() {
         return fieldType.getAction();
     }
 
-    public Clock getClock() {
-        return clock;
-    }
+//    public Clock getClock() {
+//        return clock;
+//    }
 
-    public FieldType updateClock() {
+    public static FieldType updateClock() {
 //        FieldType fieldType = this.spin();
-        clock.increaseTime(fieldType);
+        Clock.increaseTime(fieldType);
         return fieldType;
     }
     
-    public boolean checkGhostField() {
+    public static boolean checkGhostField() {
     	if (fieldType == FieldType.GHOST)
     		return true;
     	return false;
     }
-    public boolean checkGhostMoveUp() {
-    	int temp = Board.getGhostX();
+    public static boolean checkGhostMoveUp() {
+    	int temp = Ghost.getX();
     	if (--temp >= 0) return true;
 		return false;
     }
-    public boolean checkGhostMoveDown() {
-    	int temp = Board.getGhostX();
+    public static boolean checkGhostMoveDown() {
+    	int temp = Ghost.getX();
     	if (++temp <= Board.size) return true;
 		return false;
     }
-    public boolean checkGhostMoveLeft() {
-    	int temp = Board.getGhostY();
+    public static boolean checkGhostMoveLeft() {
+    	int temp = Ghost.getY();
     	if (--temp >= 0) return true;
 		return false;
     }
-    public boolean checkGhostMoveRight() {
-    	int temp = Board.getGhostX();
+    public static boolean checkGhostMoveRight() {
+    	int temp = Ghost.getY();
     	if (++temp <= Board.size) return true;
 		return false;
     }
-    public void moveGhost() {
+    public static void moveGhost() {
     	if (checkGhostField()) {
     		if (GridCell.isGhostFound) {
     			

@@ -9,7 +9,7 @@ public class Compass {
 //    private static Clock clock;
     private static final Random random = new Random();
     
-    protected static FieldType fieldType;
+    private static FieldType fieldType;
 
 //    Compass()   {
 //        fields = FieldType.values();

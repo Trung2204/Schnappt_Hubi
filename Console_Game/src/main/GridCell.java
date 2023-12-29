@@ -41,10 +41,10 @@ public class GridCell {
 		if (Board.wallSize == 1 && !isMagicDoorAdded) {
 			this.type = Type.MAGIC_DOOR_WALL;
 			isMagicDoorAdded = true;
-			System.out.println("MAGIC_DOOR_WALL");
+//			System.out.println("MAGIC_DOOR_WALL");
 		} else if (Board.wallSize > 1) {
 			Type[] types = isMagicDoorAdded ? wallTypesWithoutMagicDoor : wallTypesWithMagicDoor;
-			System.out.println(isMagicDoorAdded ? "wallTypesWithoutMagicDoor" : "wallTypesWithMagicDoor");
+//			System.out.println(isMagicDoorAdded ? "wallTypesWithoutMagicDoor" : "wallTypesWithMagicDoor");
 			this.type = types[random.nextInt(types.length)];
 			if (this.type == Type.MAGIC_DOOR_WALL) {
 				isMagicDoorAdded = true;
@@ -52,7 +52,7 @@ public class GridCell {
 		} else {
 			Type[] types = wallTypesWithoutMagicDoor;
 			this.type = types[random.nextInt(types.length)];
-			System.out.println("wallTypesWithoutMagicDoor_else");
+//			System.out.println("wallTypesWithoutMagicDoor_else");
 		}
 		Board.wallSize--;
 	}

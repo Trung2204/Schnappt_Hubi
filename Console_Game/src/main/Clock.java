@@ -1,7 +1,7 @@
 package main;
 public class Clock {
 
-    protected static int time;
+    private static int time = 0;
 //    private static Compass compass;
     
 //    public Clock() {
@@ -15,7 +15,7 @@ public class Clock {
     public static void increaseTime(FieldType fieldType) {
         if (time < 12 && (fieldType == FieldType.CLOCK1 || fieldType == FieldType.CLOCK2))
             time++;
-        else System.out.println("can't increase time");
+        else System.out.println("Time unchanged");
         return;
     }
 

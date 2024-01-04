@@ -148,40 +148,64 @@ public class Main {
 				System.out.println("Player "+(i+1)+" gains "+listOfPlayers[i].getNumberOfAction()+" action(s).");
 				// Each player plays their turn with the corresponding number of actions
 				for (int j = 0; j < listOfPlayers[i].getNumberOfAction(); j++) {
+					ActionType actionType;
+					DirectionType directionType;
+					
 					// Choose action: Move or View curtain
 					System.out.print("Choose action type(MOVE/ VIEW_CURTAIN): ");
-					ActionType actionType;
 					String actionInput = scanner.nextLine().toUpperCase();
+					// Choose direction
 					System.out.print("Choose direction (UP/ DOWN/ LEFT/ RIGHT): ");
-					Direction direction;
 					String directionInput = scanner.nextLine().toUpperCase();
 					
-					actionType = ActionType.valueOf(actionInput);
-					direction = Direction.valueOf(directionInput);
+					// Switch actionType based on actionInput
+					switch (actionInput) {
+					case "MOVE": 
+						actionType = ActionType.MOVE;						
+					case "VIEW CURTAIN": 
+						actionType = ActionType.VIEW_CURTAIN;
+						break;
+					default:
+						throw new IllegalArgumentException("Unexpected value: " + actionInput);
+					}
+					
+					// Switch directionType based on directionInput
+					switch (directionInput) {
+					case "UP":
+						directionType = DirectionType.UP;
+						break;
+					case "DOWN":
+						directionType = DirectionType.DOWN;
+						break;
+					case "LEFT":
+						directionType = DirectionType.LEFT;
+						break;
+					case "RIGHT":
+						directionType = DirectionType.RIGHT;
+						break;
+					default:
+						throw new IllegalArgumentException("Unexpected value: " + directionInput);
+					}
 					
 					if (actionType == ActionType.MOVE) {
 						int newX = listOfPlayers[i].getX();
 						int newY = listOfPlayers[i].getY();
 						System.out.println("Before: "+newX+" "+newY);
 						System.out.println("PLayer: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());
-						switch (direction) {
+						switch (directionType) {
 			            case UP:
-			            	
 			                newX -= 1;
 			                System.out.println("Up "+newX+" "+newY);
 			                break;
 			            case DOWN:
-			            	
 			                newX += 1;
 			                System.out.println("Down "+newX+" "+newY);
 			                break;
 			            case LEFT:
-			            	
 			                newY -= 1;
 			                System.out.println("Left "+newX+" "+newY);
 			                break;
 			            case RIGHT:
-			            	
 			                newY += 1;
 			                System.out.println("Right "+newX+" "+newY);
 			                break;
@@ -189,12 +213,40 @@ public class Main {
 						// Check if adjacent cell is within bounds
 			            if (newX >= 0 && newX < boardSize && newY >= 0 && newY < boardSize) {
 			            	GridCell adjacentCell = board.getGridCellAt(newX,newY);
-			            	listOfPlayers[j].move(direction,adjacentCell);
+			            	listOfPlayers[j].move(directionType,adjacentCell);
 			            } else {
 			                System.out.println("Move out of bounds. Please try again.");
 			            }
-					} else {
-						listOfPlayers[i].viewCurtain(actionType,direction);
+					} 
+					else {
+						int newX = listOfPlayers[i].getX();
+						int newY = listOfPlayers[i].getY();
+						System.out.println("Before: "+newX+" "+newY);
+						System.out.println("PLayer: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());
+						switch (directionType) {
+			            case UP:
+			                newX -= 1;
+			                System.out.println("Up "+newX+" "+newY);
+			                break;
+			            case DOWN:
+			                newX += 1;
+			                System.out.println("Down "+newX+" "+newY);
+			                break;
+			            case LEFT:
+			                newY -= 1;
+			                System.out.println("Left "+newX+" "+newY);
+			                break;
+			            case RIGHT:
+			            	newY += 1;
+			                System.out.println("Right "+newX+" "+newY);
+			                break;
+						}
+						// Check if adjacent cell is within bounds
+			            if (newX >= 0 && newX < boardSize && newY >= 0 && newY < boardSize) {
+			            	listOfPlayers[j].viewCurtain(board.getGridCellAt(newX, newY), newX, newY);
+			            } else {
+			                System.out.println("View curtain out of bounds. Please try again.");
+			            }
 					}
 					
 					System.out.println("Player's current position: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());

@@ -23,8 +23,7 @@ public class GridCell {
         	} else {
         		CellType[] wallTypes = {CellType.WINDOW_WALL, CellType.MOUSEHOLE_WALL, CellType.OPEN_WALL};
         		Random random = new Random();
-                int index = random.nextInt(wallTypes.length);
-                CellType newCellType = wallTypes[index];
+                CellType newCellType = wallTypes[random.nextInt(wallTypes.length)];
                 this.cellType = newCellType;
         	}
         }
@@ -37,8 +36,7 @@ public class GridCell {
         	} else {
         		CellType[] tokenTypes = {CellType.GHOST, CellType.DARK_CATERPILLAR, CellType.DARK_FROG, CellType.DARK_BAT, CellType.DARK_OWL, CellType.WHITE_CATERPILLAR, CellType.WHITE_FROG, CellType.WHITE_BAT, CellType.WHITE_OWL};
                 Random random = new Random();
-                int index = random.nextInt(tokenTypes.length);
-                CellType newCellType = tokenTypes[index];
+                CellType newCellType = tokenTypes[random.nextInt(tokenTypes.length)];
                 this.cellType = newCellType;
         	}
         }

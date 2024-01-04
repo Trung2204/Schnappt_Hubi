@@ -7,7 +7,7 @@ public class Player {
 	private Character character;
 	private int numberOfActions;
 	private ActionType actionType;
-	private Direction direction;
+	private DirectionType directionType;
 	
 	public Player(int x, int y, Character character) {
 		this.x = x;
@@ -20,7 +20,7 @@ public class Player {
 	public void setCharacter(Character character) { this.character = character; }
 	public void setNumberOfAction(int numberOfActions) { this.numberOfActions = numberOfActions; }
 	public void setAction(ActionType action) { this.actionType = action; }
-	public void setDirection(Direction direction) { this.direction = direction; }
+	public void setDirection(DirectionType directionType) { this.directionType = directionType; }
 //	public void setCurrentPosition() { this.currentPosition = Board.getGridCells()[x][y]; }
 	
 	public int getX() {return x;}
@@ -28,19 +28,19 @@ public class Player {
 	public Character getCharacter() { return character;}
 	public int getNumberOfAction() { return numberOfActions;}
 	public ActionType getAction() { return actionType; }
-	public Direction getDirection() { return direction; }
+	public DirectionType getDirection() { return directionType; }
 //	public GridCell getCurrentPosition() { return currentPosition; }
 	
 	// Method to map player's coordinates to board's coordinates
 	public int getBoardX() { return x * 2; }
     public int getBoardY() { return y * 2; }
     
-    public void move(Direction direction, GridCell adjacentCell) {
+    public void move(DirectionType directionType, GridCell adjacentCell) {
 
 		int newX = this.x;
         int newY = this.y;
         
-        switch (direction) {
+        switch (directionType) {
             case UP:
                 newX -= 2;
                 break;
@@ -73,12 +73,8 @@ public class Player {
         	}
         }
     }
-    public void viewCurtain(ActionType actionType, Direction direction) {
-    	System.out.print("Player views curtain ");
-    	if (direction == Direction.UP) System.out.print("up");
-    	else if (direction == Direction.DOWN) System.out.print("down");
-    	else if (direction == Direction.LEFT) System.out.print("left");
-    	else if (direction == Direction.RIGHT) System.out.print("right");
+    public void viewCurtain(GridCell curtainCell, int newX, int newY) {
+    	curtainCell.changeWall(newX, newY);
     }
     public void viewToken(ActionType actionType) {
     	System.out.print("Player views token ");

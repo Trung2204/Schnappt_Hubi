@@ -1,146 +1,213 @@
 package main;
 import java.util.*;
 public class Main {
+	private static int boardSize = 5;
+	private static Board board = new Board(boardSize);
+	
+	private static Clock clock = new Clock();
+	
+	private static Compass compass = new Compass();
+	
 	private static int numberOfPlayers = 0;
+	private static int numberOfRabbits = 0;
+	private static int numberOfMice    = 0;
 	private static Player[] listOfPlayers;
-	static Scanner scanner = new Scanner(System.in);
+	
+	public static Scanner scanner = new Scanner(System.in);
 	
 	public static void settingMenu() {
-		System.out.print("Number of player: ");
-		numberOfPlayers = scanner.nextInt();
-		scanner.nextLine();
-		
-		listOfPlayers = new Player[numberOfPlayers];
-		for (int i = 0; i < numberOfPlayers; i++) {
-			listOfPlayers[i] = new Player();
+		// Get number of players
+		while (numberOfPlayers < 2 || numberOfPlayers > 4) {
+			System.out.print("Number of player (2-4): ");
+			try {
+				numberOfPlayers = scanner.nextInt();
+				scanner.nextLine(); //Consume newline left-over
+				if (numberOfPlayers < 2 || numberOfPlayers > 4) {
+                    System.out.println("Invalid number of players. Please enter a number between 2 and 4.");
+                }
+			} catch (Exception e) {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.next(); // discard the invalid input
+            }
 		}
 		
+		// Create an array to store players
+		listOfPlayers = new Player[numberOfPlayers];
+		
+		// Use a set to store used coordinates
+        HashSet<String> usedCoordinates = new HashSet<>();
+		
 		for (int i = 0; i < numberOfPlayers; i++) {
-			System.out.println("Player "+(i+1)+" turn: ");
-			String character = null;
-//			do {
+			System.out.print("\n#### Player "+(i+1)+" chooses character ####\n");
+			
 			// Choose character
-			System.out.print("Choose character (Rabbit or Mouse): ");
-			character = scanner.nextLine();
-			listOfPlayers[i].setCharacter(character);
+			Character character = null;
+			while (character == null) {
+				System.out.print("1)Choose character (RABBIT or MOUSE): ");
+				String characterInput = scanner.nextLine().toUpperCase();
+				try {
+					character = Character.valueOf(characterInput);
+					if ((character == Character.RABBIT && numberOfRabbits >= 2) || (character == Character.MOUSE && numberOfMice >= 2)) {
+						System.out.println("Maximum number of " + character + "s reached. Please enter a different character.");
+						character = null; // reset character to null to continue the loop
+					} else {
+			            // Update the count of each character type
+			            if (character == Character.RABBIT)
+			                numberOfRabbits++;
+			            else if (character == Character.MOUSE)
+			                numberOfMice++;
+			        }
+					// If this is the last player and there is no rabbit or mouse yet, force them to choose the missing character
+			        if (i == numberOfPlayers - 1 && (numberOfRabbits == 0 || numberOfMice == 0)) {
+			            System.out.println("There must be at least one rabbit and one mouse. Please choose the missing character.");
+			            character = null; // reset character to null to continue the loop
+			            // Reset the count of each character type
+			            if (character == Character.RABBIT)
+			                numberOfRabbits--;
+			            else if (character == Character.MOUSE)
+			                numberOfMice--;
+			        }
+				} catch (IllegalArgumentException e) {
+	                System.out.println("Invalid character. Please enter RABBIT or MOUSE.");
+				}
+			}
 			
 			// Choose starting position
-			System.out.print("Choose staring position: ");
-			listOfPlayers[i].setX(scanner.nextInt());
-			listOfPlayers[i].setY(scanner.nextInt());
-			scanner.nextLine();
-				
-//			}while(character.equalsIgnoreCase("Rabbit") || character.equalsIgnoreCase("Mouse"));
+			System.out.println("2)Choose staring position:");
+			int x = -1, y = -1;
+			while (true) {
+				try {
+					System.out.print("Enter x coordinate: ");
+					x = scanner.nextInt();
+
+					System.out.print("Enter y coordinate: ");
+					y = scanner.nextInt();
+					scanner.nextLine(); //Consume newline left-over
+					
+					// Check if these coordinates are at the corners of the board
+					if ((x == 0 || x == 4) && (y == 0 || y == 4)) {
+						// Check if these coordinates have been used
+						if (!usedCoordinates.contains(x + "," + y)) {
+							// If not, add them to the set and break the loop
+							usedCoordinates.add(x + "," + y);
+							break;
+						} else {
+							// If yes, ask for the coordinates again
+							System.out.println("These coordinates have been used. Please enter different coordinates.");
+						}
+					} else {
+						System.out.println("Coordinates must be at the corners of the board (0,0 or 0,4 or 4,0 or 4,4). Please enter valid coordinates.");
+					}
+				} catch (Exception e) {
+					System.out.println("Invalid input. Please enter a number.");
+					scanner.next(); // discard the invalid input
+				}
+			}
+			
+			Player player = new Player(x,y,character);
+            
+            // Add the player to the array
+            listOfPlayers[i] = player;
+			System.out.println();
 		}
 		
+		// Display players' information
 		for (int i = 0; i < numberOfPlayers; i++) {
 			listOfPlayers[i].print();
 		}
-	}
-	public static void setup() {
-		Board.setSize(5);
-		Board.init();
-		Board.print();
-		
-		System.out.println("Current time: "+Clock.getTime());
 		System.out.println();
 	}
-	public static boolean checkPlayerPositionRemain(int beforeX, int beforeY, int currentX, int currentY) {
-		if (beforeX == currentX && beforeY == currentY) return true;
-		else return false;
+	public static void setup() {
+		board.print();
+		System.out.println("\nStaring time: "+clock.getTime());
+		System.out.println();
 	}
-	
 	public static void play() {
 //		while(true) {
 //			if (Clock.getTime() == 12) break;
 			for (int i = 0; i < numberOfPlayers; i++) {
-				System.out.println("Player "+(i+1)+" turn: ");
-				Compass.spin();
-				Compass.updateClock();
-				System.out.println("Current time: "+Clock.getTime());
-				listOfPlayers[i].setNumberOfAction();
-				System.out.println("Field: "+Compass.getFieldType());
-				System.out.println("Player "+(i+1)+" gains: "+listOfPlayers[i].getNumberOfAction()+" actions.");
+				System.out.print("\n#### Player "+(i+1)+"'s turn ####\n");
+				System.out.println("Player's current position: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());
+				System.out.println("Compass is spinning...");
+				// Spin the compass
+				compass.spin();
+				System.out.println("### Compass ###");
+				System.out.println("Compass field: "+compass.getFieldType());
+				// Update time
+				clock.increaseTime(compass.getFieldType());
+				System.out.println("Current time: "+clock.getTime());
+				// Player gains number of actions from spinning the compass
+				listOfPlayers[i].setNumberOfAction(compass.getNumberOfAction());
+				System.out.println("Player "+(i+1)+" gains "+listOfPlayers[i].getNumberOfAction()+" action(s).");
+				// Each player plays their turn with the corresponding number of actions
 				for (int j = 0; j < listOfPlayers[i].getNumberOfAction(); j++) {
-//				for (int j = 0; j < 4; j++) {
-					String action;
-					System.out.println("Choose action type(Move/ View Curtain): ");
-					action = scanner.nextLine();
-					int posXbeforeAction = listOfPlayers[i].getX();
-					int posYbeforeAction = listOfPlayers[i].getY();
-					if (action.equalsIgnoreCase("Move up")) {
-						listOfPlayers[i].moveUp();
-						if (checkPlayerPositionRemain(posXbeforeAction,posYbeforeAction,listOfPlayers[i].getX(),listOfPlayers[i].getY())) j--;
-					}
-					else if (action.equalsIgnoreCase("Move down")) {
-						listOfPlayers[i].moveDown();
-						if (checkPlayerPositionRemain(posXbeforeAction,posYbeforeAction,listOfPlayers[i].getX(),listOfPlayers[i].getY())) j--;
-					}
-					else if (action.equalsIgnoreCase("Move left")) {
-						listOfPlayers[i].moveLeft();
-						if (checkPlayerPositionRemain(posXbeforeAction,posYbeforeAction,listOfPlayers[i].getX(),listOfPlayers[i].getY())) j--;
-					}
-					else if (action.equalsIgnoreCase("Move right")) {
-						listOfPlayers[i].moveRight();
-						if (checkPlayerPositionRemain(posXbeforeAction,posYbeforeAction,listOfPlayers[i].getX(),listOfPlayers[i].getY())) j--;
-					}
-					else if (action.equalsIgnoreCase("View curtain up")) {
-						posXbeforeAction--;
-						listOfPlayers[i].setX(posXbeforeAction);
-						listOfPlayers[i].setCurrentPosition();
-//						System.out.println(listOfPlayers[i].getCurrentPosition().getType());
-						
-						listOfPlayers[i].viewCurtain();
-						
-						posXbeforeAction++;
-						listOfPlayers[i].setX(posXbeforeAction);
-						listOfPlayers[i].setCurrentPosition();
-					}
-					else if (action.equalsIgnoreCase("View curtain down")) {
-						posXbeforeAction++;
-						listOfPlayers[i].setX(posXbeforeAction);
-						listOfPlayers[i].setCurrentPosition();
-//						System.out.println(listOfPlayers[i].getCurrentPosition().getType());
-						
-						listOfPlayers[i].viewCurtain();
-						
-						posXbeforeAction--;
-						listOfPlayers[i].setX(posXbeforeAction);
-						listOfPlayers[i].setCurrentPosition();
-					}
-					else if (action.equalsIgnoreCase("View curtain left")) {
-						posYbeforeAction--;
-						listOfPlayers[i].setY(posYbeforeAction);
-						listOfPlayers[i].setCurrentPosition();
-//						System.out.println(listOfPlayers[i].getCurrentPosition().getType());
-						
-						listOfPlayers[i].viewCurtain();
-						
-						posYbeforeAction++;
-						listOfPlayers[i].setY(posYbeforeAction);
-						listOfPlayers[i].setCurrentPosition();
-					}
-					else if (action.equalsIgnoreCase("View curtain right")) {
-						posYbeforeAction++;
-						listOfPlayers[i].setY(posYbeforeAction);
-						listOfPlayers[i].setCurrentPosition();
-//						System.out.println(listOfPlayers[i].getCurrentPosition().getType());
-						
-						listOfPlayers[i].viewCurtain();
-						
-						posYbeforeAction--;
-						listOfPlayers[i].setY(posYbeforeAction);
-						listOfPlayers[i].setCurrentPosition();
+					// Choose action: Move or View curtain
+					System.out.print("Choose action type(MOVE/ VIEW_CURTAIN): ");
+					ActionType actionType;
+					String actionInput = scanner.nextLine().toUpperCase();
+					System.out.print("Choose direction (UP/ DOWN/ LEFT/ RIGHT): ");
+					Direction direction;
+					String directionInput = scanner.nextLine().toUpperCase();
+					
+					actionType = ActionType.valueOf(actionInput);
+					direction = Direction.valueOf(directionInput);
+					
+					if (actionType == ActionType.MOVE) {
+						int newX = listOfPlayers[i].getX();
+						int newY = listOfPlayers[i].getY();
+						System.out.println("Before: "+newX+" "+newY);
+						System.out.println("PLayer: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());
+						switch (direction) {
+			            case UP:
+			            	
+			                newX -= 1;
+			                System.out.println("Up "+newX+" "+newY);
+			                break;
+			            case DOWN:
+			            	
+			                newX += 1;
+			                System.out.println("Down "+newX+" "+newY);
+			                break;
+			            case LEFT:
+			            	
+			                newY -= 1;
+			                System.out.println("Left "+newX+" "+newY);
+			                break;
+			            case RIGHT:
+			            	
+			                newY += 1;
+			                System.out.println("Right "+newX+" "+newY);
+			                break;
+						}
+						// Check if adjacent cell is within bounds
+			            if (newX >= 0 && newX < boardSize && newY >= 0 && newY < boardSize) {
+			            	GridCell adjacentCell = board.getGridCellAt(newX,newY);
+			            	listOfPlayers[j].move(direction,adjacentCell);
+			            } else {
+			                System.out.println("Move out of bounds. Please try again.");
+			            }
+					} else {
+						listOfPlayers[i].viewCurtain(actionType,direction);
 					}
 					
 					System.out.println("Player's current position: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());
-					Board.print();
+					board.print();
 				}
 				
 				System.out.println();
 			}
 			
+//		// !!! For testing purpose: view all curtains and tokens
+//		for (int i = 0; i < boardSize; i++) {
+//			for (int j = 0; j < boardSize; j++) {
+//				if (board.getGridCellAt(i, j).getCellType() == CellType.CURTAIN_WALL)
+//					board.getGridCellAt(i, j).changeWall(i,j);
+//				else if(board.getGridCellAt(i, j).getCellType() == CellType.CARROT_TOKEN ||
+//						board.getGridCellAt(i, j).getCellType() == CellType.CHEESE_TOKEN)
+//					board.getGridCellAt(i, j).changeToken(i,j);
+//			}
 //		}
+//		board.print();
 	}
 	
 	public static void main(String[] args) {
@@ -148,444 +215,6 @@ public class Main {
 		settingMenu();
 		setup();
 		play();
-		
-		
-//		final Player player1 = new Player();
-////		final Clock clock = new Clock();
-////		final Compass compass =  new Compass();
-//
-//		Board.setSize(5);
-//		Board.init();
-////		compass.setClock(clock);
-//		
-//		
-//		player1.setCharacter("Rabbit");
-////		player1.setX(0);
-////		player1.setY(2);
-////		player1.setCurrentPosition();
-//		
-//		Board.print();
-//		System.out.println("Board.wallSize = " + Board.wallSize);
-//		System.out.println("Board.tokenSize = " + Board.tokenSize);
-////		player1.viewToken();
-//
-//		System.out.println();
-//		
-////		System.out.println(Ghost.getX());
-////		System.out.println(Ghost.getY());
-////		boolean flag = true;
-////		while(flag) {
-////			for (int i = 0; i < Board.size; i++) {
-////	    		for (int j = 0; j < Board.size; j++) {
-////	    			if (i == Board.size-1 && j == Board.size-1 && !GridCell.isGhostFound) {
-////	    				Board.gridCells[Board.size-1][Board.size-1].setType(Type.GHOST); 
-////	    				break;
-////	    			}
-////    				player1.setX(i);
-////    				player1.setY(j);
-////    				player1.setCurrentPosition();
-////    				player1.viewToken();
-////					System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-////    				System.out.println("Ghost is found: "+GridCell.isGhostFound);
-////    				if (GridCell.isGhostFound) {
-////    					Ghost.updateGhost(player1.getX(), player1.getY());
-////    					System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-////    					flag = false;
-////    					break;
-////    				}
-////    			}
-////	    		System.out.println();    			
-////	    		
-////	    		if(!flag) break;
-////	    	}
-////		}
-//		player1.setX(0);
-//		player1.setY(0);
-//		player1.setCurrentPosition();
-//		player1.viewToken();
-//		System.out.println("Player (x,y) = "+player1.getX()+", " +player1.getY());
-//		System.out.println("Ghost is found: "+GridCell.getIsGhostFound());
-//		System.out.println("Ghost(x,y) = " + Ghost.getX() + ", " + Ghost.getY());
-//		if (GridCell.getIsGhostFound()) {
-//			if (Ghost.getX() == -1 && Ghost.getY() == -1) {
-//				Ghost.updateGhost(player1.getX(), player1.getY());
-//				System.out.println("Player (x,y) = "+player1.getX()+", " +player1.getY());
-//				System.out.println("Ghost(x,y) = " + Ghost.getX() + ", " + Ghost.getY());
-//			}
-//		}
-//		System.out.println(Board.getTokenSize());
-//		System.out.println();
-//		
-//		player1.setX(0);
-//		player1.setY(2);
-//		player1.setCurrentPosition();
-//		player1.viewToken();
-//		System.out.println("Player (x,y) = "+player1.getX()+", " +player1.getY());
-//		System.out.println("Ghost is found: "+GridCell.getIsGhostFound());		
-//		System.out.println("Ghost(x,y) = " + Ghost.getX() + ", " + Ghost.getY());
-//		if (GridCell.getIsGhostFound()) {
-//			if (Ghost.getX() == -1 && Ghost.getY() == -1) {
-//				Ghost.updateGhost(player1.getX(), player1.getY());
-//				System.out.println("Player (x,y) = "+player1.getX()+", " +player1.getY());
-//				System.out.println("Ghost(x,y) = " + Ghost.getX() + ", " + Ghost.getY());
-//			}
-//		}
-//		System.out.println(Board.getTokenSize());
-//		System.out.println();
-//		
-//		player1.setX(0);
-//		player1.setY(4);
-//		player1.setCurrentPosition();
-//		player1.viewToken();
-//		System.out.println("Player (x,y) = "+player1.getX()+", " +player1.getY());
-//		System.out.println("Ghost is found: "+GridCell.getIsGhostFound());
-//		System.out.println("Ghost(x,y) = " + Ghost.getX() + ", " + Ghost.getY());
-//		if (GridCell.getIsGhostFound()) {
-//			if (Ghost.getX() == -1 && Ghost.getY() == -1) {
-//				Ghost.updateGhost(player1.getX(), player1.getY());
-//				System.out.println("Player (x,y) = "+player1.getX()+", " +player1.getY());
-//				System.out.println("Ghost(x,y) = " + Ghost.getX() + ", " + Ghost.getY());
-//			}
-//		}
-//		System.out.println(Board.getTokenSize());
-//		System.out.println();
-//		
-//		player1.setX(2);
-//		player1.setY(0);
-//		player1.setCurrentPosition();
-//		player1.viewToken();
-//		System.out.println("Player (x,y) = "+player1.getX()+", " +player1.getY());
-//		System.out.println("Ghost is found: "+GridCell.getIsGhostFound());
-//		System.out.println("Ghost(x,y) = " + Ghost.getX() + ", " + Ghost.getY());
-//		if (GridCell.getIsGhostFound()) {
-//			if (Ghost.getX() == -1 && Ghost.getY() == -1) {
-//				Ghost.updateGhost(player1.getX(), player1.getY());
-//				System.out.println("Player (x,y) = "+player1.getX()+", " +player1.getY());
-//				System.out.println("Ghost(x,y) = " + Ghost.getX() + ", " + Ghost.getY());
-//			}
-//		}
-//		System.out.println(Board.getTokenSize());
-//		System.out.println();
-//		
-//		player1.setX(2);
-//		player1.setY(2);
-//		player1.setCurrentPosition();
-//		player1.viewToken();
-//		System.out.println("Player (x,y) = "+player1.getX()+", " +player1.getY());
-//		System.out.println("Ghost is found: "+GridCell.getIsGhostFound());
-//		System.out.println("Ghost(x,y) = " + Ghost.getX() + ", " + Ghost.getY());
-//		if (GridCell.getIsGhostFound()) {
-//			if (Ghost.getX() == -1 && Ghost.getY() == -1) {
-//				Ghost.updateGhost(player1.getX(), player1.getY());
-//				System.out.println("Player (x,y) = "+player1.getX()+", " +player1.getY());
-//				System.out.println("Ghost(x,y) = " + Ghost.getX() + ", " + Ghost.getY());
-//			}
-//		}
-//		System.out.println(Board.getTokenSize());
-//		System.out.println();
-//		
-//		player1.setX(2);
-//		player1.setY(4);
-//		player1.setCurrentPosition();
-//		player1.viewToken();
-//		System.out.println("Player (x,y) = "+player1.getX()+", " +player1.getY());
-//		System.out.println("Ghost is found: "+GridCell.getIsGhostFound());
-//		System.out.println("Ghost(x,y) = " + Ghost.getX() + ", " + Ghost.getY());
-//		if (GridCell.getIsGhostFound()) {
-//			if (Ghost.getX() == -1 && Ghost.getY() == -1) {
-//				Ghost.updateGhost(player1.getX(), player1.getY());
-//				System.out.println("Player (x,y) = "+player1.getX()+", " +player1.getY());
-//				System.out.println("Ghost(x,y) = " + Ghost.getX() + ", " + Ghost.getY());
-//			}
-//		}
-//		System.out.println(Board.getTokenSize());
-//		System.out.println();
-//
-//		player1.setX(4);
-//		player1.setY(0);
-//		player1.setCurrentPosition();
-//		player1.viewToken();
-//		System.out.println("Player (x,y) = "+player1.getX()+", " +player1.getY());
-//		System.out.println("Ghost is found: "+GridCell.getIsGhostFound());
-//		System.out.println("Ghost(x,y) = " + Ghost.getX() + ", " + Ghost.getY());
-//		if (GridCell.getIsGhostFound()) {
-//			if (Ghost.getX() == -1 && Ghost.getY() == -1) {
-//				Ghost.updateGhost(player1.getX(), player1.getY());
-//				System.out.println("Player (x,y) = "+player1.getX()+", " +player1.getY());
-//				System.out.println("Ghost(x,y) = " + Ghost.getX() + ", " + Ghost.getY());
-//			}
-//		}
-//		System.out.println(Board.getTokenSize());
-//		System.out.println();
-//
-//		player1.setX(4);
-//		player1.setY(2);
-//		player1.setCurrentPosition();
-//		player1.viewToken();
-//		System.out.println("Player (x,y) = "+player1.getX()+", " +player1.getY());
-//		System.out.println("Ghost is found: "+GridCell.getIsGhostFound());
-//		System.out.println("Ghost(x,y) = " + Ghost.getX() + ", " + Ghost.getY());
-//		if (GridCell.getIsGhostFound()) {
-//			if (Ghost.getX() == -1 && Ghost.getY() == -1) {
-//				Ghost.updateGhost(player1.getX(), player1.getY());
-//				System.out.println("Player (x,y) = "+player1.getX()+", " +player1.getY());
-//				System.out.println("Ghost(x,y) = " + Ghost.getX() + ", " + Ghost.getY());
-//			}
-//		}
-//		System.out.println(Board.getTokenSize());
-//		System.out.println();
-//
-//		player1.setX(4);
-//		player1.setY(4);
-//		player1.setCurrentPosition();
-//		player1.viewToken();
-//		System.out.println("Player (x,y) = "+player1.getX()+", " +player1.getY());
-//		System.out.println("Ghost is found: "+GridCell.getIsGhostFound());
-//			
-//		System.out.println("Ghost(x,y) = " + Ghost.getX() + ", " + Ghost.getY());
-//		if (GridCell.getIsGhostFound()) {
-//			if (Ghost.getX() == -1 && Ghost.getY() == -1) {
-//				Ghost.updateGhost(player1.getX(), player1.getY());
-//				System.out.println("Player (x,y) = "+player1.getX()+", " +player1.getY());
-//				System.out.println("Ghost(x,y) = " + Ghost.getX() + ", " + Ghost.getY());
-//			}
-//		}
-//		System.out.println(Board.getTokenSize());
-//		System.out.println(Board.checkGhostPosition());
-//		System.out.println();
-//		
-////		GridCell currentGridcell = board.getCurrentGridCells(0, 0);
-////		GridCell otherGridcell = board.getCurrentGridCells(0, 2);
-////	
-////		System.out.println();
-////		System.out.println();
-////		GridCell.swapToken(currentGridcell,otherGridcell);
-//		
-//		System.out.println();
-//		Board.print();
-////		
-////		Compass.spin();
-////		Compass.updateClock();
-////		System.out.println("Field: "+Compass.getFieldType());
-////		System.out.println("Action: "+Compass.getNumberOfAction());
-////		if(Compass.checkGhostField()) {
-////			Compass.moveGhost();
-////		}
-//		
-////		player1.setNumberOfAction();
-////		System.out.println("Action: "+player1.getNumberOfAction());
-////		player1.moveUp();
-////		player1.print();
-//		
-//		System.out.println();
-//		
-//		player1.setX(0);
-//		player1.setY(1);
-//		player1.setCurrentPosition();
-//		player1.viewCurtain();
-//		System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//		System.out.println("MAGIC_DOOR_WALL is found: " + GridCell.getIsMagicDoorAdded());
-//		System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//		if (GridCell.getIsMagicDoorAdded()) {
-//			if (MagicDoor.getX() == -1 && MagicDoor.getY() == -1) {
-//				MagicDoor.updateMagicDoor(player1.getX(), player1.getY());
-//				System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//				System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//			}
-//		}
-//		System.out.println("Board.wallSize = " + Board.getWallSize());
-//		System.out.println();
-//		
-//		player1.setX(0);
-//		player1.setY(3);
-//		player1.setCurrentPosition();
-//		player1.viewCurtain();
-//		System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//		System.out.println("MAGIC_DOOR_WALL is found: " + GridCell.getIsMagicDoorAdded());
-//		System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//		if (GridCell.getIsMagicDoorAdded()) {
-//			if (MagicDoor.getX() == -1 && MagicDoor.getY() == -1) {
-//				MagicDoor.updateMagicDoor(player1.getX(), player1.getY());
-//				System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//				System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//			}
-//		}
-//		System.out.println("Board.wallSize = " + Board.getWallSize());
-//		System.out.println();
-//		
-//		player1.setX(1);
-//		player1.setY(0);
-//		player1.setCurrentPosition();
-//		player1.viewCurtain();
-//		System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//		System.out.println("MAGIC_DOOR_WALL is found: " + GridCell.getIsMagicDoorAdded());
-//		System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//		if (GridCell.getIsMagicDoorAdded()) {
-//			if (MagicDoor.getX() == -1 && MagicDoor.getY() == -1) {
-//				MagicDoor.updateMagicDoor(player1.getX(), player1.getY());
-//				System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//				System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//			}
-//		}
-//		System.out.println("Board.wallSize = " + Board.getWallSize());
-//		System.out.println();
-//		
-//		player1.setX(1);
-//		player1.setY(2);
-//		player1.setCurrentPosition();
-//		player1.viewCurtain();
-//		System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//		System.out.println("MAGIC_DOOR_WALL is found: " + GridCell.getIsMagicDoorAdded());
-//		System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//		if (GridCell.getIsMagicDoorAdded()) {
-//			if (MagicDoor.getX() == -1 && MagicDoor.getY() == -1) {
-//				MagicDoor.updateMagicDoor(player1.getX(), player1.getY());
-//				System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//				System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//			}
-//		}
-//		System.out.println("Board.wallSize = " + Board.getWallSize());
-//		System.out.println();
-//		
-//		
-//		player1.setX(1);
-//		player1.setY(4);
-//		player1.setCurrentPosition();
-//		player1.viewCurtain();
-//		System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//		System.out.println("MAGIC_DOOR_WALL is found: " + GridCell.getIsMagicDoorAdded());
-//		System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//		if (GridCell.getIsMagicDoorAdded()) {
-//			if (MagicDoor.getX() == -1 && MagicDoor.getY() == -1) {
-//				MagicDoor.updateMagicDoor(player1.getX(), player1.getY());
-//				System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//				System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//			}
-//		}
-//		System.out.println("Board.wallSize = " + Board.getWallSize());
-//		System.out.println();
-//		
-//		player1.setX(2);
-//		player1.setY(1);
-//		player1.setCurrentPosition();
-//		player1.viewCurtain();
-//		System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//		System.out.println("MAGIC_DOOR_WALL is found: " + GridCell.getIsMagicDoorAdded());
-//		System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//		if (GridCell.getIsMagicDoorAdded()) {
-//			if (MagicDoor.getX() == -1 && MagicDoor.getY() == -1) {
-//				MagicDoor.updateMagicDoor(player1.getX(), player1.getY());
-//				System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//				System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//			}
-//		}
-//		System.out.println("Board.wallSize = " + Board.getWallSize());
-//		System.out.println();
-//		
-//		player1.setX(2);
-//		player1.setY(3);
-//		player1.setCurrentPosition();
-//		player1.viewCurtain();
-//		System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//		System.out.println("MAGIC_DOOR_WALL is found: " + GridCell.getIsMagicDoorAdded());
-//		System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//		if (GridCell.getIsMagicDoorAdded()) {
-//			if (MagicDoor.getX() == -1 && MagicDoor.getY() == -1) {
-//				MagicDoor.updateMagicDoor(player1.getX(), player1.getY());
-//				System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//				System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//			}
-//		}
-//		System.out.println("Board.wallSize = " + Board.getWallSize());
-//		System.out.println();
-//		
-//		player1.setX(3);
-//		player1.setY(0);
-//		player1.setCurrentPosition();
-//		player1.viewCurtain();
-//		System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//		System.out.println("MAGIC_DOOR_WALL is found: " + GridCell.getIsMagicDoorAdded());
-//		System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//		if (GridCell.getIsMagicDoorAdded()) {
-//			if (MagicDoor.getX() == -1 && MagicDoor.getY() == -1) {
-//				MagicDoor.updateMagicDoor(player1.getX(), player1.getY());
-//				System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//				System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//			}
-//		}
-//		System.out.println("Board.wallSize = " + Board.getWallSize());
-//		System.out.println();
-//		
-//		player1.setX(3);
-//		player1.setY(2);
-//		player1.setCurrentPosition();
-//		player1.viewCurtain();
-//		System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//		System.out.println("MAGIC_DOOR_WALL is found: " + GridCell.getIsMagicDoorAdded());
-//		System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//		if (GridCell.getIsMagicDoorAdded()) {
-//			if (MagicDoor.getX() == -1 && MagicDoor.getY() == -1) {
-//				MagicDoor.updateMagicDoor(player1.getX(), player1.getY());
-//				System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//				System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//			}
-//		}
-//		System.out.println("Board.wallSize = " + Board.getWallSize());
-//		System.out.println();
-//		
-//		player1.setX(3);
-//		player1.setY(4);
-//		player1.setCurrentPosition();
-//		player1.viewCurtain();
-//		System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//		System.out.println("MAGIC_DOOR_WALL is found: " + GridCell.getIsMagicDoorAdded());
-//		System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//		if (GridCell.getIsMagicDoorAdded()) {
-//			if (MagicDoor.getX() == -1 && MagicDoor.getY() == -1) {
-//				MagicDoor.updateMagicDoor(player1.getX(), player1.getY());
-//				System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//				System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//			}
-//		}
-//		System.out.println("Board.wallSize = " + Board.getWallSize());
-//		System.out.println();
-//		
-//		player1.setX(4);
-//		player1.setY(1);
-//		player1.setCurrentPosition();
-//		player1.viewCurtain();
-//		System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//		System.out.println("MAGIC_DOOR_WALL is found: " + GridCell.getIsMagicDoorAdded());
-//		System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//		if (GridCell.getIsMagicDoorAdded()) {
-//			if (MagicDoor.getX() == -1 && MagicDoor.getY() == -1) {
-//				MagicDoor.updateMagicDoor(player1.getX(), player1.getY());
-//				System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//				System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//			}
-//		}
-//		System.out.println("Board.wallSize = " + Board.getWallSize());
-//		System.out.println();
-//		
-//		player1.setX(4);
-//		player1.setY(3);
-//		player1.setCurrentPosition();
-//		player1.viewCurtain();
-//		System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//		System.out.println("MAGIC_DOOR_WALL is found: " + GridCell.getIsMagicDoorAdded());
-//		System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//		if (GridCell.getIsMagicDoorAdded()) {
-//			if (MagicDoor.getX() == -1 && MagicDoor.getY() == -1) {
-//				MagicDoor.updateMagicDoor(player1.getX(), player1.getY());
-//				System.out.println("Player (x,y) = "+player1.getX()+" " +player1.getY());
-//				System.out.println("MAGIC_DOOR_WALL(x,y) = " + MagicDoor.getX() + ", " + MagicDoor.getY());
-//			}
-//		}
-//		System.out.println("Board.wallSize = " + Board.getWallSize());
-//		System.out.println();
-//		
-//		Board.print();
-		
 		
 	}
 }

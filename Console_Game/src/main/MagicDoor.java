@@ -2,6 +2,11 @@ package main;
 
 public class MagicDoor extends GridCell{
 	
+	public MagicDoor() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	protected static int x = -1;
 	protected static int y = -1;
 	

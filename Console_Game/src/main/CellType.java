@@ -1,6 +1,6 @@
 package main;
 
-public enum Type {
+public enum CellType {
 	NONE_WALL,
 	
 	CARROT_TOKEN,

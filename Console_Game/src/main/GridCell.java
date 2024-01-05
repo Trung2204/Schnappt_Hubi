@@ -15,7 +15,7 @@ public class GridCell {
 
 //    private static boolean magicDoorCreated = false;
 //    private static boolean ghostCreated = false;
-
+    
     public void changeWall(int x, int y) {
         if (this.cellType == CellType.CURTAIN_WALL) {
         	if (x == Board.getMagicDoorRow() && y == Board.getMagicDoorCol()) {

@@ -1,23 +1,34 @@
 package main;
 
-public class MagicDoor extends GridCell{
+public class MagicDoor extends GridCell {
+	private int x;
+	private int y;
+	private DirectionType side;
+	private DirectionType otherSide;
 	
-	public MagicDoor() {
-		super();
-		// TODO Auto-generated constructor stub
+	public MagicDoor(int x, int y, DirectionType side) {
+		this.x = x;
+		this.y = y;
+		this.side = side;
+		if(side == DirectionType.UP) this.otherSide = DirectionType.DOWN;
+		if(side == DirectionType.DOWN) this.otherSide = DirectionType.UP;
+		if(side == DirectionType.LEFT) this.otherSide = DirectionType.RIGHT;
+		if(side == DirectionType.RIGHT) this.otherSide = DirectionType.LEFT;
 	}
-
-	protected static int x = -1;
-	protected static int y = -1;
 	
-	public static void setX(int x) { MagicDoor.x = x; }
-	public static void setY(int y) { MagicDoor.y = y; }
+	public void setX(int x) { this.x = x; }
+	public void setY(int y) { this.y = y; }
+	public void setSide(DirectionType side) { this.side = side; }
+	public void setOtherSide(DirectionType otherSide) { this.otherSide = otherSide; }
 	
-	public static int getX() { return MagicDoor.x; }
-	public static int getY() { return MagicDoor.y; }
 	
-	public static void updateMagicDoor(int x, int y) { 
-		MagicDoor.setX(x); 
-		MagicDoor.setY(y); 
-	} 
+	public int getX() { return x; }
+	public int getY() { return y; }
+	public DirectionType getSide() { return side; }
+	public DirectionType getOtherSide() { return otherSide; }
+	
+	public void print() {
+		System.out.println("Magic door is found: ("+x+","+y+"), Side: "+side);
+	}
+	
 }

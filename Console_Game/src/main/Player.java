@@ -82,6 +82,9 @@ public class Player {
     public void viewToken(ActionType actionType) {
     	System.out.print("Player views token ");
     }
+    public void openMagicDoor() {
+    	System.out.println("Player opens magic door");
+    }
 	
 	public void print() {
 		System.out.println("("+x+","+y+")"+ "\t" +character+" "+numberOfActions);

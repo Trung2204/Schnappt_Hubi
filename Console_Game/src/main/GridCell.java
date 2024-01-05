@@ -27,6 +27,9 @@ public class GridCell {
                 this.cellType = newCellType;
         	}
         }
+		else {
+			System.out.println( "\n" + "The wall has already been revealed" + "\n");
+		}
     }
 
     public void changeToken(int x, int y) {

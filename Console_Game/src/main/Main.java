@@ -128,7 +128,7 @@ public class Main {
 //			if (Clock.getTime() == 12) break;
 			for (int i = 0; i < numberOfPlayers; i++) {
 				System.out.print("\n#### Player "+(i+1)+"'s turn ####\n");
-				System.out.println("Player's current position: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());
+				System.out.println( "\n" + "Player's current position: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());
 				System.out.println("Compass is spinning...");
 				// Spin the compass
 				compass.spin();
@@ -146,7 +146,8 @@ public class Main {
 					DirectionType directionType;
 					
 					// Choose action: Move or View curtain
-					System.out.print("Choose action type(MOVE/ VIEW_CURTAIN): ");
+					System.out.print( "\n" + "Player's number of action: " + (listOfPlayers[i].getNumberOfAction() - j));
+					System.out.print( "\n" + "Choose action type(MOVE/ VIEW_CURTAIN): ");
 					String actionInput = scanner.nextLine().toUpperCase();
 					System.out.println("Player choose action: " + actionInput);
 					// Choose direction
@@ -186,6 +187,8 @@ public class Main {
 					
 					if (actionType == ActionType.MOVE) {
 						System.out.println("Player moves...");
+						int tempX = listOfPlayers[i].getX();
+						int tempY = listOfPlayers[i].getY();
 						int newX = listOfPlayers[i].getX();
 						int newY = listOfPlayers[i].getY();
 						System.out.println("Before: "+newX+" "+newY);
@@ -213,8 +216,12 @@ public class Main {
 			            	GridCell adjacentCell = board.getGridCellAt(newX,newY);
 			            	listOfPlayers[i].move(directionType,adjacentCell);
 			            } else {
-			                System.out.println("Move out of bounds. Please try again.");
+			                System.out.println("\n" + "MOVE OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
+							j--;
 			            }
+						if (listOfPlayers[i].getX() == tempX && listOfPlayers[i].getY() == tempY) {
+                            j--;
+                        }
 					} 
 					else if (actionType == ActionType.VIEW_CURTAIN) {
 						System.out.println("Player views curtain...");
@@ -244,11 +251,12 @@ public class Main {
 			            if (newX >= 0 && newX < boardSize && newY >= 0 && newY < boardSize) {
 			            	listOfPlayers[i].viewCurtain(board.getGridCellAt(newX, newY), newX, newY);
 			            } else {
-			                System.out.println("View curtain out of bounds. Please try again.");
+			                System.out.println( "\n" + "VIEW CURTAIN OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
+							j--;
 			            }
 					}
 					
-					System.out.println("Player's current position: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());
+					System.out.println( "\n" + "Player's current position: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());
 					board.print();
 				}
 				

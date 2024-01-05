@@ -157,11 +157,11 @@ public class Main {
 						System.out.print( "\n" + "Player's number of action: " + (listOfPlayers[i].getNumberOfAction() - j));
 						// Choose action: Move or View curtain
 						System.out.print( "\n" + "Choose action type(MOVE/ VIEW_CURTAIN): ");
-						String actionInput = scanner.nextLine().toUpperCase();
+						String actionInput = scanner.nextLine().trim().toUpperCase();
 						System.out.println("Player choose action: " + actionInput);
 						// Choose direction
 						System.out.print("Choose direction (UP/ DOWN/ LEFT/ RIGHT): ");
-						String directionInput = scanner.nextLine().toUpperCase();
+						String directionInput = scanner.nextLine().trim().toUpperCase();
 						System.out.println("Player choose direction: " + directionInput);
 						
 						// Switch actionType based on actionInput

@@ -8,6 +8,11 @@ public class Board {
     private static int magicDoorCol;
     private static int ghostRow;
     private static int ghostCol;
+//	private static int[] magicDoorCell = new int[2];
+//	private static int[] ghostCell = new int[2];
+	
+//	public static int[] getMagicDoorCell() { return magicDoorCell; }
+//	public static int[] getGhostCell() { return ghostCell; }
 	
 	public Board(int size) {
 		if (gridCells == null) {

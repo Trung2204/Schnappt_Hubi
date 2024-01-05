@@ -5,6 +5,4 @@ public enum DirectionType {
 	DOWN,
 	LEFT,
 	RIGHT;
-	
-
 }

@@ -226,7 +226,6 @@ public class Main {
 								listOfPlayers[i].move(directionType,adjacentCell);
 							} else {
 								System.out.println("\n" + "MOVE OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
-								j--;
 							}
 							if (listOfPlayers[i].getX() == tempX && listOfPlayers[i].getY() == tempY) {
 								j--;
@@ -357,7 +356,6 @@ public class Main {
 								listOfPlayers[i].move(directionType,adjacentCell);
 							} else {
 								System.out.println("\n" + "MOVE OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
-								j--;
 							}
 							if (listOfPlayers[i].getX() == tempX && listOfPlayers[i].getY() == tempY) {
 								j--;

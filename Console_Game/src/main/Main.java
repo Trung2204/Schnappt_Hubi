@@ -34,7 +34,7 @@ public class Main {
                     System.out.println("Invalid number of players. Please enter a number between 2 and 4.");
                 }
 			} catch (Exception e) {
-                System.out.println("Invalid input. Please enter a number.");
+                System.err.println("Invalid input. Please enter a number.");
                 scanner.next(); // discard the invalid input
             }
 		}
@@ -56,7 +56,7 @@ public class Main {
 				try {
 					character = Character.valueOf(characterInput);
 					if ((character == Character.RABBIT && numberOfRabbits >= 2) || (character == Character.MOUSE && numberOfMice >= 2)) {
-						System.out.println("Maximum number of " + character + "s reached. Please enter a different character.");
+						System.err.println("Maximum number of " + character + "s reached. Please enter a different character.");
 						character = null; // reset character to null to continue the loop
 					} else {
 			            // Update the count of each character type
@@ -67,7 +67,7 @@ public class Main {
 			        }
 					// If this is the last player and there is no rabbit or mouse yet, force them to choose the missing character
 			        if (i == numberOfPlayers - 1 && (numberOfRabbits == 0 || numberOfMice == 0)) {
-			            System.out.println("There must be at least one rabbit and one mouse. Please choose the missing character.");
+			            System.err.println("There must be at least one rabbit and one mouse. Please choose the missing character.");
 			            character = null; // reset character to null to continue the loop
 			            // Reset the count of each character type
 			            if (character == Character.RABBIT)
@@ -76,7 +76,7 @@ public class Main {
 			                numberOfMice--;
 			        }
 				} catch (IllegalArgumentException e) {
-	                System.out.println("Invalid character. Please enter RABBIT or MOUSE.");
+	                System.err.println("Invalid character. Please enter RABBIT or MOUSE.");
 				}
 			}
 			
@@ -107,7 +107,7 @@ public class Main {
 						System.out.println("Coordinates must be at the corners of the board (0,0 or 0,4 or 4,0 or 4,4). Please enter valid coordinates.");
 					}
 				} catch (Exception e) {
-					System.out.println("Invalid input. Please enter a number.");
+					System.err.println("Invalid input. Please enter a number.");
 					scanner.next(); // discard the invalid input
 				}
 			}
@@ -151,47 +151,61 @@ public class Main {
 				for (int j = 0; j < listOfPlayers[i].getNumberOfAction(); j++) {
 					// If magicDoor has not been found yet, there are 2 types of action: move/ view curtain
 					if (!isMagicDoorFound) {
-						ActionType actionType;
-						DirectionType directionType;
+						ActionType actionType = null;
+						DirectionType directionType = null;
+						while (true) {
+							try {
+								System.out.print( "\n" + "Player's number of action: " + (listOfPlayers[i].getNumberOfAction() - j));
+								// Choose action: Move or View curtain
+								System.out.print( "\n" + "Choose action type(MOVE/ VIEW_CURTAIN/ NONE): ");
+								String actionInput = scanner.nextLine().trim().toUpperCase();
+								System.out.println("Player choose action: " + actionInput);
 
-						System.out.print( "\n" + "Player's number of action: " + (listOfPlayers[i].getNumberOfAction() - j));
-						// Choose action: Move or View curtain
-						System.out.print( "\n" + "Choose action type(MOVE/ VIEW_CURTAIN): ");
-						String actionInput = scanner.nextLine().trim().toUpperCase();
-						System.out.println("Player choose action: " + actionInput);
-						// Choose direction
-						System.out.print("Choose direction (UP/ DOWN/ LEFT/ RIGHT): ");
-						String directionInput = scanner.nextLine().trim().toUpperCase();
-						System.out.println("Player choose direction: " + directionInput);
-						
-						// Switch actionType based on actionInput
-						switch (actionInput) {
-						case "MOVE": 
-							actionType = ActionType.MOVE;	
-							break;
-						case "VIEW CURTAIN": 
-							actionType = ActionType.VIEW_CURTAIN;
-							break;
-						default:
-							throw new IllegalArgumentException("Unexpected value: " + actionInput);
-						}
-						
-						// Switch directionType based on directionInput
-						switch (directionInput) {
-						case "UP":
-							directionType = DirectionType.UP;
-							break;
-						case "DOWN":
-							directionType = DirectionType.DOWN;
-							break;
-						case "LEFT":
-							directionType = DirectionType.LEFT;
-							break;
-						case "RIGHT":
-							directionType = DirectionType.RIGHT;
-							break;
-						default:
-							throw new IllegalArgumentException("Unexpected value: " + directionInput);
+								
+								if (actionInput.equals("MOVE")) {
+									 actionType = ActionType.MOVE;
+								} else if (actionInput.equals("VIEW CURTAIN")) {
+									actionType = ActionType.VIEW_CURTAIN;
+								// if player choose action as NONE then break
+								} else if (actionInput.equals("NONE")) {
+									actionType = ActionType.NONE;
+									break;
+								} else {
+									throw new IllegalArgumentException("Invalid action input. Please enter MOVE, VIEW_CURTAIN, or NONE");
+								}
+								
+								// Choose direction
+								System.out.print("Choose direction (UP/ DOWN/ LEFT/ RIGHT): ");
+								String directionInput = scanner.nextLine().trim().toUpperCase();
+								System.out.println("Player choose direction: " + directionInput);
+								
+								switch (directionInput) {
+								case "UP":
+									directionType = DirectionType.UP;
+									break;
+								case "DOWN":
+									directionType = DirectionType.DOWN;
+									break;
+								case "LEFT":
+									directionType = DirectionType.LEFT;
+									break;
+								case "RIGHT":
+									directionType = DirectionType.RIGHT;
+									break;
+								
+								default:
+									throw new IllegalArgumentException("Invalid direction input. Please enter UP, DOWN, LEFT, or RIGHT.");
+								}
+								
+						        // If both actionType and directionType are valid, break the loop
+						        if (actionType != null && directionType != null) {
+						            break;
+						        }
+						        
+							} catch (Exception e) {
+								System.err.println(e.getMessage());
+							}
+							
 						}
 						
 						if (actionType == ActionType.MOVE) {
@@ -218,6 +232,8 @@ public class Main {
 							case RIGHT:
 								newY += 1;
 								System.out.println("Right "+newX+" "+newY);
+								break;
+							default:
 								break;
 							}
 							// Check if adjacent cell is within bounds
@@ -253,6 +269,8 @@ public class Main {
 							case RIGHT:
 								newY += 1;
 								System.out.println("Right "+newX+" "+newY);
+								break;
+							default:
 								break;
 							}
 							// Check if adjacent cell is within bounds
@@ -270,6 +288,8 @@ public class Main {
 								System.out.println( "\n" + "VIEW CURTAIN OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
 								j--;
 							}
+						} else {
+							System.out.println("Player choose to do nothing.");
 						}
 						
 						System.out.println( "\n" + "Player's current position: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());
@@ -278,51 +298,57 @@ public class Main {
 					// If magic door is found, add one more type of action: open magic door
 					else {
 						System.out.println("### Magic door is found, one more action is added! ###");
-						ActionType actionType;
-						DirectionType directionType;
+						ActionType actionType = null;
+						DirectionType directionType = null;
 
-						System.out.print( "\n" + "Player's number of action: " + (listOfPlayers[i].getNumberOfAction() - j));
-						// Choose action: Move or View curtain
-						System.out.print( "\n" + "Choose action type(MOVE/ VIEW_CURTAIN/ OPEN MAGIC DOOR): ");
-						String actionInput = scanner.nextLine().toUpperCase();
-						System.out.println("Player choose action: " + actionInput);
-						// Choose direction
-						System.out.print("Choose direction (UP/ DOWN/ LEFT/ RIGHT): ");
-						String directionInput = scanner.nextLine().toUpperCase();
-						System.out.println("Player choose direction: " + directionInput);
-						
-						// Switch actionType based on actionInput
-						switch (actionInput) {
-						case "MOVE": 
-							actionType = ActionType.MOVE;	
-							break;
-						case "VIEW CURTAIN": 
-							actionType = ActionType.VIEW_CURTAIN;
-							break;
-						case "OPEN MAGIC DOOR":
-							actionType = ActionType.VIEW_CURTAIN;
-							break;
-						default:
-							throw new IllegalArgumentException("Unexpected value: " + actionInput);
+						while (true) {
+						    try {
+						        System.out.print("\nPlayer's number of action: " + (listOfPlayers[i].getNumberOfAction() - j));
+						        // Choose action: Move or View curtain
+						        System.out.print("\nChoose action type(MOVE/ VIEW_CURTAIN/ OPEN_MAGIC_DOOR/ NONE): ");
+						        String actionInput = scanner.nextLine().trim().toUpperCase();
+						        System.out.println("Player choose action: " + actionInput);
+						        
+						        if (actionInput.equals("MOVE")) {
+						            actionType = ActionType.MOVE;
+						        } else if (actionInput.equals("VIEW CURTAIN")) {
+						            actionType = ActionType.VIEW_CURTAIN;
+						        } else if (actionInput.equals("NONE")) {
+						            actionType = ActionType.NONE;
+						            break;  // Skip the rest of the loop if ActionType is NONE
+						        } else if (actionInput.equals("OPEN MAGIC DOOR")) {
+						            actionType = ActionType.OPEN_MAGIC_DOOR;
+						        } else {
+						            throw new IllegalArgumentException("Invalid action input. Please enter MOVE, VIEW_CURTAIN, OPEN_MAGIC_DOOR, or NONE.");
+						        }
+
+						        // Choose direction
+						        System.out.print("Choose direction (UP/ DOWN/ LEFT/ RIGHT): ");
+						        String directionInput = scanner.nextLine().trim().toUpperCase();
+						        System.out.println("Player choose direction: " + directionInput);
+						        
+						        if (directionInput.equals("UP")) {
+						            directionType = DirectionType.UP;                                    
+						        } else if (directionInput.equals("DOWN")) {
+						            directionType = DirectionType.DOWN;
+						        } else if (directionInput.equals("LEFT")) {
+						            directionType = DirectionType.LEFT;
+						        } else if (directionInput.equals("RIGHT")) {
+						            directionType = DirectionType.RIGHT;
+						        } else {
+						            throw new IllegalArgumentException("Invalid direction input. Please enter UP, DOWN, LEFT, or RIGHT.");
+						        }
+						        
+						        // If both actionType and directionType are valid, break the loop
+						        if (actionType != null && directionType != null) {
+						            break;
+						        }
+						        
+						    } catch (Exception e) {
+						        System.err.println(e.getMessage());
+						    }
 						}
-						
-						// Switch directionType based on directionInput
-						switch (directionInput) {
-						case "UP":
-							directionType = DirectionType.UP;
-							break;
-						case "DOWN":
-							directionType = DirectionType.DOWN;
-							break;
-						case "LEFT":
-							directionType = DirectionType.LEFT;
-							break;
-						case "RIGHT":
-							directionType = DirectionType.RIGHT;
-							break;
-						default:
-							throw new IllegalArgumentException("Unexpected value: " + directionInput);
-						}
+
 						
 						if (actionType == ActionType.MOVE) {
 							System.out.println("Player moves...");
@@ -331,7 +357,7 @@ public class Main {
 							int newX = listOfPlayers[i].getX();
 							int newY = listOfPlayers[i].getY();
 							System.out.println("Before: "+newX+" "+newY);
-							System.out.println("PLayer: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());
+							System.out.println("Player: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());
 							switch (directionType) {
 							case UP:
 								newX -= 1;
@@ -349,13 +375,15 @@ public class Main {
 								newY += 1;
 								System.out.println("Right "+newX+" "+newY);
 								break;
+							default:
+								break;
 							}
 							// Check if adjacent cell is within bounds
 							if (newX >= 0 && newX < boardSize && newY >= 0 && newY < boardSize) {
 								GridCell adjacentCell = board.getGridCellAt(newX,newY);
 								listOfPlayers[i].move(directionType,adjacentCell);
 							} else {
-								System.out.println("\n" + "MOVE OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
+								System.err.println("\n" + "MOVE OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
 							}
 							if (listOfPlayers[i].getX() == tempX && listOfPlayers[i].getY() == tempY) {
 								j--;
@@ -366,7 +394,41 @@ public class Main {
 							int newX = listOfPlayers[i].getX();
 							int newY = listOfPlayers[i].getY();
 							System.out.println("Before: "+newX+" "+newY);
-							System.out.println("PLayer: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());
+							System.out.println("Player: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());
+							switch (directionType) {
+							case UP:
+								newX -= 1;
+								System.out.println("Up "+newX+" "+newY);
+								break;
+							case DOWN:
+								newX += 1;
+								System.out.println("Down "+newX+" "+newY);
+								break;
+							case LEFT:
+								newY -= 1;
+								System.out.println("Left "+newX+" "+newY);
+								break;
+							case RIGHT:
+								newY += 1;
+								System.out.println("Right "+newX+" "+newY);
+								break;
+							default:
+								break;
+							}
+							// Check if adjacent cell is within bounds
+							if (newX >= 0 && newX < boardSize && newY >= 0 && newY < boardSize) {
+								listOfPlayers[i].viewCurtain(board.getGridCellAt(newX, newY), newX, newY);
+							} else {
+								System.err.println( "\n" + "VIEW CURTAIN OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
+								j--;
+							}
+						}
+						else if (actionType == ActionType.OPEN_MAGIC_DOOR) {
+							System.out.println("Player opens magic door...");
+							int newX = listOfPlayers[i].getX();
+							int newY = listOfPlayers[i].getY();
+							System.out.println("Before: "+newX+" "+newY);
+							System.out.println("Player: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());
 							switch (directionType) {
 							case UP:
 								newX -= 1;
@@ -387,18 +449,44 @@ public class Main {
 							}
 							// Check if adjacent cell is within bounds
 							if (newX >= 0 && newX < boardSize && newY >= 0 && newY < boardSize) {
-								listOfPlayers[i].viewCurtain(board.getGridCellAt(newX, newY), newX, newY);
+								int otherSideX = newX;
+								int otherSideY = newY;
+								switch (directionType) {
+								// calculate the position of the other side of the MAGIC_DOOR_WALL
+								case UP:
+									--otherSideX;
+									break;
+								case DOWN:
+									++otherSideX;
+									break;
+								case LEFT:
+									--otherSideY;
+									break;
+								case RIGHT:
+									++otherSideY;
+									break;
+								default:
+									break;									
+								}
+								boolean isPlayerOnTheOtherSide = false;
+								for (Player player : listOfPlayers) {
+									// check if other player position is available on the other side of the MAGIC_DOOR_WALL
+									if (player.getX() == otherSideX && player.getY() == otherSideY) {
+										isPlayerOnTheOtherSide = true;
+									} 
+								}
+								if (isPlayerOnTheOtherSide) {
+									listOfPlayers[i].openMagicDoor();
+								} else {
+									System.err.println("THERE IS NO PLAYER ON THE OTHER SIDE OF THE BOARD. PLEASE TRY AGAIN.");
+								}
 							} else {
-								System.out.println( "\n" + "VIEW CURTAIN OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
+								System.err.println( "\n" + "OPEN MAGIC DOOR OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
 								j--;
 							}
-						}
-						else if (actionType == ActionType.OPEN_MAGIC_DOOR) {
-							System.out.println("Player opens magic door...");
-							/*
-							 * ...
-							 */
-							listOfPlayers[i].openMagicDoor();
+							
+						} else {
+							System.out.println("Player choose to do nothing.");
 						}
 						
 						System.out.println( "\n" + "Player's current position: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());

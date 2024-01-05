@@ -28,7 +28,7 @@ public class GridCell {
         	}
         }
 		else {
-			System.out.println( "\n" + "The wall has already been revealed" + "\n");
+			System.err.println( "\n" + "The wall has already been revealed" + "\n");
 		}
     }
 

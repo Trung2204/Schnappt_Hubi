@@ -13,9 +13,6 @@ public class GridCell {
 	public void setCellType(CellType cellType) { this.cellType = cellType; }
     public CellType getCellType() { return cellType; }
 
-//    private static boolean magicDoorCreated = false;
-//    private static boolean ghostCreated = false;
-
     public void changeWall(int x, int y) {
         if (this.cellType == CellType.CURTAIN_WALL) {
         	if (x == Board.getMagicDoorRow() && y == Board.getMagicDoorCol()) {
@@ -30,6 +27,11 @@ public class GridCell {
 		else {
 			System.err.println( "\n" + "The wall has already been revealed" + "\n");
 		}
+    }
+    public void changeMagicDoor() {
+    	if (this.cellType == CellType.MAGIC_DOOR_WALL) {
+        	this.cellType = CellType.OPEN_WALL;
+        }
     }
 
     public void changeToken(int x, int y) {

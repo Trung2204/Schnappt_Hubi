@@ -94,7 +94,7 @@ public class Board {
     		}
     		System.out.println();
     	}
-		System.out.println("Magic door("+magicDoorRow+","+magicDoorCol+")");
+		System.out.println("\nMagic door("+magicDoorRow+","+magicDoorCol+")");
 		System.out.println("Ghost("+ghostRow+","+ghostCol+")");
 	}
 }

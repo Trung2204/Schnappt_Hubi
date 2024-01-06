@@ -22,34 +22,4 @@ public class Compass {
         	this.fieldType = FieldType.GHOST;
         }
     }
-    
-    
-
-//    public Clock getClock() {
-//        return clock;
-//    }
-
-//    public static FieldType updateClock() {
-////        FieldType fieldType = this.spin();
-//        Clock.increaseTime(fieldType);
-//        return fieldType;
-//    }
-    
-//    public static boolean checkGhostField() {
-//    	if (fieldType == FieldType.GHOST)
-//    		return true;
-//    	return false;
-//    }
-//    public static boolean checkGhostMoveUp() {
-//    	int temp = Ghost.getX();
-//    	if (--temp >= 0) return true;
-//		return false;
-//    }
-//
-//    public static boolean checkGhostMoveLeft() {
-//    	int temp = Ghost.getY();
-//    	if (--temp >= 0) return true;
-//		return false;
-//    }
-
 }

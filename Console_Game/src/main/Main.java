@@ -9,8 +9,8 @@ public class Main {
 	
 	private static Compass compass = new Compass();
 	
-	private static MagicDoor magicDoor;
 	private static boolean isMagicDoorFound = false;
+//	private static boolean isGhostActivated = false;
 	
 	private static int numberOfPlayers = 0;
 	private static int numberOfRabbits = 0;
@@ -31,7 +31,7 @@ public class Main {
 				numberOfPlayers = scanner.nextInt();
 				scanner.nextLine(); //Consume newline left-over
 				if (numberOfPlayers < 2 || numberOfPlayers > 4) {
-                    System.out.println("Invalid number of players. Please enter a number between 2 and 4.");
+                    System.err.println("Invalid number of players. Please enter a number between 2 and 4.");
                 }
 			} catch (Exception e) {
                 System.err.println("Invalid input. Please enter a number.");
@@ -101,10 +101,10 @@ public class Main {
 							break;
 						} else {
 							// If yes, ask for the coordinates again
-							System.out.println("These coordinates have been used. Please enter different coordinates.");
+							System.err.println("These coordinates have been used. Please enter different coordinates.");
 						}
 					} else {
-						System.out.println("Coordinates must be at the corners of the board (0,0 or 0,4 or 4,0 or 4,4). Please enter valid coordinates.");
+						System.err.println("Coordinates must be at the corners of the board (0,0 or 0,4 or 4,0 or 4,4). Please enter valid coordinates.");
 					}
 				} catch (Exception e) {
 					System.err.println("Invalid input. Please enter a number.");
@@ -135,7 +135,7 @@ public class Main {
 			if (clock.getTime() == 12) break;
 			for (int i = 0; i < numberOfPlayers; i++) {
 				System.out.print("\n#### Player "+(i+1)+"'s turn ####\n");
-				System.out.println( "\n" + "Player's current position: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());
+				System.out.println( "\n" + listOfPlayers[i].getCharacter() + "'s current position: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());
 				System.out.println("Compass is spinning...");
 				// Spin the compass
 				compass.spin();
@@ -147,6 +147,7 @@ public class Main {
 				// Player gains number of actions from spinning the compass
 				listOfPlayers[i].setNumberOfAction(compass.getNumberOfAction());
 				System.out.println("Player "+(i+1)+" gains "+listOfPlayers[i].getNumberOfAction()+" action(s).");
+				
 				// Each player plays their turn with the corresponding number of actions
 				for (int j = 0; j < listOfPlayers[i].getNumberOfAction(); j++) {
 					// If magicDoor has not been found yet, there are 2 types of action: move/ view curtain
@@ -279,10 +280,8 @@ public class Main {
 								// If magic door is found, create MagicDoor instance
 				            	if (board.getGridCellAt(newX, newY).getCellType() == CellType.MAGIC_DOOR_WALL)
 				            	{
-				            		System.out.println("Magic door is found, needs at least 1 player on each side and use 1 action to open!");
-				            		magicDoor = new MagicDoor(newX,newY,directionType);
+				            		System.err.println("Magic door is found, needs at least 1 player on each side and use 1 action to open!");
 				            		isMagicDoorFound = true;
-				            		magicDoor.print();
 				            	}
 							} else {
 								System.out.println( "\n" + "VIEW CURTAIN OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
@@ -292,12 +291,12 @@ public class Main {
 							System.out.println("Player choose to do nothing.");
 						}
 						
-						System.out.println( "\n" + "Player's current position: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());
+						System.out.println( "\n" + "Player's current position: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY()+"\n");
 						board.print();
 					}
 					// If magic door is found, add one more type of action: open magic door
 					else {
-						System.out.println("### Magic door is found, one more action is added! ###");
+//						System.out.println("### Magic door is found, one more action is added! ###");
 						ActionType actionType = null;
 						DirectionType directionType = null;
 
@@ -348,7 +347,6 @@ public class Main {
 						        System.err.println(e.getMessage());
 						    }
 						}
-
 						
 						if (actionType == ActionType.MOVE) {
 							System.out.println("Player moves...");
@@ -476,7 +474,8 @@ public class Main {
 									} 
 								}
 								if (isPlayerOnTheOtherSide) {
-									listOfPlayers[i].openMagicDoor();
+									listOfPlayers[i].openMagicDoor(board.getGridCellAt(newX, newY));
+//									isGhostActivated = true;
 								} else {
 									System.err.println("THERE IS NO PLAYER ON THE OTHER SIDE OF THE BOARD. PLEASE TRY AGAIN.");
 								}
@@ -489,34 +488,13 @@ public class Main {
 							System.out.println("Player choose to do nothing.");
 						}
 						
-						System.out.println( "\n" + "Player's current position: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());
+						System.out.println( "\n" + "Player's current position: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY()+"\n");
 						board.print();
 					}
-					
-				}
-				/*
-				 * PHASE 2
-				 */
-				
-				// If magic door is opened
-				// check compass.
-				if(magicDoor != null) {
-					
 				}
 				System.out.println();
 			}
-			
-//		// !!! For testing purpose: view all curtains and tokens
-//		for (int i = 0; i < boardSize; i++) {
-//			for (int j = 0; j < boardSize; j++) {
-//				if (board.getGridCellAt(i, j).getCellType() == CellType.CURTAIN_WALL)
-//					board.getGridCellAt(i, j).changeWall(i,j);
-//				else if(board.getGridCellAt(i, j).getCellType() == CellType.CARROT_TOKEN ||
-//						board.getGridCellAt(i, j).getCellType() == CellType.CHEESE_TOKEN)
-//					board.getGridCellAt(i, j).changeToken(i,j);
-//			}
 		}
-//		board.print();
 	}
 	
 	public static void main(String[] args) {
@@ -524,6 +502,5 @@ public class Main {
 		settingMenu();
 		setup();
 		play();
-		
 	}
 }

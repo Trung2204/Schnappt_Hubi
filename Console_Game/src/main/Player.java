@@ -21,7 +21,6 @@ public class Player {
 	public void setNumberOfAction(int numberOfActions) { this.numberOfActions = numberOfActions; }
 	public void setAction(ActionType action) { this.actionType = action; }
 	public void setDirection(DirectionType directionType) { this.directionType = directionType; }
-//	public void setCurrentPosition() { this.currentPosition = Board.getGridCells()[x][y]; }
 	
 	public int getX() {return x;}
 	public int getY() {return y;}
@@ -29,11 +28,7 @@ public class Player {
 	public int getNumberOfAction() { return numberOfActions;}
 	public ActionType getAction() { return actionType; }
 	public DirectionType getDirection() { return directionType; }
-//	public GridCell getCurrentPosition() { return currentPosition; }
-	
-	// Method to map player's coordinates to board's coordinates
-	public int getBoardX() { return x * 2; }
-    public int getBoardY() { return y * 2; }
+
     
     public void move(DirectionType directionType, GridCell adjacentCell) {
 
@@ -57,7 +52,7 @@ public class Player {
             
         // Check if the adjacent cell is a curtain wall
         if (adjacentCell.getCellType() == CellType.CURTAIN_WALL) {
-            System.out.println("\n" + "CANNOT MOVE BECAUSE OF CURTAIN!" + "\n");
+            System.err.println("\n" + "CANNOT MOVE BECAUSE OF CURTAIN!" + "\n");
         } else {
             // If not a curtain wall, then move the player
         	// Rabbit can only move through Window and Open wall
@@ -71,23 +66,23 @@ public class Player {
         		this.x = newX;
                 this.y = newY;
         	} else { 
-        		System.out.println("\n" + "Rabbit can only move through WINDOW or OPEN wall");
-        		System.out.println("Mouse can only move through MOUSE HOLE or OPEN wall" + "\n");}
+        		System.err.println("\n" + "Rabbit can only move through WINDOW or OPEN wall");
+        		System.err.println("Mouse can only move through MOUSE HOLE or OPEN wall" + "\n");}
         	
         }
     }
     public void viewCurtain(GridCell curtainCell, int newX, int newY) {
     	curtainCell.changeWall(newX, newY);
     }
-    public void viewToken(ActionType actionType) {
-    	System.out.print("Player views token ");
+    public void viewToken(GridCell tokenCell, int newX, int newY) {
+    	tokenCell.changeToken(newX, newY);
     }
 	
 	public void print() {
 		System.out.println("("+x+","+y+")"+ "\t" +character+" "+numberOfActions);
 	}
 
-	public void openMagicDoor() {
-		System.out.print("Player opens Magic door ");
+	public void openMagicDoor(GridCell magicDoor) {
+		magicDoor.changeMagicDoor();
 	}
 }

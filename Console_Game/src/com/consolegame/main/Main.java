@@ -1,5 +1,15 @@
-package main;
+package com.consolegame.main;
 import java.util.*;
+
+import com.consolegame.board.Board;
+import com.consolegame.board.GridCell;
+import com.consolegame.helper.type.ActionType;
+import com.consolegame.helper.type.CellType;
+import com.consolegame.helper.type.DirectionType;
+import com.consolegame.player.Character;
+import com.consolegame.player.Clock;
+import com.consolegame.player.Compass;
+import com.consolegame.player.Player;
 public class Main {
 
 	private static int boardSize = 5;

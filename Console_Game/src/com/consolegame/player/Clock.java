@@ -1,4 +1,7 @@
-package main;
+package com.consolegame.player;
+
+import com.consolegame.helper.type.FieldType;
+
 public class Clock {
 
     private int time = 0;

@@ -1,4 +1,9 @@
-package main;
+package com.consolegame.player;
+
+import com.consolegame.board.GridCell;
+import com.consolegame.helper.type.ActionType;
+import com.consolegame.helper.type.CellType;
+import com.consolegame.helper.type.DirectionType;
 
 public class Player {
 

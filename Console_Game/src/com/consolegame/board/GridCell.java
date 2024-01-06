@@ -1,5 +1,7 @@
-package main;
+package com.consolegame.board;
 import java.util.*;
+
+import com.consolegame.helper.type.CellType;
 
 public class GridCell {
 

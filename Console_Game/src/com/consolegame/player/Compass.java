@@ -1,5 +1,7 @@
-package main;
+package com.consolegame.player;
 import java.util.Random;
+
+import com.consolegame.helper.type.FieldType;
 
 public class Compass {
     private FieldType fieldType;

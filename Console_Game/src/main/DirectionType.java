@@ -1,6 +1,6 @@
 package main;
 
-public enum DirectionType {
+public enum DirectionType {	
 	UP,
 	DOWN,
 	LEFT,

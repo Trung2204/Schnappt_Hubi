@@ -3,16 +3,11 @@ package main;
 import java.util.*;
 
 public class Board {
-	private static GridCell[][] gridCells;
+	private GridCell[][] gridCells;
 	private static int magicDoorRow;
     private static int magicDoorCol;
     private static int ghostRow;
     private static int ghostCol;
-//	private static int[] magicDoorCell = new int[2];
-//	private static int[] ghostCell = new int[2];
-	
-//	public static int[] getMagicDoorCell() { return magicDoorCell; }
-//	public static int[] getGhostCell() { return ghostCell; }
 	
 	public Board(int size) {
 		if (gridCells == null) {
@@ -21,6 +16,29 @@ public class Board {
             setSpecialCells();
         }
 	}
+	
+	public static int getMagicDoorRow() { return magicDoorRow; }
+	public static int getMagicDoorCol() { return magicDoorCol; }
+	public static int getGhostRow() { return ghostRow; }
+	public static int getGhostCol() { return ghostCol; }
+	public GridCell getGridCellAt(int row, int col) {
+		if (row >= 0 && row < gridCells.length && col >= 0 && col < gridCells[row].length) {
+            return gridCells[row][col];
+        } else {
+            throw new IllegalArgumentException("Invalid position");
+        }
+	}
+	public void print() {
+		for (int i = 0; i < gridCells.length; i++) {
+    		for (int j = 0; j < gridCells[i].length; j++) {
+    			System.out.print(gridCells[i][j].getCellType() + "           ");
+    		}
+    		System.out.println();
+    	}
+		System.out.println("\nMagic door("+magicDoorRow+","+magicDoorCol+")");
+		System.out.println("Ghost("+ghostRow+","+ghostCol+")");
+	}
+	
 	private void initializeBoard() {
 		Random random = new Random();
 		for (int i = 0; i < gridCells.length; i++) {
@@ -62,7 +80,6 @@ public class Board {
 	    // Select a random cell for MAGIC_DOOR_WALL
 	    int index = random.nextInt(validCellsMagicDoor.size());
 	    int[] magicDoorCell = validCellsMagicDoor.get(index);
-//	    validCellsMagicDoor.remove(index); // Remove the selected cell from the list
 
 	    // Select a random cell for GHOST
 	    index = random.nextInt(validCellsGhost.size());
@@ -73,28 +90,5 @@ public class Board {
 	    magicDoorCol = magicDoorCell[1];
 	    ghostRow = ghostCell[0];
 	    ghostCol = ghostCell[1];
-	}
-	
-	public GridCell getGridCellAt(int row, int col) {
-		if (row >= 0 && row < gridCells.length && col >= 0 && col < gridCells[row].length) {
-            return gridCells[row][col];
-        } else {
-            throw new IllegalArgumentException("Invalid position");
-        }
-	}
-	public static int getMagicDoorRow() { return magicDoorRow; }
-	public static int getMagicDoorCol() { return magicDoorCol; }
-	public static int getGhostRow() { return ghostRow; }
-	public static int getGhostCol() { return ghostCol; }
-	
-	public void print() {
-		for (int i = 0; i < gridCells.length; i++) {
-    		for (int j = 0; j < gridCells[i].length; j++) {
-    			System.out.print(gridCells[i][j].getCellType() + "           ");
-    		}
-    		System.out.println();
-    	}
-		System.out.println("\nMagic door("+magicDoorRow+","+magicDoorCol+")");
-		System.out.println("Ghost("+ghostRow+","+ghostCol+")");
 	}
 }

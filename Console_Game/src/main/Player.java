@@ -31,10 +31,8 @@ public class Player {
 
     
     public void move(DirectionType directionType, GridCell adjacentCell) {
-
 		int newX = this.x;
         int newY = this.y;
-        
         switch (directionType) {
             case UP:
                 newX -= 2;
@@ -49,7 +47,6 @@ public class Player {
                 newY += 2;
                 break;
         }
-            
         // Check if the adjacent cell is a curtain wall
         if (adjacentCell.getCellType() == CellType.CURTAIN_WALL) {
             System.err.println("\n" + "CANNOT MOVE BECAUSE OF CURTAIN!" + "\n");
@@ -68,7 +65,6 @@ public class Player {
         	} else { 
         		System.err.println("\n" + "Rabbit can only move through WINDOW or OPEN wall");
         		System.err.println("Mouse can only move through MOUSE HOLE or OPEN wall" + "\n");}
-        	
         }
     }
     public void viewCurtain(GridCell curtainCell, int newX, int newY) {
@@ -77,12 +73,10 @@ public class Player {
     public void viewToken(GridCell tokenCell, int newX, int newY) {
     	tokenCell.changeToken(newX, newY);
     }
-	
-	public void print() {
-		System.out.println("("+x+","+y+")"+ "\t" +character+" "+numberOfActions);
-	}
-
 	public void openMagicDoor(GridCell magicDoor) {
 		magicDoor.changeMagicDoor();
+	}
+	public void print() {
+		System.out.println("("+x+","+y+")"+ "\t" +character+" has "+numberOfActions+" action(s)");
 	}
 }

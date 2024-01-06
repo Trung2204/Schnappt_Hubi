@@ -50,5 +50,4 @@ public class GridCell {
 	public static void swapToken(GridCell TokenA, GridCell TokenB) {
 		
 	}
-
 }

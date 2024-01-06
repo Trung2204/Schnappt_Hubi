@@ -1,4 +1,4 @@
-package main;
+package com.consolegame.player;
 
 public enum Character {
 	RABBIT,

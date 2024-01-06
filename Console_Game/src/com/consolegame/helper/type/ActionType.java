@@ -1,4 +1,4 @@
-package main;
+package com.consolegame.helper.type;
 
 public enum ActionType {
 	NONE,

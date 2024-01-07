@@ -51,25 +51,17 @@ public class Player {
             case RIGHT:
                 newY += 2;
                 break;
+            default:
+				break;
         }
         // Check if the adjacent cell is a curtain wall
         if (adjacentCell.getCellType() == CellType.CURTAIN_WALL) {
             System.err.println("\n" + "CANNOT MOVE BECAUSE OF CURTAIN!" + "\n");
-        } else {
-            // If not a curtain wall, then move the player
-        	// Rabbit can only move through Window and Open wall
-        	if ((this.character == Character.RABBIT && adjacentCell.getCellType() == CellType.WINDOW_WALL) ||
-     			(this.character == Character.RABBIT && adjacentCell.getCellType() == CellType.OPEN_WALL)) {
-        		this.x = newX;
-                this.y = newY;
-        	} // Mouse can only move through Mouse hole and Open wall
-        	else if ((this.character == Character.MOUSE && adjacentCell.getCellType() == CellType.MOUSEHOLE_WALL) ||
-        			   (this.character == Character.MOUSE && adjacentCell.getCellType() == CellType.OPEN_WALL)) {
-        		this.x = newX;
-                this.y = newY;
-        	} else { 
-        		System.err.println("\n" + "Rabbit can only move through WINDOW or OPEN wall");
-        		System.err.println("Mouse can only move through MOUSE HOLE or OPEN wall" + "\n");}
+        }
+        // If not a curtain wall, then move the player
+        else {
+        	this.x = newX;
+            this.y = newY;
         }
     }
     public void viewCurtain(GridCell curtainCell, int newX, int newY) {

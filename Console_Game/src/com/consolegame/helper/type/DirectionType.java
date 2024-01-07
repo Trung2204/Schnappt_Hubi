@@ -4,5 +4,7 @@ public enum DirectionType {
 	UP,
 	DOWN,
 	LEFT,
-	RIGHT;
+	RIGHT,
+	
+	CURRENT; // helper for view token action
 }

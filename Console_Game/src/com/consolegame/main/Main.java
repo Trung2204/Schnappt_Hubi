@@ -142,7 +142,10 @@ public class Main {
 	}
 	public static void play() {
 		while(true) {
-			if (clock.getTime() == 12) break;
+			if (clock.getTime() == 12) {
+				System.out.println("\nGame Over - Ran out of time");
+				break;
+			}
 			for (int i = 0; i < numberOfPlayers; i++) {
 				/*
 				* PHASE 1: FIND AND OPEN MAGIC DOOR
@@ -223,7 +226,6 @@ public class Main {
 							}
 							
 							if (actionType == ActionType.MOVE) {
-								System.out.println("Player's moving...");
 								int tempX = listOfPlayers[i].getX();
 								int tempY = listOfPlayers[i].getY();
 								int newX = listOfPlayers[i].getX();
@@ -251,6 +253,7 @@ public class Main {
 						        	if (listOfPlayers[i].getCharacter() == Character.RABBIT) {
 						        		if (adjacentCell.getCellType() == CellType.WINDOW_WALL || adjacentCell.getCellType() == CellType.OPEN_WALL) {
 						        			listOfPlayers[i].move(directionType,adjacentCell);
+											System.out.println("Player's moving...");
 						        		} else { 
 							        		System.err.println("\n" + "Rabbit can only move through WINDOW or OPEN wall");
 							        	}
@@ -259,6 +262,7 @@ public class Main {
 						        	if (listOfPlayers[i].getCharacter() == Character.MOUSE) {
 						        		if (adjacentCell.getCellType() == CellType.MOUSEHOLE_WALL || adjacentCell.getCellType() == CellType.OPEN_WALL) {
 							        		listOfPlayers[i].move(directionType,adjacentCell);
+											System.out.println("Player's moving...");
 							        	} else {
 							        		System.err.println("\n" + "Mouse can only move through MOUSE HOLE or OPEN wall");
 							        	}
@@ -271,7 +275,6 @@ public class Main {
 								}
 							} 
 							else if (actionType == ActionType.VIEW_CURTAIN) {
-								System.out.println("Player's viewing curtain...");
 								int newX = listOfPlayers[i].getX();
 								int newY = listOfPlayers[i].getY();
 								switch (directionType) {
@@ -293,6 +296,7 @@ public class Main {
 								// Check if adjacent cell is within bounds
 								if (newX >= 0 && newX < boardSize && newY >= 0 && newY < boardSize) {
 									listOfPlayers[i].viewCurtain(board.getGridCellAt(newX, newY), newX, newY);
+									System.out.println("Player's viewing curtain...");
 									// If magic door is found, create MagicDoor instance
 					            	if (board.getGridCellAt(newX, newY).getCellType() == CellType.MAGIC_DOOR_WALL)
 					            	{
@@ -440,7 +444,6 @@ public class Main {
 								}
 							}
 							else if (actionType == ActionType.OPEN_MAGIC_DOOR) {
-								System.out.println("Player's opening magic door...");
 								int newX = listOfPlayers[i].getX();
 								int newY = listOfPlayers[i].getY();
 								switch (directionType) {
@@ -489,10 +492,12 @@ public class Main {
 									}
 									if (isPlayerOnTheOtherSide) {
 										listOfPlayers[i].openMagicDoor(board.getGridCellAt(newX, newY));
+										System.out.println("Player's opening magic door...");
 										// Now the Magic Door is opened, starting phase 2 
 										isGhostActivated = true;
 									} else {
 										System.err.println("THERE IS NO PLAYER ON THE OTHER SIDE OF THE BOARD. PLEASE TRY AGAIN.");
+										j--;
 									}
 								} else {
 									System.err.println( "\n" + "OPEN MAGIC DOOR OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");

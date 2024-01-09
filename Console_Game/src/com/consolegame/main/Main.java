@@ -6,6 +6,7 @@ import com.consolegame.board.GridCell;
 import com.consolegame.helper.type.ActionType;
 import com.consolegame.helper.type.CellType;
 import com.consolegame.helper.type.DirectionType;
+import com.consolegame.helper.type.FieldType;
 import com.consolegame.player.Character;
 import com.consolegame.player.Clock;
 import com.consolegame.player.Compass;
@@ -22,6 +23,10 @@ public class Main {
 	private static boolean isMagicDoorFound = false;
 	private static boolean isGhostActivated = false;
 	private static boolean isGhostFound = false;
+	
+	private static GridCell ghost = new GridCell();
+	private static int ghostX = -1;
+	private static int ghostY = -1;
 	
 	private static int numberOfPlayers = 0;
 	private static int numberOfRabbits = 0;
@@ -155,6 +160,7 @@ public class Main {
 			for (int i = 0; i < numberOfPlayers; i++) {
 				Player currentPlayer = listOfPlayers[i];
 				System.out.println("\n#### Player "+(i+1)+": "+currentPlayer.getCharacter()+"'s turn ####");
+				System.out.println( "\nCurrent position: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());
 				// Spin the compass
 				compass.spin();
 				System.out.println("### Compass ###");
@@ -171,9 +177,13 @@ public class Main {
 					boolean actionSuccessful = false;
 					ActionType action = currentPlayer.chooseAction(isGhostActivated, isMagicDoorFound);
 					DirectionType direction;
-					if (action != ActionType.NONE) {
+					if (action != ActionType.NONE && action != ActionType.VIEW_TOKEN) {
 						direction = currentPlayer.chooseDirection();
-					} else direction = DirectionType.NONE;
+					} else if (action == ActionType.VIEW_TOKEN) {
+						direction = DirectionType.NONE;
+					} else {
+						direction = DirectionType.NONE;
+					}
 						
 					// Phase 1
 					if (!isGhostActivated) {
@@ -183,6 +193,7 @@ public class Main {
 					}
 					// Phase 2
 					else {
+						if (isGhostFound) System.err.println("Ghost found at ("+ghostX+","+ghostY+")");
 						actionSuccessful = handlePhaseTwo(currentPlayer, action, direction);
 						System.out.println( "\n" + "Player's current position: "+currentPlayer.getX()+" "+currentPlayer.getY()+"\n");
 						board.print();
@@ -221,7 +232,8 @@ public class Main {
 	        	return attemptViewCurtain(currentPlayer, direction);
 	        }
 	        else if (action == ActionType.OPEN_MAGIC_DOOR) {
-	            return attemptOpenMagicDoor(currentPlayer, direction);	        }
+	            return attemptOpenMagicDoor(currentPlayer, direction);
+	        }
 	        else return passAction();
 	    }
 //	    // Default return statement
@@ -235,10 +247,34 @@ public class Main {
 	 * 
 	 */
 	private static boolean handlePhaseTwo(Player currentPlayer, ActionType action, DirectionType direction) {
-		System.out.println("Player choose action: "+action+"\n");
-		return true;
+		// In this phase, the magic door is now open wall, no need to consider it anymore
+		// If hitting ghost field, ghost moves
+	    if (compass.getFieldType() == FieldType.GHOST) {
+	        // If ghost is not found, moving 2 tokens of the same type
+	        if (!isGhostFound) {
+	        	ghost.moveRandomTokens();
+	        }
+	        // If ghost if found, moving ghost token with 1 arbitrary adjacent token
+	        else {
+	        	DirectionType[] randomDirections = new DirectionType[] {DirectionType.UP, DirectionType.DOWN,
+																		DirectionType.LEFT, DirectionType.RIGHT};
+	        	ghost.moveAdjacentToken(randomDirections[new Random().nextInt(5)]);
+	        }
+	    }
+
+	    if (action == ActionType.MOVE) {
+        	return attemptMove(currentPlayer, direction);
+        }
+	    else if (action == ActionType.VIEW_CURTAIN) {
+        	return attemptViewCurtain(currentPlayer, direction);
+        }
+	    else if (action == ActionType.VIEW_TOKEN) {
+        	return attemptViewToken(currentPlayer);
+        }
+	    else return passAction();
+//	    // Default return statement
+//		return false;
 	}
-	
 	private static boolean attemptMove(Player currentPlayer, DirectionType direction) {
 	    int newX = currentPlayer.getX();
 	    int newY = currentPlayer.getY();
@@ -344,28 +380,77 @@ public class Main {
 			return false;
 		}
 	}
-	private static boolean attemptOpenMagicDoor(Player currentPlayer, DirectionType direction) {
-			int newX = currentPlayer.getX();
-			int newY = currentPlayer.getY();
-			switch (direction) {
-				case UP:
-					newX -= 1;
-					break;
-				case DOWN:
-					newX += 1;
-					break;
-				case LEFT:
-					newY -= 1;
-					break;
-				case RIGHT:
-					newY += 1;
-					break;
-				default:
-					break;
+	private static boolean attemptViewToken (Player currentPlayer) {
+		int newX = currentPlayer.getX();
+		int newY = currentPlayer.getY();
+		GridCell newCell = board.getGridCellAt(newX, newY);
+		// Rabbit can only view carrot tokens
+		if (currentPlayer.getCharacter() == Character.RABBIT ) {
+			if(newCell.getCellType() == CellType.CARROT_TOKEN) {
+				System.out.println("Player's viewing token...");
+				currentPlayer.viewToken(newCell, newX, newY);
+				// If player find ghost, set isGhostFound = true; and update ghost's coordinates
+				if (isGhostFound == false && newCell.getCellType() == CellType.GHOST) {
+					isGhostFound = true;
+					ghostX = newX;
+					ghostY = newY;
+				}
+				return true;
+			} else if (newCell.getCellType() == CellType.CHEESE_TOKEN){
+				System.err.println("\n" + "Rabbit can only view carrot tokens");
+				return false;
+			} else {
+				System.out.println("\n" + "The token has already been revealed");
+				return false;
 			}
-			// Check if adjacent cell is within bounds
-			if (newX >= 0 && newX < boardSize && newY >= 0 && newY < boardSize) {
-				GridCell adjacentCell = board.getGridCellAt(newX,newY);
+		}
+		// Mouse can only view cheese tokens
+		if (currentPlayer.getCharacter() == Character.MOUSE) {
+			if (newCell.getCellType() == CellType.CHEESE_TOKEN) {
+				System.out.println("Player's viewing token...");
+				currentPlayer.viewToken(newCell, newX, newY);
+				// If player find ghost, set isGhostFound = true; and update ghost's coordinates
+				if (isGhostFound == false && newCell.getCellType() == CellType.GHOST) {
+					isGhostFound = true;
+					ghostX = newX;
+					ghostY = newY;
+				}
+				return true;
+			} else if (newCell.getCellType() == CellType.CARROT_TOKEN) {
+				System.err.println("Mouse can only view cheese tokens");
+				return false;
+			} else {
+				System.out.println("The token has already been revealed");
+				return false;
+			}
+		}
+	    // Default return statement
+		return false;	
+	}
+	private static boolean attemptOpenMagicDoor(Player currentPlayer, DirectionType direction) {
+		int newX = currentPlayer.getX();
+		int newY = currentPlayer.getY();
+		switch (direction) {
+			case UP:
+				newX -= 1;
+				break;
+			case DOWN:
+				newX += 1;
+				break;
+			case LEFT:
+				newY -= 1;
+				break;
+			case RIGHT:
+				newY += 1;
+				break;
+			default:
+				break;
+		}
+		// Check if adjacent cell is within bounds
+		if (newX >= 0 && newX < boardSize && newY >= 0 && newY < boardSize) {
+			GridCell adjacentCell = board.getGridCellAt(newX,newY);
+			// Check if the adjacent cell is a Magic Door
+			if (adjacentCell.getCellType() == CellType.MAGIC_DOOR_WALL) {
 				int otherSideX = newX;
 				int otherSideY = newY;
 				switch (direction) {
@@ -402,17 +487,24 @@ public class Main {
 					System.err.println("THERE IS NO PLAYER ON THE OTHER SIDE OF THE BOARD. PLEASE TRY AGAIN.");
 					return false;
 				}
-			} else {
-				System.err.println( "\n" + "OPEN MAGIC DOOR OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
+			}
+			// If it's not a magic door, player cannot open it
+			else {
+				System.err.println("This is not the magic door! Try to move to the magic door to open it!");
 				return false;
 			}
-	//    	// Default return statement
-	//		return false;
-	    }
+		} else {
+			System.err.println( "\n" + "OPEN MAGIC DOOR OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
+			return false;
+		}
+//		// Default return statement
+//		return false;
+	}
 	private static boolean passAction() {
 		System.out.println("Player do nothing...");
 		return true;
 	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		settingMenu();

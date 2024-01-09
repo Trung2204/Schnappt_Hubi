@@ -2,6 +2,7 @@ package com.consolegame.board;
 import java.util.*;
 
 import com.consolegame.helper.type.CellType;
+import com.consolegame.helper.type.DirectionType;
 
 public class GridCell {
 	private CellType cellType;
@@ -41,7 +42,12 @@ public class GridCell {
         	}
         }
     }
-	public static void swapToken(GridCell TokenA, GridCell TokenB) {
-		
+    // For ghost's movement
+	public void moveRandomTokens(){
+		System.out.println("Ghost has not been found, moving 2 tokens of the same type...");
+	}
+	// For ghost's movement
+	public void moveAdjacentToken(DirectionType direction) {
+		System.out.println("Ghost has been found, moving ghost with token "+direction);
 	}
 }

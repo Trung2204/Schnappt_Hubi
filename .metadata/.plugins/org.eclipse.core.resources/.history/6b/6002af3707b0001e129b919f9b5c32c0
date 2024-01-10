@@ -1,0 +1,73 @@
+package com.consolegame.board;
+import java.util.*;
+
+import com.consolegame.helper.type.CellType;
+import com.consolegame.helper.type.DirectionType;
+
+public class GridCell {
+	private CellType cellType;
+    
+	public GridCell() {}
+	public GridCell(CellType cellType) {
+		this.cellType = cellType;
+	}
+
+	public void setCellType(CellType cellType) { this.cellType = cellType; }
+    public CellType getCellType() { return this.cellType; }
+
+    public void changeWall(int x, int y) {
+    	if (x == Board.getMagicDoorRow() && y == Board.getMagicDoorCol()) {
+    		this.cellType = CellType.MAGIC_DOOR_WALL;
+    	} else {
+    		CellType[] wallTypes = {CellType.WINDOW_WALL, CellType.MOUSEHOLE_WALL, CellType.OPEN_WALL};
+    		Random random = new Random();
+            CellType newCellType = wallTypes[random.nextInt(wallTypes.length)];
+            this.cellType = newCellType;
+    	}
+    }
+    public void changeMagicDoor() {
+    	if (this.cellType == CellType.MAGIC_DOOR_WALL) {
+        	this.cellType = CellType.OPEN_WALL;
+        }
+    }
+    public void changeToken(int x, int y) {
+        if ((this.cellType == CellType.CARROT_TOKEN || this.cellType == CellType.CHEESE_TOKEN)) {
+        	if (x == Board.getGhostRow() && y == Board.getGhostCol()) {
+        		this.cellType = CellType.GHOST;
+        	} else {
+        		CellType[] tokenTypes = {CellType.GHOST, CellType.DARK_CATERPILLAR, CellType.DARK_FROG, CellType.DARK_BAT, CellType.DARK_OWL, CellType.WHITE_CATERPILLAR, CellType.WHITE_FROG, CellType.WHITE_BAT, CellType.WHITE_OWL};
+                Random random = new Random();
+                CellType newCellType = tokenTypes[random.nextInt(tokenTypes.length)];
+                this.cellType = newCellType;
+        	}
+        }
+    }
+    // For ghost's movement when ghost is not found
+	public void moveRandomTokens(GridCell[][] gridCells) {
+		Map<List<Integer>, GridCell> cheeseCells = new HashMap<>();
+		Map<List<Integer>, GridCell> carrotCells = new HashMap<>();
+		
+		for (int i = 0; i < gridCells.length; i++) {
+			for (int j = 0; j < gridCells[i].length; j++) {
+				if (i % 2 == 0 && j % 2 == 0) {
+					List<Integer> position = Arrays.asList(i, j);
+					switch(gridCells[i][j].getCellType()) {
+					case CARROT_TOKEN:
+						carrotCells.put(position, gridCells[i][j]);
+						break;
+					case CHEESE_TOKEN:
+						cheeseCells.put(position, gridCells[i][j]);
+						break;
+					default:
+						break;
+					}
+				}
+			}
+		}
+		System.out.println("Ghost has not been found, moving 2 tokens of the same type...");
+	}
+	// For ghost's movement when ghost is found
+	public void moveAdjacentToken(DirectionType direction) {
+		System.out.println("Ghost has been found, moving ghost with token "+direction);
+	}
+}

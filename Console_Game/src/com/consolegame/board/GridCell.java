@@ -2,7 +2,6 @@ package com.consolegame.board;
 import java.util.*;
 
 import com.consolegame.helper.type.CellType;
-import com.consolegame.helper.type.DirectionType;
 
 public class GridCell {
 	private CellType cellType;
@@ -13,7 +12,7 @@ public class GridCell {
 	}
 
 	public void setCellType(CellType cellType) { this.cellType = cellType; }
-    public CellType getCellType() { return cellType; }
+    public CellType getCellType() { return this.cellType; }
 
     public void changeWall(int x, int y) {
     	if (x == Board.getMagicDoorRow() && y == Board.getMagicDoorCol()) {
@@ -42,12 +41,4 @@ public class GridCell {
         	}
         }
     }
-    // For ghost's movement
-	public void moveRandomTokens(){
-		System.out.println("Ghost has not been found, moving 2 tokens of the same type...");
-	}
-	// For ghost's movement
-	public void moveAdjacentToken(DirectionType direction) {
-		System.out.println("Ghost has been found, moving ghost with token "+direction);
-	}
 }

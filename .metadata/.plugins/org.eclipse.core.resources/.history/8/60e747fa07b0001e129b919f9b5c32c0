@@ -1,0 +1,132 @@
+package com.consolegame.board;
+
+import java.util.*;
+
+import com.consolegame.helper.type.CellType;
+import com.consolegame.helper.type.DirectionType;
+
+public class Board {
+	private GridCell[][] gridCells;
+	private static int magicDoorRow;
+    private static int magicDoorCol;
+    private static int ghostRow;
+    private static int ghostCol;
+	
+	public Board(int size) {
+		if (gridCells == null) {
+	        gridCells = new GridCell[size][size];
+	        initializeBoard();
+	        setSpecialCells();
+	    }
+	}
+	
+	protected static int getMagicDoorRow() { return magicDoorRow; }
+	protected static int getMagicDoorCol() { return magicDoorCol; }
+	protected static int getGhostRow() { return ghostRow; }
+	protected static int getGhostCol() { return ghostCol; }
+	
+	public GridCell[][] getGrideCells() { return this.gridCells; }
+	
+	private void initializeBoard() {
+		Random random = new Random();
+		for (int i = 0; i < gridCells.length; i++) {
+    		for (int j = 0; j < gridCells[i].length; j++) {
+    			// The squares can be moved in
+    			if (i % 2 == 0 && j % 2 == 0) {
+    				CellType cellType = random.nextBoolean() ? CellType.CARROT_TOKEN : CellType.CHEESE_TOKEN;
+                    gridCells[i][j] = new GridCell(cellType);
+    			} else if (i % 2 != 0 && j % 2 != 0) {
+                    // Assign NONE_WALL to the cross between walls
+                    gridCells[i][j] = new GridCell(CellType.NONE_WALL);
+    			} else {
+    				gridCells[i][j] = new GridCell(CellType.CURTAIN_WALL);
+    			}
+    		}
+    	}
+	}
+	
+	private void setSpecialCells() {
+	    Random random = new Random();
+	
+	    // Pre-calculate the valid cells for MAGIC_DOOR_WALL and GHOST
+	    List<int[]> validCellsMagicDoor = new ArrayList<>();
+	    for (int i = 0; i < 5; i++) {
+	        for (int j = 0; j < 5; j++) {
+	            if (!(i % 2 != 0 && j % 2 != 0) && !(i % 2 == 0 && j % 2 == 0)) {
+	            	validCellsMagicDoor.add(new int[]{i, j});
+	            }
+	        }
+	    }
+	    List<int[]> validCellsGhost = new ArrayList<>();
+	    for (int i = 0; i < 5; i++) {
+	        for (int j = 0; j < 5; j++) {
+	            if (i % 2 == 0 && j % 2 == 0) {
+	            	validCellsGhost.add(new int[]{i, j});
+	            }
+	        }
+	    }
+	
+	    // Select a random cell for MAGIC_DOOR_WALL
+	    int index = random.nextInt(validCellsMagicDoor.size());
+	    int[] magicDoorCell = validCellsMagicDoor.get(index);
+	
+	    // Select a random cell for GHOST
+	    index = random.nextInt(validCellsGhost.size());
+	    int[] ghostCell = validCellsGhost.get(index);
+	
+	    // Set the cells
+	    magicDoorRow = magicDoorCell[0];
+	    magicDoorCol = magicDoorCell[1];
+	    ghostRow = ghostCell[0];
+	    ghostCol = ghostCell[1];
+	}
+
+	public GridCell getGridCellAt(int row, int col) {
+		if (row >= 0 && row < gridCells.length && col >= 0 && col < gridCells[row].length) {
+	        return gridCells[row][col];
+	    } else {
+	        throw new IllegalArgumentException("Invalid position");
+	    }
+	}
+	
+    // For ghost's movement when ghost is not found
+	public void moveRandomTokens() {
+		Map<List<Integer>, GridCell> cheeseCells = new HashMap<>();
+		Map<List<Integer>, GridCell> carrotCells = new HashMap<>();
+		
+		for (int i = 0; i < gridCells.length; i++) {
+			for (int j = 0; j < gridCells[i].length; j++) {
+				if (i % 2 == 0 && j % 2 == 0) {
+					List<Integer> position = Arrays.asList(i, j);
+					switch(gridCells[i][j].getCellType()) {
+					case CARROT_TOKEN:
+						carrotCells.put(position, gridCells[i][j]);
+						break;
+					case CHEESE_TOKEN:
+						cheeseCells.put(position, gridCells[i][j]);
+						break;
+					default:
+						break;
+					}
+				}
+			}
+		}
+		System.out.println("Ghost has not been found, moving 2 tokens of the same type...");
+	}
+	
+	// For ghost's movement when ghost is found
+	public void moveAdjacentToken(DirectionType direction) {
+		System.out.println("Ghost has been found, moving ghost with token "+direction);
+	}
+	
+	public void print() {
+		for (int i = 0; i < gridCells.length; i++) {
+			for (int j = 0; j < gridCells[i].length; j++) {
+				System.out.print(gridCells[i][j].getCellType() + "           ");
+			}
+			System.out.println();
+		}
+		System.out.println("\nMagic door("+magicDoorRow+","+magicDoorCol+")");
+		System.out.println("Ghost("+ghostRow+","+ghostCol+")");
+	}
+}

@@ -3,6 +3,7 @@ package com.consolegame.board;
 import java.util.*;
 
 import com.consolegame.helper.type.CellType;
+import com.consolegame.helper.type.DirectionType;
 
 public class Board {
 	private GridCell[][] gridCells;
@@ -11,10 +12,20 @@ public class Board {
     private static int ghostRow;
     private static int ghostCol;
 	
+	public Board(int size) {
+		if (gridCells == null) {
+	        gridCells = new GridCell[size][size];
+	        initializeBoard();
+	        setSpecialCells();
+	    }
+	}
+	
 	protected static int getMagicDoorRow() { return magicDoorRow; }
 	protected static int getMagicDoorCol() { return magicDoorCol; }
 	protected static int getGhostRow() { return ghostRow; }
 	protected static int getGhostCol() { return ghostCol; }
+	
+	public GridCell[][] getGrideCells() { return this.gridCells; }
 	
 	private void initializeBoard() {
 		Random random = new Random();
@@ -33,6 +44,7 @@ public class Board {
     		}
     	}
 	}
+	
 	private void setSpecialCells() {
 	    Random random = new Random();
 	
@@ -68,13 +80,7 @@ public class Board {
 	    ghostRow = ghostCell[0];
 	    ghostCol = ghostCell[1];
 	}
-	public Board(int size) {
-		if (gridCells == null) {
-	        gridCells = new GridCell[size][size];
-	        initializeBoard();
-	        setSpecialCells();
-	    }
-	}
+
 	public GridCell getGridCellAt(int row, int col) {
 		if (row >= 0 && row < gridCells.length && col >= 0 && col < gridCells[row].length) {
 	        return gridCells[row][col];
@@ -82,6 +88,83 @@ public class Board {
 	        throw new IllegalArgumentException("Invalid position");
 	    }
 	}
+	
+    // For ghost's movement when ghost is not found
+	public void moveRandomTokens() {
+//		Map<List<Integer>, GridCell> cheeseCells = new HashMap<>();
+//		Map<List<Integer>, GridCell> carrotCells = new HashMap<>();
+//		
+//		for (int i = 0; i < gridCells.length; i++) {
+//			for (int j = 0; j < gridCells[i].length; j++) {
+//				if (i % 2 == 0 && j % 2 == 0) {
+//					List<Integer> position = Arrays.asList(i, j);
+//					switch(gridCells[i][j].getCellType()) {
+//					case CARROT_TOKEN:
+//						carrotCells.put(position, gridCells[i][j]);
+//						break;
+//					case CHEESE_TOKEN:
+//						cheeseCells.put(position, gridCells[i][j]);
+//						break;
+//					default:
+//						break;
+//					}
+//				}
+//			}
+//		}
+//		findAdjacentCells(gridCells, carrotCells);
+//        findAdjacentCells(gridCells, cheeseCells);
+		System.out.println("Ghost has not been found, moving 2 tokens of the same type...");
+	}
+//    private static boolean isValidAndSameType(GridCell[][] grid, int i, int j, CellType type) {
+//        return i >= 0 && i < grid.length && j >= 0 && j < grid[i].length && grid[i][j].getCellType() == type;
+//    }
+//
+//    // Find adjacent cells of the same type in a list of cells
+//    private static void findAdjacentCells(GridCell[][] grid, Map<List<Integer>, GridCell> cells) {
+//        Map<List<Integer>, List<List<Integer>>> adjacentCells = new HashMap<>();
+//
+//        for (List<Integer> cell : cells.keySet()) {
+//            List<List<Integer>> neighbors = new ArrayList<>();
+//
+//            // Check the four neighboring cells (up, down, left, right)
+//            if (isValidAndSameType(grid, cell.get(0) - 1, cell.get(1), cells.get(cell).getCellType())) {  // Up
+//                neighbors.add(Arrays.asList(cell.get(0) - 1, cell.get(1)));
+//            }
+//            if (isValidAndSameType(grid, cell.get(0) + 1, cell.get(1), cells.get(cell).getCellType())) {  // Down
+//                neighbors.add(Arrays.asList(cell.get(0) + 1, cell.get(1)));
+//            }
+//            if (isValidAndSameType(grid, cell.get(0), cell.get(1) - 1, cells.get(cell).getCellType())) {  // Left
+//                neighbors.add(Arrays.asList(cell.get(0), cell.get(1) - 1));
+//            }
+//            if (isValidAndSameType(grid, cell.get(0), cell.get(1) + 1, cells.get(cell).getCellType())) {  // Right
+//                neighbors.add(Arrays.asList(cell.get(0), cell.get(1) + 1));
+//            }
+//
+//            if (!neighbors.isEmpty()) {
+//                adjacentCells.put(cell, neighbors);
+//            }
+//        }
+//
+//        // Print the positions of adjacent cells of the same type
+//        for (Map.Entry<List<Integer>, List<List<Integer>>> entry : adjacentCells.entrySet()) {
+//            System.out.println("The cell at position " + entry.getKey() + " has neighbors of the same type at the following positions:");
+//            for (List<Integer> pos : entry.getValue()) {
+//                System.out.println(pos);
+//            }
+//        }
+//    }
+	
+	public void swapGridCells(int x1, int y1, int x2, int y2) {
+		GridCell temp = gridCells[x1][y1];
+		gridCells[x1][y1] = gridCells[x2][y2];
+		gridCells[x2][y2] = temp;
+	}
+	
+	// For ghost's movement when ghost is found
+	public void moveAdjacentToken(DirectionType direction) {
+		System.out.println("Ghost has been found, moving ghost with token "+direction);
+	}
+	
 	public void print() {
 		for (int i = 0; i < gridCells.length; i++) {
 			for (int j = 0; j < gridCells[i].length; j++) {

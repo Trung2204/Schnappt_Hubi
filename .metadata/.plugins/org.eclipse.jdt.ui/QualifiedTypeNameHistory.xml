@@ -7,4 +7,7 @@
     <fullyQualifiedTypeName name="com.consolegame.helper.type.ActionType"/>
     <fullyQualifiedTypeName name="com.consolegame.helper.type.CellType"/>
     <fullyQualifiedTypeName name="com.consolegame.helper.type.DirectionType"/>
+    <fullyQualifiedTypeName name="java.util.HashMap"/>
+    <fullyQualifiedTypeName name="com.consolegame.board.GridCell"/>
+    <fullyQualifiedTypeName name="com.consolegame.board.Board"/>
 </qualifiedTypeNameHistroy>

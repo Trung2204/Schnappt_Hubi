@@ -169,13 +169,15 @@ public class Main {
 			    if (compass.getFieldType() == FieldType.GHOST) {
 			        // If ghost is not found, moving 2 tokens of the same type
 			        if (!isGhostFound) {
-			        	ghost.moveRandomTokens();
+			        	board.swapGridCells(0, 0, 0, 2);
+//			        	board.moveRandomTokens();
 			        }
 			        // If ghost if found, moving ghost token with 1 arbitrary adjacent token
 			        else {
 			        	DirectionType[] randomDirections = new DirectionType[] {DirectionType.UP, DirectionType.DOWN,
 																				DirectionType.LEFT, DirectionType.RIGHT};
-			        	ghost.moveAdjacentToken(randomDirections[new Random().nextInt(5)]);
+			        	board.swapGridCells(ghostX, ghostY, 0, 0);
+//			        	board.moveAdjacentToken(randomDirections[new Random().nextInt(5)]);
 			        }
 			    }
 				// Update time

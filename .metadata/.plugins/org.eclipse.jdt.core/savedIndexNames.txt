@@ -1,0 +1,4 @@
+INDEX VERSION 1.134+D:\Minh Trung\Study\FRA - UAS\OOP Java\Project - Schnappt Hubi!\Schnappt_Hubi\.metadata\.plugins\org.eclipse.jdt.core
+3754159126.index
+1865797976.index
+460265470.index

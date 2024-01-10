@@ -165,6 +165,19 @@ public class Main {
 				compass.spin();
 				System.out.println("### Compass ###");
 				System.out.println("Compass field: "+compass.getFieldType());
+				// If hitting ghost field, ghost moves
+			    if (compass.getFieldType() == FieldType.GHOST) {
+			        // If ghost is not found, moving 2 tokens of the same type
+			        if (!isGhostFound) {
+			        	ghost.moveRandomTokens();
+			        }
+			        // If ghost if found, moving ghost token with 1 arbitrary adjacent token
+			        else {
+			        	DirectionType[] randomDirections = new DirectionType[] {DirectionType.UP, DirectionType.DOWN,
+																				DirectionType.LEFT, DirectionType.RIGHT};
+			        	ghost.moveAdjacentToken(randomDirections[new Random().nextInt(5)]);
+			        }
+			    }
 				// Update time
 				clock.increaseTime(compass.getFieldType());
 				System.out.println("Current time: "+clock.getTime());
@@ -174,7 +187,17 @@ public class Main {
 				// Each player plays their turn with the corresponding number of actions
 				int actionsPerformed = 0;
 				while (actionsPerformed < currentPlayer.getNumberOfActions()) {
+					if (!isGhostActivated) {
+		                System.out.println("\nMagic Door is not opened! Continuing phase 1...");
+		            } else {
+		                System.out.println("\nMagic Door is opened! Continuing phase 2...");
+		                if (isGhostFound) {
+		                	System.out.println("Ghost is found at ("+ghostX+","+ghostY+")");
+		                }
+		            }
+					
 					boolean actionSuccessful = false;
+					System.out.println();
 					ActionType action = currentPlayer.chooseAction(isGhostActivated, isMagicDoorFound);
 					DirectionType direction;
 					if (action != ActionType.NONE && action != ActionType.VIEW_TOKEN) {
@@ -184,18 +207,16 @@ public class Main {
 					} else {
 						direction = DirectionType.NONE;
 					}
-						
 					// Phase 1
 					if (!isGhostActivated) {
 						actionSuccessful = handlePhaseOne(currentPlayer, action, direction);
-						System.out.println( "\n" + "Player's current position: "+currentPlayer.getX()+" "+currentPlayer.getY()+"\n");
+						System.out.println( "\n" + "Player " +(i+1)+": "+currentPlayer.getCharacter()+"'s current position: "+currentPlayer.getX()+" "+currentPlayer.getY()+"\n");
 						board.print();
 					}
 					// Phase 2
 					else {
-						if (isGhostFound) System.err.println("Ghost found at ("+ghostX+","+ghostY+")");
 						actionSuccessful = handlePhaseTwo(currentPlayer, action, direction);
-						System.out.println( "\n" + "Player's current position: "+currentPlayer.getX()+" "+currentPlayer.getY()+"\n");
+						System.out.println( "\n" + "Player " +(i+1)+": "+currentPlayer.getCharacter()+"'s current position: "+currentPlayer.getX()+" "+currentPlayer.getY()+"\n");
 						board.print();
 					}
 					if (actionSuccessful) {
@@ -248,20 +269,6 @@ public class Main {
 	 */
 	private static boolean handlePhaseTwo(Player currentPlayer, ActionType action, DirectionType direction) {
 		// In this phase, the magic door is now open wall, no need to consider it anymore
-		// If hitting ghost field, ghost moves
-	    if (compass.getFieldType() == FieldType.GHOST) {
-	        // If ghost is not found, moving 2 tokens of the same type
-	        if (!isGhostFound) {
-	        	ghost.moveRandomTokens();
-	        }
-	        // If ghost if found, moving ghost token with 1 arbitrary adjacent token
-	        else {
-	        	DirectionType[] randomDirections = new DirectionType[] {DirectionType.UP, DirectionType.DOWN,
-																		DirectionType.LEFT, DirectionType.RIGHT};
-	        	ghost.moveAdjacentToken(randomDirections[new Random().nextInt(5)]);
-	        }
-	    }
-
 	    if (action == ActionType.MOVE) {
         	return attemptMove(currentPlayer, direction);
         }
@@ -414,6 +421,7 @@ public class Main {
 					isGhostFound = true;
 					ghostX = newX;
 					ghostY = newY;
+					System.out.println("Ghost is found at ("+ghostX+","+ghostY+")");
 				}
 				return true;
 			} else if (newCell.getCellType() == CellType.CARROT_TOKEN) {
@@ -481,7 +489,9 @@ public class Main {
 					System.out.println("Player's opening magic door...");
 					currentPlayer.openMagicDoor(adjacentCell);
 					// Now the Magic Door is opened, starting phase 2 
-					isGhostActivated = true;
+					if (isGhostActivated == false) {
+						isGhostActivated = true;
+					}
 					return true;
 				} else {
 					System.err.println("THERE IS NO PLAYER ON THE OTHER SIDE OF THE BOARD. PLEASE TRY AGAIN.");

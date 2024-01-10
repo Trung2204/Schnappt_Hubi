@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.util.Scanner"/>
+    <fullyQualifiedTypeName name="java.util.InputMismatchException"/>
+    <fullyQualifiedTypeName name="com.consolegame.helper.type.FieldType"/>
+    <fullyQualifiedTypeName name="java.awt.Desktop.Action"/>
+    <fullyQualifiedTypeName name="com.consolegame.helper.type.ActionType"/>
+    <fullyQualifiedTypeName name="com.consolegame.helper.type.CellType"/>
+    <fullyQualifiedTypeName name="com.consolegame.helper.type.DirectionType"/>
+</qualifiedTypeNameHistroy>

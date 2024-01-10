@@ -1,0 +1,105 @@
+//					System.out.println("\n#### Player "+(i+1)+": "+listOfPlayers[i].getCharacter()+"'s turn ####");
+//					System.out.println( "\nCurrent position: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());
+//					System.out.println("Compass is spinning...");
+//					// Spin the compass
+//					compass.spin();
+//					System.out.println("### Compass ###");
+//					System.out.println("Compass field: "+compass.getFieldType());
+//					// Update time
+//					clock.increaseTime(compass.getFieldType());
+//					System.out.println("Current time: "+clock.getTime());
+//					// Move ghost
+//					if (compass.getFieldType() == FieldType.GHOST) {
+//						// If ghost is not found, moving 2 tokens of the same type
+//						if (!isGhostFound) {
+//							System.out.println("Ghost has not been found, moving 2 tokens of the same type...");
+////							board.print();
+//						}
+//						// If ghost if found, moving ghost token with 1 arbitrary adjacent token
+//						else {
+//							System.out.println("Ghost has been found, moving ghost with token...");
+////							board.print();
+//						}
+//					}
+//					// Player gains number of actions from spinning the compass
+//					listOfPlayers[i].setNumberOfAction(compass.getNumberOfAction());
+//					System.out.println("Player "+(i+1)+" gains "+listOfPlayers[i].getNumberOfAction()+" action(s).");
+//					
+//					// Each player plays their turn with the corresponding number of actions
+//					for (int j = 0; j < listOfPlayers[i].getNumberOfAction(); j++) {
+//						// In this phase, the magic door is now open wall, no need to consider it anymore
+//						ActionType actionType = null;
+//						DirectionType directionType = null;
+//						while (true) {
+//							try {
+//								System.out.print( "\n" + "Player's number of action: " + (listOfPlayers[i].getNumberOfAction() - j));
+//								// Choose action: MOVE or VIEW CURTAIN
+//								System.out.print( "\n" + "Choose action type(MOVE/ VIEW_CURTAIN/ VIEW_TOKEN/ NONE): ");
+//								String actionInput = scanner.nextLine().trim().toUpperCase();
+//								
+//								if (actionInput.equals("MOVE")) {
+//									 actionType = ActionType.MOVE;
+//								} else if (actionInput.equals("VIEW CURTAIN")) {
+//									actionType = ActionType.VIEW_CURTAIN;
+//								} else if (actionInput.equals("VIEW TOKEN")) {
+//									actionType = ActionType.VIEW_TOKEN;
+//								}// if player chooses action as NONE, nothing happens
+//								else if (actionInput.equals("NONE")) {
+//									actionType = ActionType.NONE;
+//									break;
+//								} else {
+//									throw new IllegalArgumentException("Invalid action input. Please enter MOVE, VIEW_CURTAIN, or NONE");
+//								}
+//								
+//								// Choose direction (Only for actions: MOVE or VIEW CURTAIN)
+//								if (actionType != ActionType.VIEW_TOKEN) {
+//									System.out.print("Choose direction (UP/ DOWN/ LEFT/ RIGHT): ");
+//									String directionInput = scanner.nextLine().trim().toUpperCase();
+//									
+//									switch (directionInput) {
+//									case "UP":
+//										directionType = DirectionType.UP;
+//										break;
+//									case "DOWN":
+//										directionType = DirectionType.DOWN;
+//										break;
+//									case "LEFT":
+//										directionType = DirectionType.LEFT;
+//										break;
+//									case "RIGHT":
+//										directionType = DirectionType.RIGHT;
+//										break;
+//									default:
+//										throw new IllegalArgumentException("Invalid direction input. Please enter UP, DOWN, LEFT, or RIGHT.");
+//									}
+//								}
+//								// If action type is view token, set directionType to CURRENT to break loop
+//								else {
+//									directionType = DirectionType.CURRENT;
+//								}
+//								
+//						        // If both actionType and directionType are valid, break the loop
+//						        if (actionType != null && directionType != null) {
+//						            break;
+//						        }
+//							} catch (Exception e) {
+//								System.err.println(e.getMessage());
+//							}
+//						}
+//						
+//						if (actionType == ActionType.MOVE) {
+//							
+//						} 
+//						else if (actionType == ActionType.VIEW_CURTAIN) {
+//							
+//						}
+//						else if (actionType == ActionType.VIEW_TOKEN) {
+//							
+//						}
+//						else {
+//							System.out.println("Player choose to do nothing.");
+//						}
+//						System.out.println( "\n" + "Player's current position: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY()+"\n");
+//						board.print();
+//					}
+//					System.out.println();

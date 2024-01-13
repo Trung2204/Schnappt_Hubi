@@ -1,5 +1,7 @@
 package com.consolegame.main;
 import java.util.*;
+import java.util.List;
+import java.util.Random;
 
 import com.consolegame.board.Board;
 import com.consolegame.board.GridCell;
@@ -12,6 +14,18 @@ import com.consolegame.player.Clock;
 import com.consolegame.player.Compass;
 import com.consolegame.player.Player;
 public class Main {
+
+	private static class Pair {
+		int row1, col1, row2, col2;
+
+		Pair(int row1, int col1, int row2, int col2) {
+			this.row1 = row1;
+			this.col1 = col1;
+			this.row2 = row2;
+			this.col2 = col2;
+		}
+	}
+	private static List<Pair> adjacentPairs = new ArrayList<>();
 
 	private static int boardSize = 5;
 	private static Board board = new Board(boardSize);
@@ -34,7 +48,124 @@ public class Main {
 	private static Player[] listOfPlayers;
 	
 	public static Scanner scanner = new Scanner(System.in);
-	
+
+	private static List<Pair> findAdjacentPairs() {
+
+		// Iterate through the array
+		for (int x = 0; x < boardSize; x = x + 2) {
+			for (int y = 0; y < boardSize; y = y + 2) {
+				// Check right neighbor
+				int x1 = x + 2;
+				int y1 = y + 2;
+				CellType a = board.getGridCellAt(x,y).getCellType();
+
+				// Check right neighbor
+				if (x1 < boardSize && y1 < boardSize) {
+					CellType b = board.getGridCellAt(x, y1).getCellType();
+					if (a == b) {
+						adjacentPairs.add(new Pair(x, y, x, y1));
+					}
+				}
+
+				// Check bottom neighbor
+				if (x1 < boardSize && y < boardSize) {
+					CellType c = board.getGridCellAt(x1, y).getCellType();
+					if (a == c) {
+						adjacentPairs.add(new Pair(x, y, x1, y));
+					}
+				}
+			}
+		}
+
+		return adjacentPairs;
+	}
+
+	public static void swapGhost(int x, int y) {
+		// Create a Random object
+		Random random = new Random();
+
+		// Variable to store the previous choice
+		int previousChoice = -1;
+
+		// Flag to indicate whether to repeat the switch statement
+		boolean repeat;
+
+		do {
+			// Set the flag to false initially
+			repeat = false;
+
+			// Get a random choice
+			int choice = random.nextInt(4) + 1; // Assuming 5 choices for demonstration
+
+			// Your switch statement based on the current choice
+			switch (choice) {
+				case 1:
+					// Handle case UP
+					if ((x - 2) >= 0) {
+						board.swapGridCells(x, y, (x - 2), y);
+
+					} else {
+						repeat = true;
+					}
+					break;
+
+				case 2:
+					// Handle case DOWN
+					if ((x + 2) < boardSize) {
+						board.swapGridCells(x, y, (x + 2), y);
+					} else {
+						repeat = true;
+					}
+					break;
+
+				case 3:
+					// Handle case LEFT
+					if ((y - 2) >= 0) {
+						board.swapGridCells(x, y, x, (y - 2));
+					} else {
+						repeat = true;
+					}
+					break;
+
+				case 4:
+					// Handle case DOWN
+					if ((y + 2) < boardSize) {
+						board.swapGridCells(x, y, x, (y + 2));
+					} else {
+						repeat = true;
+					}
+					break;
+
+
+				default:
+					// Handle default case
+			}
+
+			// Update the previous choice if not disqualified
+			if (!repeat) {
+				previousChoice = choice;
+			}
+
+		} while (repeat);
+
+		// Continue with the rest of your program after the loop
+	}
+
+	private static void removePairs(List<Pair> adjacentPairs, int x, int y) {
+		// Create a copy of the list to avoid ConcurrentModificationException
+		List<Pair> pairsToRemove = new ArrayList<>();
+
+		// Scan the list for pairs with the specified coordinates
+		for (Pair pair : adjacentPairs) {
+			if ((pair.row1 == x && pair.col1 == y) || (pair.row2 == x && pair.col2 == y)) {
+				pairsToRemove.add(pair);
+			}
+		}
+
+		// Remove the identified pairs
+		adjacentPairs.removeAll(pairsToRemove);
+	}
+
 	public static void settingMenu() {
 		// Get number of players
 		while (numberOfPlayers < 2 || numberOfPlayers > 4) {
@@ -145,7 +276,22 @@ public class Main {
 		System.out.println();
 	}
 	public static void play() {
+		findAdjacentPairs();
+		for (int i = 0; i < boardSize; i = i + 2) {
+			for (int j = 0; j < boardSize; j = j + 2) {
+				System.out.print(board.getGridCellAt(i, j).getCellType() + "           ");
+			}
+			System.out.println();
+		}
+		System.out.println("Adjacent pairs with the same value:");
+		for (Pair pair : adjacentPairs) {
+			System.out.println("(" + pair.row1 + ", " + pair.col1 + ") and (" + pair.row2 + ", " + pair.col2 + ")");
+		}
+
+
 		while(true) {
+			int numberOfPairs = adjacentPairs.size();
+
 			if (clock.getTime() == 12) {
 				System.err.println("\nTIME'S UP");
 				if (!isGhostFound) {
@@ -169,14 +315,24 @@ public class Main {
 			    if (compass.getFieldType() == FieldType.GHOST) {
 			        // If ghost is not found, moving 2 tokens of the same type
 			        if (!isGhostFound) {
-			        	board.swapGridCells(0, 0, 0, 2);
+						Random random = new Random();
+						int randomIndex = random.nextInt(adjacentPairs.size());
+						Pair chosenPair = adjacentPairs.get(randomIndex);
+						int row1 = chosenPair.row1;
+						int col1 = chosenPair.col1;
+						int row2 = chosenPair.row2;
+						int col2 = chosenPair.col2;
+
+			        	board.swapGridCells(row1, col1, row2, col2);
 //			        	board.moveRandomTokens();
 			        }
-			        // If ghost if found, moving ghost token with 1 arbitrary adjacent token
+			        // If ghost is found, moving ghost token with 1 arbitrary adjacent token
 			        else {
-			        	DirectionType[] randomDirections = new DirectionType[] {DirectionType.UP, DirectionType.DOWN,
-																				DirectionType.LEFT, DirectionType.RIGHT};
-			        	board.swapGridCells(ghostX, ghostY, 0, 0);
+
+						swapGhost(ghostX, ghostY);
+//			        	DirectionType[] randomDirections = new DirectionType[] {DirectionType.UP, DirectionType.DOWN,
+//																				DirectionType.LEFT, DirectionType.RIGHT};
+//			        	board.swapGridCells(ghostX, ghostY, 0, 0);
 //			        	board.moveAdjacentToken(randomDirections[new Random().nextInt(5)]);
 			        }
 			    }
@@ -398,6 +554,7 @@ public class Main {
 			if(newCell.getCellType() == CellType.CARROT_TOKEN) {
 				System.out.println("Player's viewing token...");
 				currentPlayer.viewToken(newCell, newX, newY);
+				removePairs(adjacentPairs, newX, newY);
 				// If player find ghost, set isGhostFound = true; and update ghost's coordinates
 				if (isGhostFound == false && newCell.getCellType() == CellType.GHOST) {
 					isGhostFound = true;
@@ -418,6 +575,7 @@ public class Main {
 			if (newCell.getCellType() == CellType.CHEESE_TOKEN) {
 				System.out.println("Player's viewing token...");
 				currentPlayer.viewToken(newCell, newX, newY);
+				removePairs(adjacentPairs, newX, newY);
 				// If player find ghost, set isGhostFound = true; and update ghost's coordinates
 				if (isGhostFound == false && newCell.getCellType() == CellType.GHOST) {
 					isGhostFound = true;

@@ -99,7 +99,7 @@ public class Main {
 					// Handle case UP
 					if ((x - 2) >= 0) {
 						board.swapGridCells(x, y, (x - 2), y);
-
+						ghostX = x - 2;
 					} else {
 						repeat = true;
 					}
@@ -109,6 +109,7 @@ public class Main {
 					// Handle case DOWN
 					if ((x + 2) < boardSize) {
 						board.swapGridCells(x, y, (x + 2), y);
+						ghostX = x + 2;
 					} else {
 						repeat = true;
 					}
@@ -118,6 +119,7 @@ public class Main {
 					// Handle case LEFT
 					if ((y - 2) >= 0) {
 						board.swapGridCells(x, y, x, (y - 2));
+						ghostY = y - 2;
 					} else {
 						repeat = true;
 					}
@@ -127,6 +129,7 @@ public class Main {
 					// Handle case RIGHT
 					if ((y + 2) < boardSize) {
 						board.swapGridCells(x, y, x, (y + 2));
+						ghostY = y + 2;
 					} else {
 						repeat = true;
 					}
@@ -266,16 +269,16 @@ public class Main {
 	}
 	public static void play() {
 		findAdjacentPairs();
-		for (int i = 0; i < boardSize; i = i + 2) {
-			for (int j = 0; j < boardSize; j = j + 2) {
-				System.out.print(board.getGridCellAt(i, j).getCellType() + "           ");
-			}
-			System.out.println();
-		}
-		System.out.println("Adjacent pairs with the same value:");
-		for (Pair pair : adjacentPairs) {
-			System.out.println("(" + pair.row1 + ", " + pair.col1 + ") and (" + pair.row2 + ", " + pair.col2 + ")");
-		}
+//		for (int i = 0; i < boardSize; i = i + 2) {
+//			for (int j = 0; j < boardSize; j = j + 2) {
+//				System.out.print(board.getGridCellAt(i, j).getCellType() + "           ");
+//			}
+//			System.out.println();
+//		}
+//		System.out.println("Adjacent pairs with the same value:");
+//		for (Pair pair : adjacentPairs) {
+//			System.out.println("(" + pair.row1 + ", " + pair.col1 + ") and (" + pair.row2 + ", " + pair.col2 + ")");
+//		}
 
 
 		while(true) {
@@ -547,6 +550,7 @@ public class Main {
 					isGhostFound = true;
 					ghostX = newX;
 					ghostY = newY;
+					System.out.println("Ghost is found at ("+ghostX+","+ghostY+")");
 				}
 				return true;
 			} else if (newCell.getCellType() == CellType.CHEESE_TOKEN){

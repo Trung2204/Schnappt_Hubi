@@ -60,7 +60,7 @@ public class Main {
 				CellType a = board.getGridCellAt(x,y).getCellType();
 
 				// Check right neighbor
-				if (x1 < boardSize && y1 < boardSize) {
+				if (x < boardSize && y1 < boardSize) {
 					CellType b = board.getGridCellAt(x, y1).getCellType();
 					if (a == b) {
 						adjacentPairs.add(new Pair(x, y, x, y1));

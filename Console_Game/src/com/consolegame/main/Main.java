@@ -33,7 +33,7 @@ public class Main {
 	private static Clock clock = new Clock();
 	
 	private static Compass compass = new Compass();
-	
+	private static boolean win = false;
 	private static boolean isMagicDoorFound = false;
 	private static boolean isGhostActivated = false;
 	private static boolean isGhostFound = false;
@@ -140,6 +140,23 @@ public class Main {
 					// Handle default case
 			}
 		} while (repeat);
+	}
+
+	public static void scanForWin()	{
+		int count = 0;
+		for (int i = 0; i < numberOfPlayers; i++) {
+			int playerX = listOfPlayers[i].getX();
+			int playerY = listOfPlayers[i].getY();
+
+			if (playerX == ghostX && playerY == ghostY && isGhostFound) {
+				// Players and ghost are at the same coordinates
+				count++;
+				}
+			if (count == 2) {
+				win = true;
+				break;
+			}
+		}
 	}
 
 	private static void removePairs(List<Pair> adjacentPairs, int x, int y) {
@@ -282,14 +299,15 @@ public class Main {
 
 
 		while(true) {
+			if (win)	{
+				System.out.println("You win! Congratulations!");
+				break;
+			}
+
 			if (clock.getTime() == 12) {
 				System.err.println("\nTIME'S UP");
-				if (!isGhostFound) {
+				if (!win) {
 					System.out.println("You lose! Better luck next time");
-					break;
-				}
-				else {
-					System.out.println("You win! Congratulations!");
 					break;
 				}
 			}
@@ -366,10 +384,17 @@ public class Main {
 						actionSuccessful = handlePhaseTwo(currentPlayer, action, direction);
 						System.out.println( "\n" + "Player " +(i+1)+": "+currentPlayer.getCharacter()+"'s current position: "+currentPlayer.getX()+" "+currentPlayer.getY()+"\n");
 						board.print();
+						scanForWin();
+						if (win)	{
+							break;
+						}
 					}
 					if (actionSuccessful) {
 				        actionsPerformed++;
 				    }
+				}
+				if (win)	{
+					break;
 				}
 			}
 		}

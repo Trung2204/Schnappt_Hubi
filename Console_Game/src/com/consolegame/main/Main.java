@@ -84,9 +84,6 @@ public class Main {
 		// Create a Random object
 		Random random = new Random();
 
-		// Variable to store the previous choice
-		int previousChoice = -1;
-
 		// Flag to indicate whether to repeat the switch statement
 		boolean repeat;
 
@@ -135,15 +132,6 @@ public class Main {
 						repeat = true;
 					}
 					break;
-
-
-				default:
-					// Handle default case
-			}
-
-			// Update the previous choice if not disqualified
-			if (!repeat) {
-				previousChoice = choice;
 			}
 
 		} while (repeat);

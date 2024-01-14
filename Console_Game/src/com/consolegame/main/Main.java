@@ -38,7 +38,6 @@ public class Main {
 	private static boolean isGhostActivated = false;
 	private static boolean isGhostFound = false;
 	
-	private static GridCell ghost = new GridCell();
 	private static int ghostX = -1;
 	private static int ghostY = -1;
 	
@@ -125,18 +124,19 @@ public class Main {
 					break;
 
 				case 4:
-					// Handle case DOWN
+					// Handle case RIGHT
 					if ((y + 2) < boardSize) {
 						board.swapGridCells(x, y, x, (y + 2));
 					} else {
 						repeat = true;
 					}
 					break;
+
+
+				default:
+					// Handle default case
 			}
-
 		} while (repeat);
-
-		// Continue with the rest of your program after the loop
 	}
 
 	private static void removePairs(List<Pair> adjacentPairs, int x, int y) {
@@ -248,8 +248,7 @@ public class Main {
             // Add the player to the array
             listOfPlayers[i] = player;
 			System.out.println();
-		}
-		
+		}		
 		// Display players' information
 		System.out.println("Players' information:");
 		for (int i = 0; i < numberOfPlayers; i++) {
@@ -258,6 +257,8 @@ public class Main {
 		System.out.println();
 	}
 	public static void setup() {
+		// Initialize board with the numberOfRabbits and numberOfMice
+		board.initializeBoard(numberOfRabbits, numberOfMice);
 		// Print board and starting time
 		board.print();
 		System.out.println("\nStaring time: "+clock.getTime());
@@ -278,8 +279,6 @@ public class Main {
 
 
 		while(true) {
-			int numberOfPairs = adjacentPairs.size();
-
 			if (clock.getTime() == 12) {
 				System.err.println("\nTIME'S UP");
 				if (!isGhostFound) {

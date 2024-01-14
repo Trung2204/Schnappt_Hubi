@@ -5,7 +5,21 @@ import com.consolegame.helper.type.CellType;
 
 public class GridCell {
 	private CellType cellType;
-    
+	
+	private static ArrayList<CellType> innerWalls = 
+			new ArrayList<>(Arrays.asList(CellType.OPEN_WALL, CellType.MOUSEHOLE_WALL, CellType.WINDOW_WALL));
+	
+	private static ArrayList<CellType> outerWalls = 
+			new ArrayList<>(Arrays.asList(
+					CellType.OPEN_WALL, CellType.OPEN_WALL, CellType.OPEN_WALL, CellType.OPEN_WALL, CellType.OPEN_WALL, CellType.OPEN_WALL,
+					CellType.MOUSEHOLE_WALL, CellType.WINDOW_WALL));
+	private static ArrayList<CellType> flippedTokens = 
+			new ArrayList<>(Arrays.asList(
+					CellType.WHITE_BAT, CellType.DARK_BAT,
+					CellType.WHITE_CATERPILLAR, CellType.DARK_CATERPILLAR,
+					CellType.WHITE_FROG, CellType.DARK_FROG, 
+					CellType.WHITE_OWL, CellType.DARK_OWL));
+	
 	public GridCell() {}
 	public GridCell(CellType cellType) {
 		this.cellType = cellType;
@@ -15,30 +29,45 @@ public class GridCell {
     public CellType getCellType() { return this.cellType; }
 
     public void changeWall(int x, int y) {
+		// Check for Magic Door Wall
     	if (x == Board.getMagicDoorRow() && y == Board.getMagicDoorCol()) {
     		this.cellType = CellType.MAGIC_DOOR_WALL;
-    	} else {
-    		CellType[] wallTypes = {CellType.WINDOW_WALL, CellType.MOUSEHOLE_WALL, CellType.OPEN_WALL};
+    	} 
+    	// Check for outer walls 
+		else if (x == 0 || x == 4 || (x != 2 && y != 2)) {
+			Random random = new Random();
+			int index = random.nextInt(outerWalls.size());
+			CellType newCellType = outerWalls.get(index);
+			this.cellType = newCellType;
+			outerWalls.remove(index);
+    	}
+    	// Check for inner walls
+    	else {
     		Random random = new Random();
-            CellType newCellType = wallTypes[random.nextInt(wallTypes.length)];
-            this.cellType = newCellType;
+    		int index = random.nextInt(innerWalls.size());
+    		CellType newCellType = innerWalls.get(index);
+    		this.cellType = newCellType;	
+    		innerWalls.remove(index);
     	}
     }
+    
     public void changeMagicDoor() {
     	if (this.cellType == CellType.MAGIC_DOOR_WALL) {
         	this.cellType = CellType.OPEN_WALL;
         }
     }
+    
     public void changeToken(int x, int y) {
-        if ((this.cellType == CellType.CARROT_TOKEN || this.cellType == CellType.CHEESE_TOKEN)) {
-        	if (x == Board.getGhostRow() && y == Board.getGhostCol()) {
-        		this.cellType = CellType.GHOST;
-        	} else {
-        		CellType[] tokenTypes = {CellType.GHOST, CellType.DARK_CATERPILLAR, CellType.DARK_FROG, CellType.DARK_BAT, CellType.DARK_OWL, CellType.WHITE_CATERPILLAR, CellType.WHITE_FROG, CellType.WHITE_BAT, CellType.WHITE_OWL};
-                Random random = new Random();
-                CellType newCellType = tokenTypes[random.nextInt(tokenTypes.length)];
-                this.cellType = newCellType;
-        	}
-        }
+
+    	if (x == Board.getGhostRow() && y == Board.getGhostCol()) {
+    		this.cellType = CellType.GHOST;
+    	} else {
+            Random random = new Random();
+            int index = random.nextInt(flippedTokens.size());
+            CellType newCellType = flippedTokens.get(index);
+            this.cellType = newCellType;
+            flippedTokens.remove(index);
+    	}
+        
     }
 }

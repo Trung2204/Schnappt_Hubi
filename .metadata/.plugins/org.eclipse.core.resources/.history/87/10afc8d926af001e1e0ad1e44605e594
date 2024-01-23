@@ -1,0 +1,72 @@
+package com.consolegame.main;
+import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        // Define the wall types
+        final int NONE = 0;  // Player's square
+        final int OPEN_WALL = 1;
+        final int WINDOWS_WALL = 2;
+        final int MOUSEHOLE_WALL = 3;
+        final int CROSS = 4;  // Cross between wall lines
+
+        // Define the possible positions for the magic door
+        int[][] magicDoorPositions = {{1, 2}, {2, 1}, {2, 3}, {3, 2}};
+
+        // Randomly select a position for the magic door
+        Random rand = new Random();
+        int[] magicDoorPosition = magicDoorPositions[rand.nextInt(magicDoorPositions.length)];
+
+        // Initialize the board
+        int[][] board = new int[5][5];
+
+        // Set the walls and the magic door
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (i % 2 == 0 && j % 2 == 0) {
+                    board[i][j] = NONE;  // Player's square
+                } else if (i == magicDoorPosition[0] && j == magicDoorPosition[1]) {
+                    board[i][j] = OPEN_WALL;  // Magic door is an open wall
+                } else if (i % 2 == 1 && j % 2 == 1) {
+                    board[i][j] = CROSS;  // Cross between wall lines
+                } else if (i % 2 == 1) {  // Horizontal wall
+                    int[] line = generateRandomWallLine(rand);
+                    if (j < 4) {
+                        board[i][j] = line[j / 2];
+                    } else {
+                        board[i][j] = CROSS;
+                    }
+                } else {  // Vertical wall
+                    int[] line = generateRandomWallLine(rand);
+                    if (j < 4) {
+                        board[i][j] = line[j / 2];
+                    } else {
+                        board[i][j] = CROSS;
+                    }
+                }
+            }
+        }
+
+        // Print the board
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (i == magicDoorPosition[0] && j == magicDoorPosition[1]) {
+                    System.out.print("M ");  // Print M for the magic door
+                } else if (board[i][j] == CROSS) {
+                    System.out.print("X ");  // Print X for the cross
+                } else {
+                    System.out.print(board[i][j] + " ");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    private static int[] generateRandomWallLine(Random rand) {
+        int[] line = new int[2];
+        for (int i = 0; i < 2; i++) {
+            line[i] = rand.nextInt(3) + 1;  // Randomly select a wall type
+        }
+        return line;
+    }
+}

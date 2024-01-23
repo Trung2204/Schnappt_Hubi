@@ -1,6 +1,5 @@
 package com.consolegame.helper.type;
 public enum FieldType {
-
     CLOCK1(1),
     CLOCK2(1),
     GHOST(1),

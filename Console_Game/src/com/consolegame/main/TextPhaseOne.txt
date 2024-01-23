@@ -1,0 +1,177 @@
+//					System.out.println("\n#### Player "+(i+1)+": "+listOfPlayers[i].getCharacter()+"'s turn ####");
+//					System.out.println( "\nCurrent position: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());
+//					System.out.println("Compass is spinning...");
+//					// Spin the compass
+//					compass.spin();
+//					System.out.println("### Compass ###");
+//					System.out.println("Compass field: "+compass.getFieldType());
+//					// Update time
+//					clock.increaseTime(compass.getFieldType());
+//					System.out.println("Current time: "+clock.getTime());
+//					// Player gains number of actions from spinning the compass
+//					listOfPlayers[i].setNumberOfAction(compass.getNumberOfAction());
+//					System.out.println("Player "+(i+1)+" gains "+listOfPlayers[i].getNumberOfAction()+" action(s).");
+//					
+//					// Each player plays their turn with the corresponding number of actions
+//					for (int j = 0; j < listOfPlayers[i].getNumberOfAction(); j++) {
+//						// If magicDoor has not been found yet, there are 2 types of action: MOVE/ VIEW CURTAIN
+//						if (!isMagicDoorFound) {
+//							ActionType actionType = null;
+//							DirectionType directionType = null;
+//							while (true) {
+//								try {
+//									System.out.print( "\n" + "Player's number of action: " + (listOfPlayers[i].getNumberOfAction() - j));
+//									// Choose action: MOVE or VIEW CURTAIN
+//									System.out.print( "\n" + "Choose action type(MOVE/ VIEW_CURTAIN/ NONE): ");
+//									String actionInput = scanner.nextLine().trim().toUpperCase();
+//									
+//									if (actionInput.equals("MOVE")) {
+//										 actionType = ActionType.MOVE;
+//									} else if (actionInput.equals("VIEW CURTAIN")) {
+//										actionType = ActionType.VIEW_CURTAIN;
+//									// if player chooses action as NONE, nothing happens
+//									} else if (actionInput.equals("NONE")) {
+//										actionType = ActionType.NONE;
+//										break;
+//									} else {
+//										throw new IllegalArgumentException("Invalid action input. Please enter MOVE, VIEW_CURTAIN, or NONE");
+//									}
+//									
+//									// Choose direction
+//									System.out.print("Choose direction (UP/ DOWN/ LEFT/ RIGHT): ");
+//									String directionInput = scanner.nextLine().trim().toUpperCase();
+////									System.out.println("Player choose direction: " + directionInput);
+//									
+//									switch (directionInput) {
+//									case "UP":
+//										directionType = DirectionType.UP;
+//										break;
+//									case "DOWN":
+//										directionType = DirectionType.DOWN;
+//										break;
+//									case "LEFT":
+//										directionType = DirectionType.LEFT;
+//										break;
+//									case "RIGHT":
+//										directionType = DirectionType.RIGHT;
+//										break;
+//									default:
+//										throw new IllegalArgumentException("Invalid direction input. Please enter UP, DOWN, LEFT, or RIGHT.");
+//									}
+//									
+//							        // If both actionType and directionType are valid, break the loop
+//							        if (actionType != null && directionType != null) {
+//							            break;
+//							        }
+//								} catch (Exception e) {
+//									System.err.println(e.getMessage());
+//								}
+//							}
+//							
+//							if (actionType == ActionType.MOVE) {
+//								
+//							} 
+//							else if (actionType == ActionType.VIEW_CURTAIN) {
+//								
+//							}
+//							else {
+//								System.out.println("Player choose to do nothing.");
+//							}
+//							System.out.println( "\n" + "Player's current position: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY()+"\n");
+//							board.print();
+//						}
+//						// If magic door is found, add one more type of action: OPEN MAGIC DOOR
+//						else {
+//							ActionType actionType = null;
+//							DirectionType directionType = null;
+//							while (true) {
+//							    try {
+//							        System.out.print("\nPlayer's number of action: " + (listOfPlayers[i].getNumberOfAction() - j));
+//							        // Choose action: Move or View curtain
+//							        System.out.print("\nChoose action type(MOVE/ VIEW_CURTAIN/ OPEN_MAGIC_DOOR/ NONE): ");
+//							        String actionInput = scanner.nextLine().trim().toUpperCase();
+//							        System.out.println("Player choose action: " + actionInput);
+//							        
+//							        if (actionInput.equals("MOVE")) {
+//							            actionType = ActionType.MOVE;
+//							        } else if (actionInput.equals("VIEW CURTAIN")) {
+//							            actionType = ActionType.VIEW_CURTAIN;
+//							        } else if (actionInput.equals("NONE")) {
+//							            actionType = ActionType.NONE;
+//							            break;  // Skip the rest of the loop if ActionType is NONE
+//							        } else if (actionInput.equals("OPEN MAGIC DOOR")) {
+//							            actionType = ActionType.OPEN_MAGIC_DOOR;
+//							        } else {
+//							            throw new IllegalArgumentException("Invalid action input. Please enter MOVE, VIEW_CURTAIN, OPEN_MAGIC_DOOR, or NONE.");
+//							        }
+//
+//							        // Choose direction
+//							        System.out.print("Choose direction (UP/ DOWN/ LEFT/ RIGHT): ");
+//							        String directionInput = scanner.nextLine().trim().toUpperCase();
+//							        System.out.println("Player choose direction: " + directionInput);
+//							        
+//							        if (directionInput.equals("UP")) {
+//							            directionType = DirectionType.UP;                                    
+//							        } else if (directionInput.equals("DOWN")) {
+//							            directionType = DirectionType.DOWN;
+//							        } else if (directionInput.equals("LEFT")) {
+//							            directionType = DirectionType.LEFT;
+//							        } else if (directionInput.equals("RIGHT")) {
+//							            directionType = DirectionType.RIGHT;
+//							        } else {
+//							            throw new IllegalArgumentException("Invalid direction input. Please enter UP, DOWN, LEFT, or RIGHT.");
+//							        }
+//							        
+//							        // If both actionType and directionType are valid, break the loop
+//							        if (actionType != null && directionType != null) {
+//							            break;
+//							        }
+//							    } catch (Exception e) {
+//							        System.err.println(e.getMessage());
+//							    }
+//							}
+//							
+//							if (actionType == ActionType.MOVE) {
+//								
+//							} 
+//							else if (actionType == ActionType.VIEW_CURTAIN) {
+//								System.out.println("Player's viewing curtain...");
+//								int newX = listOfPlayers[i].getX();
+//								int newY = listOfPlayers[i].getY();
+//								System.out.println("Before: "+newX+" "+newY);
+//								System.out.println("Player: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY());
+//								switch (directionType) {
+//								case UP:
+//									newX -= 1;
+//									break;
+//								case DOWN:
+//									newX += 1;
+//									break;
+//								case LEFT:
+//									newY -= 1;
+//									break;
+//								case RIGHT:
+//									newY += 1;
+//									break;
+//								default:
+//									break;
+//								}
+//								// Check if adjacent cell is within bounds
+//								if (newX >= 0 && newX < boardSize && newY >= 0 && newY < boardSize) {
+//									listOfPlayers[i].viewCurtain(board.getGridCellAt(newX, newY), newX, newY);
+//								} else {
+//									System.err.println( "\n" + "VIEW CURTAIN OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
+//									j--;
+//								}
+//							}
+//							else if (actionType == ActionType.OPEN_MAGIC_DOOR) {
+//
+//							}
+//							else {
+//								System.out.println("Player choose to do nothing.");
+//							}
+//							System.out.println( "\n" + "Player's current position: "+listOfPlayers[i].getX()+" "+listOfPlayers[i].getY()+"\n");
+//							board.print();
+//						}
+//					}
+//					System.out.println();

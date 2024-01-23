@@ -3,7 +3,6 @@ package com.consolegame.player;
 import com.consolegame.helper.type.FieldType;
 
 public class Clock {
-
     private int time = 0;
     
     public void setTime(int time) { this.time = time; }

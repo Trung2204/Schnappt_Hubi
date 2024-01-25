@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 3 packages to &apos;GUI_Game/src&apos;&#x0D;&#x0A;- Original project: &apos;Console_Game&apos;&#x0D;&#x0A;- Destination element: &apos;GUI_Game/src&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     Console_Game/src/com.consolegame.player&#x0D;&#x0A;     Console_Game/src/com.consolegame.board&#x0D;&#x0A;     Console_Game/src/com.consolegame.helper.type" description="Copy packages" destination="=GUI_Game/src" element1="/src&lt;com.consolegame.player" element2="/src&lt;com.consolegame.board" element3="/src&lt;com.consolegame.helper.type" flags="589830" fragments="3" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyPackages" stamp="1706147291643" version="1.0"/>
+</session>

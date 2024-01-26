@@ -10,6 +10,7 @@ import javafx.scene.shape.Rectangle;
 import com.guigame.helper.type.CellType;
 
 public class Board {
+	private static GridPane gridPane = new GridPane();
 	private static final int BOARD_SIZE = 5;
 	private GridCell[][] gridCells;
 	private static int magicDoorRow;
@@ -24,23 +25,25 @@ public class Board {
 	
 	public Board(int rabbitsNumber, int miceNumber) {
         gridCells = new GridCell[BOARD_SIZE][BOARD_SIZE];
-        for (int i = 0; i < BOARD_SIZE; i++) {
-			for (int j = 0; j < BOARD_SIZE; j++) {
-				gridCells[i][j] = new GridCell();
-			}
-		}
-//        setSpecialCells(rabbitsNumber,miceNumber);
+//        for (int i = 0; i < BOARD_SIZE; i++) {
+//			for (int j = 0; j < BOARD_SIZE; j++) {
+//				gridCells[i][j] = new GridCell();
+//			}
+//		}
+        setSpecialCells(rabbitsNumber,miceNumber);
 	}
+	
 	public GridPane drawBoard() {
-        GridPane grid = new GridPane();
+//        GridPane grid = new GridPane();
 
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
-                grid.add(gridCells[i][j].drawGridCell(), i, j);
+                gridPane.add(gridCells[i][j].drawGridCell(), i, j);
             }
         }
-        return grid;
+        return gridPane;
     }
+	
 	public void setOnCellClicked() {
         EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
             @Override

@@ -26,10 +26,28 @@ public class GridCell {
 					CellType.WHITE_FROG, CellType.DARK_FROG, 
 					CellType.WHITE_OWL, CellType.DARK_OWL));
 	
-	public GridCell() {
-		rectangle = new Rectangle(CELL_SIZE, CELL_SIZE, Color.WHITE);
-	}
 	public Rectangle drawGridCell() {
+		switch (cellType) {
+		case CARROT_TOKEN: {
+			rectangle.setFill(Color.ORANGE);
+			break;
+		}
+		case CHEESE_TOKEN: {
+			rectangle.setFill(Color.LIGHTYELLOW);
+			break;
+		}
+		case CURTAIN_WALL: {
+			rectangle.setFill(Color.ANTIQUEWHITE);
+			break;
+		}
+		case NONE_WALL: {
+			rectangle.setFill(Color.BLACK);
+			break;
+		}
+		default:
+			rectangle.setFill(Color.BLACK);
+			break;
+		}
         return rectangle;
     }
 	public void setOnMouseClicked(EventHandler<MouseEvent> handler) {
@@ -37,6 +55,7 @@ public class GridCell {
     }
 	public GridCell(CellType cellType) {
 		this.cellType = cellType;
+		rectangle = new Rectangle(CELL_SIZE, CELL_SIZE, Color.WHITE);
 	}
 
 	public void setCellType(CellType cellType) { this.cellType = cellType; }

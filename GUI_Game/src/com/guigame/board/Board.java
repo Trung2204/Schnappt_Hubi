@@ -25,17 +25,12 @@ public class Board {
 	
 	public Board(int rabbitsNumber, int miceNumber) {
         gridCells = new GridCell[BOARD_SIZE][BOARD_SIZE];
-//        for (int i = 0; i < BOARD_SIZE; i++) {
-//			for (int j = 0; j < BOARD_SIZE; j++) {
-//				gridCells[i][j] = new GridCell();
-//			}
-//		}
+
         setSpecialCells(rabbitsNumber,miceNumber);
 	}
+	public int getBoardSize() { return BOARD_SIZE; }
 	
 	public GridPane drawBoard() {
-//        GridPane grid = new GridPane();
-
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
                 gridPane.add(gridCells[i][j].drawGridCell(), i, j);

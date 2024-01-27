@@ -1,4 +1,6 @@
+IMPORT_FILES_AND_FOLDERS_MODE=prompt
+IMPORT_FILES_AND_FOLDERS_VIRTUAL_FOLDER_MODE=prompt
 eclipse.preferences.version=1
-platformState=1702740473882
+platformState=1706313435208
 quickStart=false
 tipsAndTricks=true

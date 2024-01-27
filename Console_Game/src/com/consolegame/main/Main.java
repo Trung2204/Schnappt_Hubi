@@ -1,8 +1,6 @@
 package com.consolegame.main;
-import java.util.*;
-import java.util.List;
-import java.util.Random;
 
+import java.util.*;
 import com.consolegame.board.Board;
 import com.consolegame.board.GridCell;
 import com.consolegame.helper.type.ActionType;
@@ -13,6 +11,7 @@ import com.consolegame.player.Character;
 import com.consolegame.player.Clock;
 import com.consolegame.player.Compass;
 import com.consolegame.player.Player;
+
 public class Main {
 
 	private static class Pair {
@@ -28,11 +27,15 @@ public class Main {
 	private static List<Pair> adjacentPairs = new ArrayList<>();
 
 	private static int boardSize = 5;
-	private static Board board = new Board(boardSize);
+	private static Board board;
+	private static Clock clock;
+	private static Compass compass;
 	
-	private static Clock clock = new Clock();
+	private static int numberOfMice    = 0;
+	private static Player[] listOfPlayers;
+	private static int numberOfPlayers = 0;
+	private static int numberOfRabbits = 0;
 	
-	private static Compass compass = new Compass();
 	private static boolean win = false;
 	private static boolean isMagicDoorFound = false;
 	private static boolean isGhostActivated = false;
@@ -40,11 +43,6 @@ public class Main {
 	
 	private static int ghostX = -1;
 	private static int ghostY = -1;
-	
-	private static int numberOfPlayers = 0;
-	private static int numberOfRabbits = 0;
-	private static int numberOfMice    = 0;
-	private static Player[] listOfPlayers;
 	
 	public static Scanner scanner = new Scanner(System.in);
 
@@ -278,7 +276,9 @@ public class Main {
 	}
 	public static void setup() {
 		// Initialize board with the numberOfRabbits and numberOfMice
-		board.initializeBoard(numberOfRabbits, numberOfMice);
+		board = new Board(boardSize,numberOfRabbits,numberOfMice);
+		clock = new Clock();
+		compass = new Compass();
 		// Print board and starting time
 		board.print();
 		System.out.println("\nStaring time: "+clock.getTime());
@@ -286,18 +286,7 @@ public class Main {
 	}
 	public static void play() {
 		findAdjacentPairs();
-//		for (int i = 0; i < boardSize; i = i + 2) {
-//			for (int j = 0; j < boardSize; j = j + 2) {
-//				System.out.print(board.getGridCellAt(i, j).getCellType() + "           ");
-//			}
-//			System.out.println();
-//		}
-//		System.out.println("Adjacent pairs with the same value:");
-//		for (Pair pair : adjacentPairs) {
-//			System.out.println("(" + pair.row1 + ", " + pair.col1 + ") and (" + pair.row2 + ", " + pair.col2 + ")");
-//		}
-
-
+		
 		while(true) {
 			if (win)	{
 				System.out.println("You win! Congratulations!");
@@ -332,16 +321,11 @@ public class Main {
 						int col2 = chosenPair.col2;
 
 			        	board.swapGridCells(row1, col1, row2, col2);
-//			        	board.moveRandomTokens();
 			        }
 			        // If ghost is found, moving ghost token with 1 arbitrary adjacent token
 			        else {
 
 						swapGhost(ghostX, ghostY);
-//			        	DirectionType[] randomDirections = new DirectionType[] {DirectionType.UP, DirectionType.DOWN,
-//																				DirectionType.LEFT, DirectionType.RIGHT};
-//			        	board.swapGridCells(ghostX, ghostY, 0, 0);
-//			        	board.moveAdjacentToken(randomDirections[new Random().nextInt(5)]);
 			        }
 			    }
 				// Update time
@@ -373,6 +357,7 @@ public class Main {
 					} else {
 						direction = DirectionType.NONE;
 					}
+					
 					// Phase 1
 					if (!isGhostActivated) {
 						actionSuccessful = handlePhaseOne(currentPlayer, action, direction);

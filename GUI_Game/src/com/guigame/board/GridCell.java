@@ -3,14 +3,18 @@ package com.guigame.board;
 import java.util.*;
 import com.guigame.helper.type.CellType;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 public class GridCell {
 	private CellType cellType;
-	private static final int CELL_SIZE = 50;
+	private static final int CELL_SIZE = 100;
     private Rectangle rectangle;
+    private Rectangle imageRectangle = new Rectangle(32, 32);
 	
 	private static ArrayList<CellType> innerWalls = 
 			new ArrayList<>(Arrays.asList(CellType.OPEN_WALL, CellType.MOUSEHOLE_WALL, CellType.WINDOW_WALL));
@@ -26,19 +30,31 @@ public class GridCell {
 					CellType.WHITE_FROG, CellType.DARK_FROG, 
 					CellType.WHITE_OWL, CellType.DARK_OWL));
 	
-	public Rectangle drawGridCell() {
+	public Group drawGridCell() {
 		switch (cellType) {
 		case CARROT_TOKEN: {
-			rectangle.setFill(Color.ORANGE);
-			break;
+			Image carrotImage = new Image(getClass().getResource("/resources/carrot_token.png").toExternalForm()); // replace with your image path
+			imageRectangle.setFill(new ImagePattern(carrotImage));
+			imageRectangle.setLayoutX((rectangle.getWidth() - imageRectangle.getWidth()) / 2);
+			imageRectangle.setLayoutY((rectangle.getHeight() - imageRectangle.getHeight()) / 2);
+	        break;
 		}
 		case CHEESE_TOKEN: {
-			rectangle.setFill(Color.LIGHTYELLOW);
-			break;
+//			rectangle.setFill(Color.LIGHTYELLOW);
+//			break;
+			Image cheeseImage = new Image(getClass().getResource("/resources/cheese_token.png").toExternalForm()); // replace with your image path
+			imageRectangle.setFill(new ImagePattern(cheeseImage));
+			imageRectangle.setLayoutX((rectangle.getWidth() - imageRectangle.getWidth()) / 2);
+			imageRectangle.setLayoutY((rectangle.getHeight() - imageRectangle.getHeight()) / 2);
+	        break;
 		}
 		case CURTAIN_WALL: {
-			rectangle.setFill(Color.ANTIQUEWHITE);
-			break;
+			imageRectangle = new Rectangle(100, 100);
+			Image curtainImage = new Image(getClass().getResource("/resources/vertical_curtain_wall.png").toExternalForm()); // replace with your image path
+			imageRectangle.setFill(new ImagePattern(curtainImage));
+			imageRectangle.setLayoutX((rectangle.getWidth() - imageRectangle.getWidth()) / 2);
+			imageRectangle.setLayoutY((rectangle.getHeight() - imageRectangle.getHeight()) / 2);
+	        break;
 		}
 		case NONE_WALL: {
 			rectangle.setFill(Color.BLACK);
@@ -48,14 +64,16 @@ public class GridCell {
 			rectangle.setFill(Color.BLACK);
 			break;
 		}
-        return rectangle;
+//        return rectangle;
+		Group group = new Group(rectangle, imageRectangle);
+	    return group;
     }
 	public void setOnMouseClicked(EventHandler<MouseEvent> handler) {
-        rectangle.setOnMouseClicked(handler);
+        this.rectangle.setOnMouseClicked(handler);
     }
 	public GridCell(CellType cellType) {
 		this.cellType = cellType;
-		rectangle = new Rectangle(CELL_SIZE, CELL_SIZE, Color.WHITE);
+		this.rectangle = new Rectangle(CELL_SIZE, CELL_SIZE, Color.WHITE);
 	}
 
 	public void setCellType(CellType cellType) { this.cellType = cellType; }

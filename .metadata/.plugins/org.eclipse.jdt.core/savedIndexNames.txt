@@ -3,7 +3,6 @@ INDEX VERSION 1.134+D:\Minh Trung\Study\FRA - UAS\OOP Java\Project\Schnappt_Hubi
 333326666.index
 460265470.index
 1865797976.index
-3413270776.index
 2626612209.index
 2784916282.index
 2795518836.index

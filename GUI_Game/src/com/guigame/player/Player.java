@@ -5,33 +5,61 @@ import java.util.Scanner;
 
 import com.guigame.board.GridCell;
 import com.guigame.helper.type.ActionType;
+import com.guigame.helper.type.CharacterType;
 import com.guigame.helper.type.DirectionType;
+
+import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Rectangle;
 
 public class Player {
 
 	private int x;
 	private int y;
-	private Character character;
+	private CharacterType character;
 	private int numberOfActions;
 	private ActionType actionType;
 	private DirectionType directionType;
+	private static final int CELL_SIZE = 55;
+	private Rectangle rectangle;
 	
-	public Player(int x, int y, Character character) {
+	public Player(int x, int y, CharacterType character) {
 		this.x = x;
 		this.y = y;
 		this.character = character;
+		this.rectangle = new Rectangle(CELL_SIZE, CELL_SIZE, Color.BLACK);
+	}
+	public Rectangle drawPlayer() {
+		switch (character) {
+		case RABBIT: {
+			Image rabbitImage = new Image(getClass().getResource("/resources/rabbit_1.png").toExternalForm()); // replace with your image path
+			rectangle.setFill(new ImagePattern(rabbitImage));
+	        break;
+		}
+		case MOUSE: {
+			Image mouseImage = new Image(getClass().getResource("/resources/mouse_1.png").toExternalForm()); // replace with your image path
+			rectangle.setFill(new ImagePattern(mouseImage));
+	        break;
+		}
+		default:
+			rectangle.setFill(Color.CYAN);
+			break;
+		}
+	    return rectangle;
 	}
 	
 	public void setX(int x) { this.x = x; }
 	public void setY(int y) { this.y = y; }
-	public void setCharacter(Character character) { this.character = character; }
+	public void setCharacter(CharacterType character) { this.character = character; }
 	public void setNumberOfActions(int numberOfActions) { this.numberOfActions = numberOfActions; }
 	public void setAction(ActionType action) { this.actionType = action; }
 	public void setDirection(DirectionType directionType) { this.directionType = directionType; }
 	
 	public int getX() {return x;}
 	public int getY() {return y;}
-	public Character getCharacter() { return character;}
+	public CharacterType getCharacter() { return character;}
 	public int getNumberOfActions() { return numberOfActions;}
 	public ActionType getAction() { return actionType; }
 	public DirectionType getDirection() { return directionType; }

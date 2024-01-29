@@ -1,6 +1,9 @@
 package com.guigame.application;
 
+import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
+
 import com.guigame.board.*;
 import com.guigame.helper.type.*;
 import com.guigame.player.*;
@@ -14,10 +17,13 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Game {
+	private HBox gameLayout;
+	
     private static boolean win = false;
     
     private static Board board;
@@ -28,6 +34,7 @@ public class Game {
 	private static int numberOfPlayers = 0;
 	private static int numberOfRabbits = 0;
 	private static int numberOfMice    = 0;
+	private static Stack<String> positionsChosen = new Stack<>();
 
     private static int ghostX = -1;
 	private static int ghostY = -1;
@@ -46,7 +53,6 @@ public class Game {
         }
     }
     private static List<Pair> adjacentPairs = new ArrayList<>();
-	private static List<String> positionsChosen = new ArrayList<>();
     private static List<Pair> findAdjacentPairs() {
         // Iterate through the array
         for (int x = 0; x < board.getBoardSize(); x = x + 2) {
@@ -73,7 +79,6 @@ public class Game {
                 }
             }
         }
-
         return adjacentPairs;
     }
     private static void removePairs(List<Pair> adjacentPairs, int x, int y) {
@@ -91,7 +96,284 @@ public class Game {
         adjacentPairs.removeAll(pairsToRemove);
     }
     
-    public static void swapGhost(int x, int y) {
+    private static boolean handlePhaseOne(Player currentPlayer, ActionType action, DirectionType direction) {
+	        // If Magic Door has not been found yet, players can only view the curtain or move
+	        if (!isMagicDoorFound) {
+	            if (action == ActionType.MOVE) {
+	                return attemptMove(currentPlayer, direction);
+	            }
+	            else if (action == ActionType.VIEW_CURTAIN) {
+	                return attemptViewCurtain(currentPlayer, direction);
+	            }
+	            else return passAction();
+	        }
+	        // If Magic Door has been found, the action Open Magic Door is added
+	        else {
+	            if (action == ActionType.MOVE) {
+	                return attemptMove(currentPlayer, direction);
+	            }
+	            else if (action == ActionType.VIEW_CURTAIN) {
+	                return attemptViewCurtain(currentPlayer, direction);
+	            }
+	            else if (action == ActionType.OPEN_MAGIC_DOOR) {
+	                return attemptOpenMagicDoor(currentPlayer, direction);
+	            }
+	            else return passAction();
+	        }
+	//	    // Default return statement
+	//		return false;
+	    }
+	private static boolean handlePhaseTwo(Player currentPlayer, ActionType action, DirectionType direction) {
+	        // In this phase, the magic door is now open wall, no need to consider it anymore
+	        if (action == ActionType.MOVE) {
+	            return attemptMove(currentPlayer, direction);
+	        }
+	        else if (action == ActionType.VIEW_CURTAIN) {
+	            return attemptViewCurtain(currentPlayer, direction);
+	        }
+	        else if (action == ActionType.VIEW_TOKEN) {
+	            return attemptViewToken(currentPlayer);
+	        }
+	        else return passAction();
+	//	    // Default return statement
+	//		return false;
+	    }
+	private static boolean attemptMove(Player currentPlayer, DirectionType direction) {
+	    int newX = currentPlayer.getX();
+	    int newY = currentPlayer.getY();
+	
+	    switch (direction) {
+	        case UP:
+	            newX -= 1;
+	            break;
+	        case DOWN:
+	            newX += 1;
+	            break;
+	        case LEFT:
+	            newY -= 1;
+	            break;
+	        case RIGHT:
+	            newY += 1;
+	            break;
+	        default:
+	            break;
+	    }
+	
+	    // Check if adjacent cell is within bounds
+	    if (newX >= 0 && newX < board.getBoardSize() && newY >= 0 && newY < board.getBoardSize()) {
+	        GridCell adjacentCell = board.getGridCellAt(newX,newY);
+	        // Check if the adjacent cell is a curtain wall
+	        if (adjacentCell.getCellType() == CellType.CURTAIN_WALL) {
+	            System.err.println("\n" + "CANNOT MOVE BECAUSE OF CURTAIN!" + "\n");
+	            return false;
+	        }
+	        // If not a curtain wall, then move the player
+	        else {
+	            // Rabbit can only move through Window and Open wall
+	            if (currentPlayer.getCharacter() == Character.RABBIT) {
+	                if (adjacentCell.getCellType() == CellType.WINDOW_WALL || adjacentCell.getCellType() == CellType.OPEN_WALL) {
+	                    System.out.println("Player's moving...");
+	                    currentPlayer.move(direction);
+	                    return true;
+	                } else {
+	                    System.err.println("\n" + "Rabbit can only move through WINDOW or OPEN wall");
+	                    return false;
+	                }
+	            }
+	            // Mouse can only move through Mouse hole and Open wall
+	            if (currentPlayer.getCharacter() == Character.MOUSE) {
+	                if (adjacentCell.getCellType() == CellType.MOUSEHOLE_WALL || adjacentCell.getCellType() == CellType.OPEN_WALL) {
+	                    System.out.println("Player's moving...");
+	                    currentPlayer.move(direction);
+	                    return true;
+	                } else {
+	                    System.err.println("\n" + "Mouse can only move through MOUSE HOLE or OPEN wall");
+	                    return false;
+	                }
+	            }
+	        }
+	    } else {
+	        System.err.println("\n" + "MOVE OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
+	        return false;
+	    }
+	    // Default return statement
+	    return false;
+	}
+	private static boolean attemptViewCurtain(Player currentPlayer, DirectionType direction) {
+	    int newX = currentPlayer.getX();
+	    int newY = currentPlayer.getY();
+	    switch (direction) {
+	        case UP:
+	            newX -= 1;
+	            break;
+	        case DOWN:
+	            newX += 1;
+	            break;
+	        case LEFT:
+	            newY -= 1;
+	            break;
+	        case RIGHT:
+	            newY += 1;
+	            break;
+	        default:
+	            break;
+	    }
+	    // Check if adjacent cell is within bounds
+	    if (newX >= 0 && newX < board.getBoardSize() && newY >= 0 && newY < board.getBoardSize()) {
+	        GridCell adjacentCell = board.getGridCellAt(newX,newY);
+	        // Check if the adjacent cell is a curtain wall, then reveal the curtain
+	        if (adjacentCell.getCellType() == CellType.CURTAIN_WALL) {
+	            System.out.println("Player's viewing curtain...");
+	            currentPlayer.viewCurtain(adjacentCell, newX, newY);
+	            // If magic door is found, set isMagicDoorFound = true
+	            if (board.getGridCellAt(newX, newY).getCellType() == CellType.MAGIC_DOOR_WALL)
+	            {
+	                System.err.println("Magic door is found, needs at least 1 player on each side and use 1 action to open!");
+	                isMagicDoorFound = true;
+	            }
+	            return true;
+	        }
+	        // If not a curtain wall, cannot perform action
+	        else {
+	            System.err.println( "\n" + "The wall has already been revealed" + "\n");
+	            return false;
+	        }
+	    } else {
+	        System.err.println( "\n" + "VIEW CURTAIN OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
+	        return false;
+	    }
+	}
+	private static boolean attemptViewToken (Player currentPlayer) {
+	    int newX = currentPlayer.getX();
+	    int newY = currentPlayer.getY();
+	    GridCell newCell = board.getGridCellAt(newX, newY);
+	    // Rabbit can only view carrot tokens
+	    if (currentPlayer.getCharacter() == Character.RABBIT ) {
+	        if(newCell.getCellType() == CellType.CARROT_TOKEN) {
+	            System.out.println("Player's viewing token...");
+	            currentPlayer.viewToken(newCell, newX, newY);
+	            removePairs(adjacentPairs, newX, newY);
+	            // If player find ghost, set isGhostFound = true; and update ghost's coordinates
+	            if (isGhostFound == false && newCell.getCellType() == CellType.GHOST) {
+	                isGhostFound = true;
+	                ghostX = newX;
+	                ghostY = newY;
+	                System.out.println("Ghost is found at ("+ghostX+","+ghostY+")");
+	            }
+	            return true;
+	        } else if (newCell.getCellType() == CellType.CHEESE_TOKEN){
+	            System.err.println("\n" + "Rabbit can only view carrot tokens");
+	            return false;
+	        } else {
+	            System.out.println("\n" + "The token has already been revealed");
+	            return false;
+	        }
+	    }
+	    // Mouse can only view cheese tokens
+	    if (currentPlayer.getCharacter() == Character.MOUSE) {
+	        if (newCell.getCellType() == CellType.CHEESE_TOKEN) {
+	            System.out.println("Player's viewing token...");
+	            currentPlayer.viewToken(newCell, newX, newY);
+	            removePairs(adjacentPairs, newX, newY);
+	            // If player find ghost, set isGhostFound = true; and update ghost's coordinates
+	            if (isGhostFound == false && newCell.getCellType() == CellType.GHOST) {
+	                isGhostFound = true;
+	                ghostX = newX;
+	                ghostY = newY;
+	                System.out.println("Ghost is found at ("+ghostX+","+ghostY+")");
+	            }
+	            return true;
+	        } else if (newCell.getCellType() == CellType.CARROT_TOKEN) {
+	            System.err.println("Mouse can only view cheese tokens");
+	            return false;
+	        } else {
+	            System.out.println("The token has already been revealed");
+	            return false;
+	        }
+	    }
+	    // Default return statement
+	    return false;
+	}
+	private static boolean attemptOpenMagicDoor(Player currentPlayer, DirectionType direction) {
+	        int newX = currentPlayer.getX();
+	        int newY = currentPlayer.getY();
+	        switch (direction) {
+	            case UP:
+	                newX -= 1;
+	                break;
+	            case DOWN:
+	                newX += 1;
+	                break;
+	            case LEFT:
+	                newY -= 1;
+	                break;
+	            case RIGHT:
+	                newY += 1;
+	                break;
+	            default:
+	                break;
+	        }
+	        // Check if adjacent cell is within bounds
+	        if (newX >= 0 && newX < board.getBoardSize() && newY >= 0 && newY < board.getBoardSize()) {
+	            GridCell adjacentCell = board.getGridCellAt(newX,newY);
+	            // Check if the adjacent cell is a Magic Door
+	            if (adjacentCell.getCellType() == CellType.MAGIC_DOOR_WALL) {
+	                int otherSideX = newX;
+	                int otherSideY = newY;
+	                switch (direction) {
+	                    // calculate the position of the other side of the MAGIC_DOOR_WALL
+	                    case UP:
+	                        --otherSideX;
+	                        break;
+	                    case DOWN:
+	                        ++otherSideX;
+	                        break;
+	                    case LEFT:
+	                        --otherSideY;
+	                        break;
+	                    case RIGHT:
+	                        ++otherSideY;
+	                        break;
+	                    default:
+	                        break;
+	                }
+	                boolean isPlayerOnTheOtherSide = false;
+	                for (Player player : listOfPlayers) {
+	                    // check if other player position is available on the other side of the MAGIC_DOOR_WALL
+	                    if (player.getX() == otherSideX && player.getY() == otherSideY) {
+	                        isPlayerOnTheOtherSide = true;
+	                    }
+	                }
+	                if (isPlayerOnTheOtherSide) {
+	                    System.out.println("Player's opening magic door...");
+	                    currentPlayer.openMagicDoor(adjacentCell);
+	                    // Now the Magic Door is opened, starting phase 2
+	                    if (isGhostActivated == false) {
+	                        isGhostActivated = true;
+	                    }
+	                    return true;
+	                } else {
+	                    System.err.println("THERE IS NO PLAYER ON THE OTHER SIDE OF THE BOARD. PLEASE TRY AGAIN.");
+	                    return false;
+	                }
+	            }
+	            // If it's not a magic door, player cannot open it
+	            else {
+	                System.err.println("This is not the magic door! Try to move to the magic door to open it!");
+	                return false;
+	            }
+	        } else {
+	            System.err.println( "\n" + "OPEN MAGIC DOOR OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
+	            return false;
+	        }
+	//		// Default return statement
+	//		return false;
+	    }
+	private static boolean passAction() {
+	    System.out.println("Player do nothing...");
+	    return true;
+	}
+	public static void swapGhost(int x, int y) {
         // Create a Random object
         Random random = new Random();
 
@@ -174,7 +456,7 @@ public class Game {
         findAdjacentPairs();
 
         while(true) {
-            if (win)	{
+            if (win) {
                 System.out.println("You win! Congratulations!");
                 break;
             }
@@ -210,7 +492,6 @@ public class Game {
                     }
                     // If ghost is found, moving ghost token with 1 arbitrary adjacent token
                     else {
-
                         swapGhost(ghostX, ghostY);
                     }
                 }
@@ -270,284 +551,6 @@ public class Game {
             }
         }
     }
-    private static boolean handlePhaseOne(Player currentPlayer, ActionType action, DirectionType direction) {
-        // If Magic Door has not been found yet, players can only view the curtain or move
-        if (!isMagicDoorFound) {
-            if (action == ActionType.MOVE) {
-                return attemptMove(currentPlayer, direction);
-            }
-            else if (action == ActionType.VIEW_CURTAIN) {
-                return attemptViewCurtain(currentPlayer, direction);
-            }
-            else return passAction();
-        }
-        // If Magic Door has been found, the action Open Magic Door is added
-        else {
-            if (action == ActionType.MOVE) {
-                return attemptMove(currentPlayer, direction);
-            }
-            else if (action == ActionType.VIEW_CURTAIN) {
-                return attemptViewCurtain(currentPlayer, direction);
-            }
-            else if (action == ActionType.OPEN_MAGIC_DOOR) {
-                return attemptOpenMagicDoor(currentPlayer, direction);
-            }
-            else return passAction();
-        }
-//	    // Default return statement
-//		return false;
-    }
-    private static boolean handlePhaseTwo(Player currentPlayer, ActionType action, DirectionType direction) {
-        // In this phase, the magic door is now open wall, no need to consider it anymore
-        if (action == ActionType.MOVE) {
-            return attemptMove(currentPlayer, direction);
-        }
-        else if (action == ActionType.VIEW_CURTAIN) {
-            return attemptViewCurtain(currentPlayer, direction);
-        }
-        else if (action == ActionType.VIEW_TOKEN) {
-            return attemptViewToken(currentPlayer);
-        }
-        else return passAction();
-//	    // Default return statement
-//		return false;
-    }
-    private static boolean attemptMove(Player currentPlayer, DirectionType direction) {
-        int newX = currentPlayer.getX();
-        int newY = currentPlayer.getY();
-
-        switch (direction) {
-            case UP:
-                newX -= 1;
-                break;
-            case DOWN:
-                newX += 1;
-                break;
-            case LEFT:
-                newY -= 1;
-                break;
-            case RIGHT:
-                newY += 1;
-                break;
-            default:
-                break;
-        }
-
-        // Check if adjacent cell is within bounds
-        if (newX >= 0 && newX < board.getBoardSize() && newY >= 0 && newY < board.getBoardSize()) {
-            GridCell adjacentCell = board.getGridCellAt(newX,newY);
-            // Check if the adjacent cell is a curtain wall
-            if (adjacentCell.getCellType() == CellType.CURTAIN_WALL) {
-                System.err.println("\n" + "CANNOT MOVE BECAUSE OF CURTAIN!" + "\n");
-                return false;
-            }
-            // If not a curtain wall, then move the player
-            else {
-                // Rabbit can only move through Window and Open wall
-                if (currentPlayer.getCharacter() == Character.RABBIT) {
-                    if (adjacentCell.getCellType() == CellType.WINDOW_WALL || adjacentCell.getCellType() == CellType.OPEN_WALL) {
-                        System.out.println("Player's moving...");
-                        currentPlayer.move(direction);
-                        return true;
-                    } else {
-                        System.err.println("\n" + "Rabbit can only move through WINDOW or OPEN wall");
-                        return false;
-                    }
-                }
-                // Mouse can only move through Mouse hole and Open wall
-                if (currentPlayer.getCharacter() == Character.MOUSE) {
-                    if (adjacentCell.getCellType() == CellType.MOUSEHOLE_WALL || adjacentCell.getCellType() == CellType.OPEN_WALL) {
-                        System.out.println("Player's moving...");
-                        currentPlayer.move(direction);
-                        return true;
-                    } else {
-                        System.err.println("\n" + "Mouse can only move through MOUSE HOLE or OPEN wall");
-                        return false;
-                    }
-                }
-            }
-        } else {
-            System.err.println("\n" + "MOVE OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
-            return false;
-        }
-        // Default return statement
-        return false;
-    }
-    private static boolean attemptViewCurtain(Player currentPlayer, DirectionType direction) {
-        int newX = currentPlayer.getX();
-        int newY = currentPlayer.getY();
-        switch (direction) {
-            case UP:
-                newX -= 1;
-                break;
-            case DOWN:
-                newX += 1;
-                break;
-            case LEFT:
-                newY -= 1;
-                break;
-            case RIGHT:
-                newY += 1;
-                break;
-            default:
-                break;
-        }
-        // Check if adjacent cell is within bounds
-        if (newX >= 0 && newX < board.getBoardSize() && newY >= 0 && newY < board.getBoardSize()) {
-            GridCell adjacentCell = board.getGridCellAt(newX,newY);
-            // Check if the adjacent cell is a curtain wall, then reveal the curtain
-            if (adjacentCell.getCellType() == CellType.CURTAIN_WALL) {
-                System.out.println("Player's viewing curtain...");
-                currentPlayer.viewCurtain(adjacentCell, newX, newY);
-                // If magic door is found, set isMagicDoorFound = true
-                if (board.getGridCellAt(newX, newY).getCellType() == CellType.MAGIC_DOOR_WALL)
-                {
-                    System.err.println("Magic door is found, needs at least 1 player on each side and use 1 action to open!");
-                    isMagicDoorFound = true;
-                }
-                return true;
-            }
-            // If not a curtain wall, cannot perform action
-            else {
-                System.err.println( "\n" + "The wall has already been revealed" + "\n");
-                return false;
-            }
-        } else {
-            System.err.println( "\n" + "VIEW CURTAIN OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
-            return false;
-        }
-    }
-    private static boolean attemptViewToken (Player currentPlayer) {
-        int newX = currentPlayer.getX();
-        int newY = currentPlayer.getY();
-        GridCell newCell = board.getGridCellAt(newX, newY);
-        // Rabbit can only view carrot tokens
-        if (currentPlayer.getCharacter() == Character.RABBIT ) {
-            if(newCell.getCellType() == CellType.CARROT_TOKEN) {
-                System.out.println("Player's viewing token...");
-                currentPlayer.viewToken(newCell, newX, newY);
-                removePairs(adjacentPairs, newX, newY);
-                // If player find ghost, set isGhostFound = true; and update ghost's coordinates
-                if (isGhostFound == false && newCell.getCellType() == CellType.GHOST) {
-                    isGhostFound = true;
-                    ghostX = newX;
-                    ghostY = newY;
-                    System.out.println("Ghost is found at ("+ghostX+","+ghostY+")");
-                }
-                return true;
-            } else if (newCell.getCellType() == CellType.CHEESE_TOKEN){
-                System.err.println("\n" + "Rabbit can only view carrot tokens");
-                return false;
-            } else {
-                System.out.println("\n" + "The token has already been revealed");
-                return false;
-            }
-        }
-        // Mouse can only view cheese tokens
-        if (currentPlayer.getCharacter() == Character.MOUSE) {
-            if (newCell.getCellType() == CellType.CHEESE_TOKEN) {
-                System.out.println("Player's viewing token...");
-                currentPlayer.viewToken(newCell, newX, newY);
-                removePairs(adjacentPairs, newX, newY);
-                // If player find ghost, set isGhostFound = true; and update ghost's coordinates
-                if (isGhostFound == false && newCell.getCellType() == CellType.GHOST) {
-                    isGhostFound = true;
-                    ghostX = newX;
-                    ghostY = newY;
-                    System.out.println("Ghost is found at ("+ghostX+","+ghostY+")");
-                }
-                return true;
-            } else if (newCell.getCellType() == CellType.CARROT_TOKEN) {
-                System.err.println("Mouse can only view cheese tokens");
-                return false;
-            } else {
-                System.out.println("The token has already been revealed");
-                return false;
-            }
-        }
-        // Default return statement
-        return false;
-    }
-    private static boolean attemptOpenMagicDoor(Player currentPlayer, DirectionType direction) {
-        int newX = currentPlayer.getX();
-        int newY = currentPlayer.getY();
-        switch (direction) {
-            case UP:
-                newX -= 1;
-                break;
-            case DOWN:
-                newX += 1;
-                break;
-            case LEFT:
-                newY -= 1;
-                break;
-            case RIGHT:
-                newY += 1;
-                break;
-            default:
-                break;
-        }
-        // Check if adjacent cell is within bounds
-        if (newX >= 0 && newX < board.getBoardSize() && newY >= 0 && newY < board.getBoardSize()) {
-            GridCell adjacentCell = board.getGridCellAt(newX,newY);
-            // Check if the adjacent cell is a Magic Door
-            if (adjacentCell.getCellType() == CellType.MAGIC_DOOR_WALL) {
-                int otherSideX = newX;
-                int otherSideY = newY;
-                switch (direction) {
-                    // calculate the position of the other side of the MAGIC_DOOR_WALL
-                    case UP:
-                        --otherSideX;
-                        break;
-                    case DOWN:
-                        ++otherSideX;
-                        break;
-                    case LEFT:
-                        --otherSideY;
-                        break;
-                    case RIGHT:
-                        ++otherSideY;
-                        break;
-                    default:
-                        break;
-                }
-                boolean isPlayerOnTheOtherSide = false;
-                for (Player player : listOfPlayers) {
-                    // check if other player position is available on the other side of the MAGIC_DOOR_WALL
-                    if (player.getX() == otherSideX && player.getY() == otherSideY) {
-                        isPlayerOnTheOtherSide = true;
-                    }
-                }
-                if (isPlayerOnTheOtherSide) {
-                    System.out.println("Player's opening magic door...");
-                    currentPlayer.openMagicDoor(adjacentCell);
-                    // Now the Magic Door is opened, starting phase 2
-                    if (isGhostActivated == false) {
-                        isGhostActivated = true;
-                    }
-                    return true;
-                } else {
-                    System.err.println("THERE IS NO PLAYER ON THE OTHER SIDE OF THE BOARD. PLEASE TRY AGAIN.");
-                    return false;
-                }
-            }
-            // If it's not a magic door, player cannot open it
-            else {
-                System.err.println("This is not the magic door! Try to move to the magic door to open it!");
-                return false;
-            }
-        } else {
-            System.err.println( "\n" + "OPEN MAGIC DOOR OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
-            return false;
-        }
-//		// Default return statement
-//		return false;
-    }
-    private static boolean passAction() {
-        System.out.println("Player do nothing...");
-        return true;
-    }
-
     public Scene start(Stage primaryStage) {
         // Create the Initial Menu scene
         Button playButton = new Button("Play");
@@ -619,7 +622,23 @@ public class Game {
 
         // Set up the buttons to switch to the appropriate scenes when clicked
         playButton.setOnAction(event -> primaryStage.setScene(settingScene));
-        returnSettingButton.setOnAction(event -> primaryStage.setScene(menuScene));
+        returnSettingButton.setOnAction(event -> {
+        	// Nullify the player list and the number of players
+            listOfPlayers = null;
+            numberOfPlayers = 0;
+            
+            // Reset the radio buttons
+            group.selectToggle(null);
+            
+            // Disable the "Next" button
+            nextButton.setDisable(true);
+            
+            // Reset the setting label
+            settingLabel.setText("Setting Screen\nPlease choose the number of players");
+            
+            // Return to the menu scene
+            primaryStage.setScene(menuScene);
+        });
         aboutUsButton.setOnAction(event -> primaryStage.setScene(infoScene));
         returnInfoButton.setOnAction(event -> primaryStage.setScene(menuScene));
         manualButton.setOnAction(event -> primaryStage.setScene(manualScene));
@@ -641,8 +660,8 @@ public class Game {
         rbMouse.setToggleGroup(characterGroup);
 
         // Disable the rabbit or mouse radio button if the maximum number is reached
-        rbRabbit.setDisable(numberOfRabbits >= 2);
-        rbMouse.setDisable(numberOfMice >= 2);
+        rbRabbit.setDisable((numberOfRabbits >= 2) || ((playerIndex == numberOfPlayers - 1) && (numberOfMice == 0)));
+        rbMouse.setDisable((numberOfMice >= 2) || ((playerIndex == numberOfPlayers - 1) && (numberOfRabbits == 0)));
 
         Label startingPositionLabel = new Label("Choose starting position:");
         ToggleGroup positionGroup = new ToggleGroup();
@@ -665,7 +684,8 @@ public class Game {
         Button returnButton = new Button("Return");
         Button letsGoButton = new Button("Let's Go!");
         letsGoButton.setVisible(false); // Only show when the last player finishes the selection
-        returnButton.setVisible(playerIndex != 0); // Don't show for the first player
+//        returnButton.setVisible(playerIndex != 0); // Don't show for the first player
+        returnButton.setDisable(true);
 
         VBox vbox = new VBox(characterSelectionLabel, rbRabbit, rbMouse, startingPositionLabel, rbTopLeft, rbTopRight, rbBottomLeft, rbBottomRight, submitCharacterAndPositionButton, returnButton, letsGoButton);
         vbox.setAlignment(Pos.CENTER_LEFT);
@@ -673,12 +693,13 @@ public class Game {
         Scene characterAndPositionScene = new Scene(vbox, 200, 100);
         primaryStage.setScene(characterAndPositionScene); // Switch to the new scene
 
+        
         submitCharacterAndPositionButton.setOnAction(characterAndPositionEvent -> {
             // Handle character selection and starting position input
-            String characterInput = ((RadioButton) characterGroup.getSelectedToggle()).getText().toUpperCase();
+        	String characterInput = ((RadioButton) characterGroup.getSelectedToggle()).getText().toUpperCase();
             Character character = Character.valueOf(characterInput);
             String positionInput = ((RadioButton) positionGroup.getSelectedToggle()).getText().toUpperCase();
-            int x,y;
+        	int x,y;
             switch (positionInput) {
             case "TOP LEFT":
                 x = 0;
@@ -703,6 +724,7 @@ public class Game {
             // Add the player to the array
             Player player = new Player(x,y,character);
             listOfPlayers[playerIndex] = player;
+            System.out.print("Player " + (playerIndex+1) + ": ");
             listOfPlayers[playerIndex].print();
 
             // Count the number of rabbits and mice chosen so far
@@ -724,23 +746,199 @@ public class Game {
         });
 
         returnButton.setOnAction(returnEvent -> {
-            // Return to the previous player's scene
-            createPlayerScene(primaryStage, playerIndex - 1);
+            // If the current player has made a selection, remove it
+            if (playerIndex > 0 && listOfPlayers[playerIndex - 1] != null) {
+                Player previousPlayer = listOfPlayers[playerIndex - 1];
+                
+                // Decrement the count of the chosen character
+                if (previousPlayer.getCharacter() == Character.RABBIT) {
+                    numberOfRabbits--;
+                } else if (previousPlayer.getCharacter() == Character.MOUSE) {
+                    numberOfMice--;
+                }
+                
+                // Remove the chosen position from the list of positions chosen
+                String previousPositionChosen = positionsChosen.pop();
+                
+                // Enable the position button that was chosen by the previous player
+                switch (previousPositionChosen) {
+                    case "TOP LEFT":
+                        rbTopLeft.setDisable(false);
+                        break;
+                    case "TOP RIGHT":
+                        rbTopRight.setDisable(false);
+                        break;
+                    case "BOTTOM LEFT":
+                        rbBottomLeft.setDisable(false);
+                        break;
+                    case "BOTTOM RIGHT":
+                        rbBottomRight.setDisable(false);
+                        break;
+                }
+                
+                // Remove the previous player from the array
+                listOfPlayers[playerIndex - 1] = null;
+            }
+            
+            // Go back to the previous player's scene
+            if (playerIndex > 0) {
+                createPlayerScene(primaryStage, playerIndex - 1);
+            }
         });
-
+        
+        // Enter the Main Game Screen scene
         letsGoButton.setOnAction(goEvent -> {
-            // Enter the Main Game Screen scene
-            // Create the Main Game Screen scene
-            Label gameLabel = new Label("Main Game Screen");
+        	// Enter the Main Game Screen scene
             board = new Board(numberOfRabbits,numberOfMice);
             board.setOnCellClicked();
-            
-            clock = new Clock();
             compass = new Compass();
-            VBox gameLayout = new VBox(gameLabel,board.drawBoard());
-            Scene gameScene = new Scene(gameLayout, 200, 100);
+            clock = new Clock();
+            
+            // Create the Main Game Screen scene
+            gameLayout = new HBox(compass.drawCompass(),board.drawBoard(),clock.drawClock());
+            Scene gameScene = new Scene(gameLayout, 1280, 720);
+            // Set the scene
             primaryStage.setScene(gameScene); // Switch to the Main Game Screen scene
-            play();
+            
+            // Start the game loop
+            int index = 0;
+            for (Player player : listOfPlayers) {
+            	System.out.println("\n#### Player "+(index+1)+": "+player.getCharacter()+"'s turn ####");
+                System.out.println( "\nCurrent position: "+player.getX()+" "+player.getY());
+                playTurn(player);
+                index++;
+                if (isGameOver()) break; // Exit the loop if the game is over
+            }
         });
+    }
+    private void playTurn(Player player) {
+    	// Update game state
+    	findAdjacentPairs();
+   
+        // Spin the compass
+        compass.spin();
+        System.out.println("### Compass ###");
+        System.out.println("Compass field: "+compass.getFieldType());
+        
+//        // If hitting ghost field, ghost moves
+//        if (compass.getFieldType() == FieldType.GHOST) {
+//            // If ghost is not found, moving 2 tokens of the same type
+//            if (!isGhostFound) {
+//                Random random = new Random();
+//                int randomIndex = random.nextInt(adjacentPairs.size());
+//                Pair chosenPair = adjacentPairs.get(randomIndex);
+//                int row1 = chosenPair.row1;
+//                int col1 = chosenPair.col1;
+//                int row2 = chosenPair.row2;
+//                int col2 = chosenPair.col2;
+//
+//                board.swapGridCells(row1, col1, row2, col2);
+//            }
+//            // If ghost is found, moving ghost token with 1 arbitrary adjacent token
+//            else {
+//                swapGhost(ghostX, ghostY);
+//            }
+//        }
+        
+        // Update time
+        clock.increaseTime(compass.getFieldType());
+        System.out.println("Current time: "+clock.getTime());
+        
+        // Re-render the game screen
+        renderGameScreen();
+//        try {
+//            // Pause for 5000 milliseconds (5 seconds)
+//            Thread.sleep(5000);
+//        } catch (InterruptedException e) {
+//            // This is thrown if another thread interrupts the current thread while sleep is active
+//            Thread.currentThread().interrupt();
+//        }
+
+        
+//        // Player gains number of actions from spinning the compass
+//        player.setNumberOfActions(compass.getNumberOfAction());
+//        System.out.println("Player gains "+player.getNumberOfActions()+" action(s).");
+//
+//        // Loop through the actions
+//        int actionsPerformed = 0;
+//        while (actionsPerformed < player.getNumberOfActions()) {
+//            if (!isGhostActivated) {
+//                System.out.println("\nMagic Door is not opened! Continuing phase 1...");
+//            } else {
+//                System.out.println("\nMagic Door is opened! Continuing phase 2...");
+//                if (isGhostFound) {
+//                    System.out.println("Ghost is found at ("+ghostX+","+ghostY+")");
+//                }
+//            }
+//
+//            boolean actionSuccessful = false;
+//            System.out.println();
+//            ActionType action = player.chooseAction(isGhostActivated, isMagicDoorFound);
+//            DirectionType direction;
+//            if (action != ActionType.NONE && action != ActionType.VIEW_TOKEN) {
+//                direction = player.chooseDirection();
+//            } else if (action == ActionType.VIEW_TOKEN) {
+//                direction = DirectionType.NONE;
+//            } else {
+//                direction = DirectionType.NONE;
+//            }
+//
+//            // Phase 1
+//            if (!isGhostActivated) {
+//                actionSuccessful = handlePhaseOne(player, action, direction);
+////                System.out.println( "\n" + "Player " +(playerIndex+1)+": "+player.getCharacter()+"'s current position: "+player.getX()+" "+player.getY()+"\n");
+//                board.print();
+//            }
+//            // Phase 2
+//            else {
+//                actionSuccessful = handlePhaseTwo(player, action, direction);
+////                System.out.println( "\n" + "Player " +(playerIndex+1)+": "+player.getCharacter()+"'s current position: "+player.getX()+" "+player.getY()+"\n");
+//                board.print();
+////                scanForWin();
+////                if (win)	{
+////                    break;
+////                }
+//            }
+//            if (actionSuccessful) {
+//                actionsPerformed++;
+//            }
+//        } 
+        
+        // Check if the game is over after each turn
+        if (isGameOver()) {
+            endGame();
+            return; // Exit the method if the game is over
+        }
+    }
+    private void renderGameScreen() {
+    	// Clear the game screen
+        gameLayout.getChildren().clear();
+        // Draw the updated components
+        gameLayout.getChildren().addAll(compass.drawCompass(), board.drawBoard(), clock.drawClock());
+    }
+    private boolean isGameOver() {
+    	// Check if there are at least 2 players in the same cell as the ghost
+    	int countNumberPlayers = 0;
+        for (Player player : listOfPlayers) {
+            if (player.getX() == ghostX && player.getY() == ghostY && isGhostFound) {
+                // Players and ghost are at the same coordinates
+            	countNumberPlayers++;
+            	if (countNumberPlayers == 2) win = true;
+            }
+        }
+        // Check if the clock is over 12
+        boolean clockOverTwelve = clock.getTime() > 12;
+        // The game is over if there are at least 2 players in the same cell as the ghost and the clock is not over 12
+        // or if the clock is over 12 (players didn't find the ghost in time)
+        return (countNumberPlayers >= 2 && !clockOverTwelve) || clockOverTwelve;
+    }
+
+    private void endGame() {
+    	// Handle the end of the game
+    	if (win) {
+            System.out.println("You win! Congratulations!");
+        } else {
+        	System.out.println("You lose! Better luck next time :(");
+        }
     }
 }

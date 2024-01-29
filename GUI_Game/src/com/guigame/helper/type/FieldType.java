@@ -4,7 +4,9 @@ public enum FieldType {
     CLOCK2(1),
     GHOST(1),
     TWO(2),
-    THREE(3);
+    THREE(3),
+	
+	NONE(0);
 
     private final int action;
 

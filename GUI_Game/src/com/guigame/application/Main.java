@@ -12,8 +12,10 @@ public class Main extends Application {
     	Game game = new Game();
         primaryStage.setScene(game.start(primaryStage));
         primaryStage.setTitle("Schnappt Hubi!");
-        primaryStage.setWidth(700);
-        primaryStage.setHeight(700);
+        primaryStage.setMinWidth(800);
+        primaryStage.setMinHeight(600);
+        primaryStage.setWidth(1280);
+        primaryStage.setHeight(720);
         primaryStage.show();
         primaryStage.addEventHandler(KeyEvent.KEY_PRESSED,  (event) -> {
             System.out.println("Key pressed: " + event.toString());

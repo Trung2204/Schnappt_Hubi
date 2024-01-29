@@ -7,6 +7,9 @@ import com.guigame.board.GridCell;
 import com.guigame.helper.type.ActionType;
 import com.guigame.helper.type.DirectionType;
 
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
 public class Player {
 
 	private int x;
@@ -15,11 +18,16 @@ public class Player {
 	private int numberOfActions;
 	private ActionType actionType;
 	private DirectionType directionType;
+	private Rectangle rectangle;
 	
 	public Player(int x, int y, Character character) {
 		this.x = x;
 		this.y = y;
 		this.character = character;
+		rectangle = new Rectangle(40,40,Color.CYAN);
+	}
+	public Rectangle drawPlayer() {
+		return rectangle;
 	}
 	
 	public void setX(int x) { this.x = x; }

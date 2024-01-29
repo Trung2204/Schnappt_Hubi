@@ -33,7 +33,7 @@ public class GridCell {
 	public Group drawGridCell() {
 		switch (cellType) {
 		case CARROT_TOKEN: {
-			Image carrotImage = new Image(getClass().getResource("/resources/black_owl.png").toExternalForm()); // replace with your image path
+			Image carrotImage = new Image(getClass().getResource("/resources/carrot_token.png").toExternalForm()); // replace with your image path
 			imageRectangle.setFill(new ImagePattern(carrotImage));
 			imageRectangle.setLayoutX((rectangle.getWidth() - imageRectangle.getWidth()) / 2);
 			imageRectangle.setLayoutY((rectangle.getHeight() - imageRectangle.getHeight()) / 2);
@@ -50,7 +50,7 @@ public class GridCell {
 		}
 		case CURTAIN_WALL: {
 			imageRectangle = new Rectangle(100, 100);
-			Image curtainImage = new Image(getClass().getResource("/resources/curtain_wall.png").toExternalForm()); // replace with your image path
+			Image curtainImage = new Image(getClass().getResource("/resources/vertical_curtain_wall.png").toExternalForm()); // replace with your image path
 			imageRectangle.setFill(new ImagePattern(curtainImage));
 			imageRectangle.setLayoutX((rectangle.getWidth() - imageRectangle.getWidth()) / 2);
 			imageRectangle.setLayoutY((rectangle.getHeight() - imageRectangle.getHeight()) / 2);
@@ -69,11 +69,11 @@ public class GridCell {
 	    return group;
     }
 	public void setOnMouseClicked(EventHandler<MouseEvent> handler) {
-        rectangle.setOnMouseClicked(handler);
+        this.rectangle.setOnMouseClicked(handler);
     }
 	public GridCell(CellType cellType) {
 		this.cellType = cellType;
-		rectangle = new Rectangle(CELL_SIZE, CELL_SIZE, Color.WHITE);
+		this.rectangle = new Rectangle(CELL_SIZE, CELL_SIZE, Color.WHITE);
 	}
 
 	public void setCellType(CellType cellType) { this.cellType = cellType; }

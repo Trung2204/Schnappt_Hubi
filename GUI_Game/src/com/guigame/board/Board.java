@@ -2,12 +2,17 @@ package com.guigame.board;
 
 import java.util.*;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import com.guigame.helper.type.CellType;
+import com.guigame.player.Player;
+
+import com.guigame.application.Game;
 
 public class Board {
 	private static GridPane gridPane = new GridPane();
@@ -28,16 +33,24 @@ public class Board {
 
         setSpecialCells(rabbitsNumber,miceNumber);
 	}
-	public int getBoardSize() { return BOARD_SIZE; }
-	
 	public GridPane drawBoard() {
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            for (int j = 0; j < BOARD_SIZE; j++) {
-                gridPane.add(gridCells[i][j].drawGridCell(), i, j);
-            }
-        }
-        return gridPane;
-    }
+	    for (int i = 0; i < BOARD_SIZE; i++) {
+	        for (int j = 0; j < BOARD_SIZE; j++) {
+	            Group gridCellGroup = gridCells[i][j].drawGridCell();
+	            Pane pane = new Pane(gridCellGroup); // Create a new Pane and add the grid cell group to it
+
+	            for (Player player : Game.listOfPlayers) {
+	                if (player.getX() == i && player.getY() == j) { // Check if the player is at this position
+	                    Rectangle playerRectangle = player.drawPlayer();
+	                    pane.getChildren().add(playerRectangle); // Add the player rectangle to the pane
+	                }
+	            }
+
+	            gridPane.add(pane, j, i); // Add the pane to the GridPane
+	        }
+	    }
+	    return gridPane;
+	}
 	
 	public void setOnCellClicked() {
         EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
@@ -60,6 +73,9 @@ public class Board {
 	protected static int getGhostRow() { return ghostRow; }
 	protected static int getGhostCol() { return ghostCol; }
 	
+	public int getBoardSize() {
+		return BOARD_SIZE;
+	}
 	public GridCell[][] getGrideCells() { return this.gridCells; }
 	
 	private void setSpecialCells(int rabbitsNumber, int miceNumber) {
@@ -194,4 +210,5 @@ public class Board {
 		System.out.println("\nMagic door("+magicDoorRow+","+magicDoorCol+")");
 		System.out.println("Ghost("+ghostRow+","+ghostCol+")");
 	}
+	
 }

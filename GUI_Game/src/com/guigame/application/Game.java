@@ -27,14 +27,14 @@ public class Game {
 		Game.listOfPlayers = new Player[numberOfPlayers];
 	}
 	
-	public static GridPane drawBoard() {
-		for (Player player : listOfPlayers) {
-			if (player.getCharacter() == CharacterType.MOUSE) numberOfMice++;
-			else if (player.getCharacter() == CharacterType.RABBIT) numberOfRabbits++;
-		}
-		board = new Board(numberOfRabbits,numberOfMice);
-		return board.drawBoard();
-	}
+//	public static GridPane drawBoard() {
+//		for (Player player : listOfPlayers) {
+//			if (player.getCharacter() == CharacterType.MOUSE) numberOfMice++;
+//			else if (player.getCharacter() == CharacterType.RABBIT) numberOfRabbits++;
+//		}
+//		board = new Board(numberOfRabbits,numberOfMice);
+//		return board.drawBoard();
+//	}
 
 	public static VBox drawClockCompass() {
 		VBox vbox = new VBox();
@@ -48,5 +48,9 @@ public class Game {
 		actionNumberLabel.setText("Number of actions: "+compass.getNumberOfAction());
 		vbox.getChildren().addAll(clockLabel,timeLabel,compassLabel,fieldLabel,actionNumberLabel);
 		return vbox;
+	}
+	
+	public static void updateState() {
+		
 	}
 }

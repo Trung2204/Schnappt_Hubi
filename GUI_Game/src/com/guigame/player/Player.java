@@ -3,6 +3,7 @@ package com.guigame.player;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import com.guigame.board.Board;
 import com.guigame.board.GridCell;
 import com.guigame.helper.type.ActionType;
 import com.guigame.helper.type.CharacterType;
@@ -22,33 +23,33 @@ public class Player {
 	private int numberOfActions;
 	private ActionType actionType;
 	private DirectionType directionType;
-	private static final int CELL_SIZE = 55;
-	private Rectangle rectangle;
+//	private static final int CELL_SIZE = 55;
+//	private Rectangle rectangle;
 	
 	public Player(int x, int y, CharacterType character) {
 		this.x = x;
 		this.y = y;
 		this.character = character;
-		this.rectangle = new Rectangle(CELL_SIZE, CELL_SIZE, Color.BLACK);
+//		this.rectangle = new Rectangle(CELL_SIZE, CELL_SIZE, Color.BLACK);
 	}
-	public Rectangle drawPlayer() {
-		switch (character) {
-		case RABBIT: {
-			Image rabbitImage = new Image(getClass().getResource("/resources/rabbit_1.png").toExternalForm()); // replace with your image path
-			rectangle.setFill(new ImagePattern(rabbitImage));
-	        break;
-		}
-		case MOUSE: {
-			Image mouseImage = new Image(getClass().getResource("/resources/mouse_1.png").toExternalForm()); // replace with your image path
-			rectangle.setFill(new ImagePattern(mouseImage));
-	        break;
-		}
-		default:
-			rectangle.setFill(Color.CYAN);
-			break;
-		}
-	    return rectangle;
-	}
+//	public Rectangle drawPlayer() {
+//		switch (character) {
+//		case RABBIT: {
+//			Image rabbitImage = new Image(getClass().getResource("/resources/rabbit_1.png").toExternalForm()); // replace with your image path
+//			rectangle.setFill(new ImagePattern(rabbitImage));
+//	        break;
+//		}
+//		case MOUSE: {
+//			Image mouseImage = new Image(getClass().getResource("/resources/mouse_1.png").toExternalForm()); // replace with your image path
+//			rectangle.setFill(new ImagePattern(mouseImage));
+//	        break;
+//		}
+//		default:
+//			rectangle.setFill(Color.CYAN);
+//			break;
+//		}
+//	    return rectangle;
+//	}
 	
 	public void setX(int x) { this.x = x; }
 	public void setY(int y) { this.y = y; }
@@ -142,11 +143,11 @@ public class Player {
 				break;
         }
     }
-    public void viewCurtain(GridCell curtainCell, int newX, int newY) {
-    	curtainCell.changeWall(newX, newY);
+    public void viewCurtain(GridCell curtainCell,Board board, int newX, int newY) {
+    	curtainCell.changeWall(board,newX, newY);
     }
-    public void viewToken(GridCell tokenCell, int newX, int newY) {
-    	tokenCell.changeToken(newX, newY);
+    public void viewToken(GridCell tokenCell,Board board, int newX, int newY) {
+    	tokenCell.changeToken(board,newX, newY);
     }
 	public void openMagicDoor(GridCell magicDoor) {
 		magicDoor.changeMagicDoor();

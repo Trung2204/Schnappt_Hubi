@@ -25,24 +25,24 @@ public class PlayController {
 	private Parent root;
 	
 	@FXML
-	private TextField numberOfPlayersField;
-	
-	@FXML
 	private Label player1Label,player2Label,player3Label,player4Label;
 	@FXML
 	private MenuButton player1Character,player1Position,player2Character,player2Position,
-						player3Character,player3Position,player4Character,player4Position;
-	
+					player3Character,player3Position,player4Character,player4Position;
 	@FXML
     private Button nextButton,player1OKButton,player2OKButton,player3OKButton,player4OKButton;
+	
+	
+	private int numberOfPlayers = 0;
+	@FXML
+	private TextField numberOfPlayersField;
 	@FXML
 	private void handleSubmitButtonAction(ActionEvent event) {
-        int numberOfPlayers = Integer.parseInt(numberOfPlayersField.getText());
-        new Game(numberOfPlayers);
+		numberOfPlayers = Integer.parseInt(numberOfPlayersField.getText());
         nextButton.setDisable(false);
         nextButton.setOpacity(1);
         // Show player labels based on the number of players
-        if (numberOfPlayers == 2) {
+        if (numberOfPlayers >= 2) {
             player1Label.setOpacity(1);
             player1Character.setDisable(false);
             player1Character.setOpacity(1);
@@ -59,7 +59,7 @@ public class PlayController {
             player2OKButton.setDisable(false);
             player2OKButton.setOpacity(1);
         }
-        if (numberOfPlayers == 3) {
+        if (numberOfPlayers >= 3) {
             player3Label.setOpacity(1);
             player3Character.setDisable(false);
             player3Character.setOpacity(1);
@@ -68,7 +68,7 @@ public class PlayController {
             player3OKButton.setDisable(false);
             player3OKButton.setOpacity(1);
         }
-        if (numberOfPlayers == 4) {
+        if (numberOfPlayers >= 4) {
             player4Label.setOpacity(1);
             player4Character.setDisable(false);
             player4Character.setOpacity(1);
@@ -80,6 +80,7 @@ public class PlayController {
     }
 	
 	// Handler for player 1's selection of character and position
+	private Player player1;
 	private CharacterType selectedCharacterPlayer1 = null;
 	private int selectedXPlayer1 = -1, selectedYPlayer1 = -1;
 	@FXML
@@ -128,21 +129,14 @@ public class PlayController {
 	}
 	private void createPlayer1IfPossible() {
         if (selectedCharacterPlayer1 != null && selectedXPlayer1 != -1 && selectedYPlayer1 != -1) {
-            // Convert the selected position to coordinates
-            int xCoordinate = selectedXPlayer1; // based on selectedPosition
-            int yCoordinate = selectedYPlayer1; // based on selectedPosition
-
             // Create a new player
-            Game.listOfPlayers[0] = new Player(xCoordinate, yCoordinate, selectedCharacterPlayer1);
-            Game.listOfPlayers[0].print();
-//            // Reset the selections
-//            selectedCharacterPlayer1 = null;
-//            selectedXPlayer1 = -1;
-//            selectedYPlayer1 = -1;
+            player1 = new Player(selectedXPlayer1, selectedYPlayer1, selectedCharacterPlayer1);
+            player1.print();
         }
     }
 		
 	// Handler for player 2's selection of character and position
+	private Player player2;
 	private CharacterType selectedCharacterPlayer2 = null;
 	private int selectedXPlayer2 = -1, selectedYPlayer2 = -1;
 	@FXML
@@ -191,21 +185,14 @@ public class PlayController {
 	}
 	private void createPlayer2IfPossible() {
         if (selectedCharacterPlayer2 != null && selectedXPlayer2 != -1 && selectedYPlayer2 != -1) {
-            // Convert the selected position to coordinates
-            int xCoordinate = selectedXPlayer2; // based on selectedPosition
-            int yCoordinate = selectedYPlayer2; // based on selectedPosition
-
             // Create a new player
-            Game.listOfPlayers[1] = new Player(xCoordinate, yCoordinate, selectedCharacterPlayer2);
-            Game.listOfPlayers[1].print();
-//	            // Reset the selections
-//	            selectedCharacterPlayer2 = null;
-//	            selectedXPlayer2 = -1;
-//	            selectedYPlayer2 = -1;
+            player2 = new Player(selectedXPlayer2, selectedYPlayer2, selectedCharacterPlayer2);
+            player2.print();
         }
     }
 		
 	// Handler for player 3's selection of character and position
+	private Player player3;
 	private CharacterType selectedCharacterPlayer3 = null;
 	private int selectedXPlayer3 = -1, selectedYPlayer3 = -1;
 	@FXML
@@ -254,21 +241,14 @@ public class PlayController {
 	}
 	private void createPlayer3IfPossible() {
         if (selectedCharacterPlayer3 != null && selectedXPlayer3 != -1 && selectedYPlayer3 != -1) {
-            // Convert the selected position to coordinates
-            int xCoordinate = selectedXPlayer3; // based on selectedPosition
-            int yCoordinate = selectedYPlayer3; // based on selectedPosition
-
             // Create a new player
-            Game.listOfPlayers[2] = new Player(xCoordinate, yCoordinate, selectedCharacterPlayer3);
-            Game.listOfPlayers[2].print();
-//	            // Reset the selections
-//	            selectedCharacterPlayer3 = null;
-//	            selectedXPlayer3 = -1;
-//	            selectedYPlayer3 = -1;
+            player3 = new Player(selectedXPlayer3, selectedYPlayer3, selectedCharacterPlayer3);
+            player3.print();
         }
     }
 	
 	// Handler for player 4's selection of character and position
+	private Player player4;
 	private CharacterType selectedCharacterPlayer4 = null;
 	private int selectedXPlayer4 = -1, selectedYPlayer4 = -1;
 	@FXML
@@ -317,27 +297,40 @@ public class PlayController {
 	}
 	private void createPlayer4IfPossible() {
         if (selectedCharacterPlayer4 != null && selectedXPlayer4 != -1 && selectedYPlayer4 != -1) {
-            // Convert the selected position to coordinates
-            int xCoordinate = selectedXPlayer4; // based on selectedPosition
-            int yCoordinate = selectedYPlayer4; // based on selectedPosition
-
             // Create a new player
-            Game.listOfPlayers[3] = new Player(xCoordinate, yCoordinate, selectedCharacterPlayer4);
-            Game.listOfPlayers[3].print();
-//		            // Reset the selections
-//		            selectedCharacterPlayer4 = null;
-//		            selectedXPlayer4 = -1;
-//		            selectedYPlayer4 = -1;
+            player4 = new Player(selectedXPlayer4, selectedYPlayer4, selectedCharacterPlayer4);
+            player4.print();
         }
     }
 	
 	public void switchToMainGameScene(ActionEvent event) throws IOException {
-		root = (AnchorPane)FXMLLoader.load(getClass().getResource("MainGame.fxml"));
+		Player[] listOfPlayers = new Player[numberOfPlayers];
+		Player[] allPlayers = {player1,player2,player3,player4};
+		for (int i = 0; i < numberOfPlayers; i++) {
+		    listOfPlayers[i] = allPlayers[i];
+		}
+		int numberOfRabbits = 0;
+		int numberOfMice = 0;
+		for (Player player : listOfPlayers) {
+			if (player.getCharacter() == CharacterType.MOUSE) numberOfMice++;
+			else if (player.getCharacter() == CharacterType.RABBIT) numberOfRabbits++;
+		}
+		// Create the MainGameModel with the user input
+        MainGameModel model = new MainGameModel(numberOfPlayers,listOfPlayers,numberOfRabbits,numberOfMice);
+
+        // Create the MainGameView with the model
+        MainGameView view = new MainGameView(model);
+
+        // Create the MainGameController with the model and view
+        MainGameController controller = new MainGameController();
+        controller.setModel(model);
+        controller.setView(view);
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainGame.fxml"));
+		root = (AnchorPane)loader.load();
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
-//		stage.setWidth(1280);
-//		stage.setHeight(720);
 		stage.show();
 	}
 	
@@ -348,5 +341,4 @@ public class PlayController {
 		stage.setScene(scene);
 		stage.show();
 	}
-
 }

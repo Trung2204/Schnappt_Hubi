@@ -18,11 +18,11 @@ public class Board {
 	private static GridPane gridPane = new GridPane();
 	private static final int BOARD_SIZE = 5;
 	private GridCell[][] gridCells;
-	private static int magicDoorRow;
-    private static int magicDoorCol;
-    private static int ghostRow;
-    private static int ghostCol;
-	private static ArrayList<CellType> tokens = new ArrayList<>(Arrays.asList(
+	private int magicDoorRow;
+    private int magicDoorCol;
+    private int ghostRow;
+    private int ghostCol;
+	private ArrayList<CellType> tokens = new ArrayList<>(Arrays.asList(
 			CellType.CHEESE_TOKEN, CellType.CARROT_TOKEN,
 			CellType.CHEESE_TOKEN, CellType.CARROT_TOKEN,
 			CellType.CHEESE_TOKEN, CellType.CARROT_TOKEN,
@@ -33,45 +33,45 @@ public class Board {
 
         setSpecialCells(rabbitsNumber,miceNumber);
 	}
-	public GridPane drawBoard() {
-	    for (int i = 0; i < BOARD_SIZE; i++) {
-	        for (int j = 0; j < BOARD_SIZE; j++) {
-	            Group gridCellGroup = gridCells[i][j].drawGridCell();
-	            Pane pane = new Pane(gridCellGroup); // Create a new Pane and add the grid cell group to it
-
-	            for (Player player : Game.listOfPlayers) {
-	                if (player.getX() == i && player.getY() == j) { // Check if the player is at this position
-	                    Rectangle playerRectangle = player.drawPlayer();
-	                    pane.getChildren().add(playerRectangle); // Add the player rectangle to the pane
-	                }
-	            }
-
-	            gridPane.add(pane, j, i); // Add the pane to the GridPane
-	        }
-	    }
-	    return gridPane;
-	}
+//	public GridPane drawBoard() {
+//	    for (int i = 0; i < BOARD_SIZE; i++) {
+//	        for (int j = 0; j < BOARD_SIZE; j++) {
+//	            Group gridCellGroup = gridCells[i][j].drawGridCell(i,j, magicDoorRow, magicDoorCol);
+//	            Pane pane = new Pane(gridCellGroup); // Create a new Pane and add the grid cell group to it
+//
+//	            for (Player player : Game.listOfPlayers) {
+//	                if (player.getX() == i && player.getY() == j) { // Check if the player is at this position
+//	                    Rectangle playerRectangle = player.drawPlayer();
+//	                    pane.getChildren().add(playerRectangle); // Add the player rectangle to the pane
+//	                }
+//	            }
+//
+//	            gridPane.add(pane, j, i); // Add the pane to the GridPane
+//	        }
+//	    }
+//	    return gridPane;
+//	}
 	
-	public void setOnCellClicked() {
-        EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                Rectangle source = (Rectangle) event.getSource();
-                source.setFill(Color.RED);
-            }
-        };
-
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            for (int j = 0; j < BOARD_SIZE; j++) {
-                gridCells[i][j].setOnMouseClicked(handler);
-            }
-        }
-    }
+//	public void setOnCellClicked() {
+//        EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                Rectangle source = (Rectangle) event.getSource();
+//                source.setFill(Color.RED);
+//            }
+//        };
+//
+//        for (int i = 0; i < BOARD_SIZE; i++) {
+//            for (int j = 0; j < BOARD_SIZE; j++) {
+//                gridCells[i][j].setOnMouseClicked(handler);
+//            }
+//        }
+//    }
 	
-	protected static int getMagicDoorRow() { return magicDoorRow; }
-	protected static int getMagicDoorCol() { return magicDoorCol; }
-	protected static int getGhostRow() { return ghostRow; }
-	protected static int getGhostCol() { return ghostCol; }
+	public int getMagicDoorRow() { return magicDoorRow; }
+	public int getMagicDoorCol() { return magicDoorCol; }
+	public int getGhostRow() { return ghostRow; }
+	public int getGhostCol() { return ghostCol; }
 	
 	public int getBoardSize() {
 		return BOARD_SIZE;

@@ -157,5 +157,6 @@
             </ImageView>
          </children>
       </Pane>
+      <Button fx:id="pressToStart" layoutX="221.0" layoutY="571.0" mnemonicParsing="false" onAction="#startGameLoop" text="Press to start!" />
    </children>
 </AnchorPane>

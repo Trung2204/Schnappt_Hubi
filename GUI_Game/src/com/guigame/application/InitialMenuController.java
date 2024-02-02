@@ -25,8 +25,8 @@ public class InitialMenuController {
 		stage.show();
 	}
 	
-	public void switchToAboutUsScene(ActionEvent event) throws IOException {
-		root = (AnchorPane)FXMLLoader.load(getClass().getResource("AboutUs.fxml"));
+	public void switchToCreditScene(ActionEvent event) throws IOException {
+		root = (AnchorPane)FXMLLoader.load(getClass().getResource("Credit.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setWidth(1280);

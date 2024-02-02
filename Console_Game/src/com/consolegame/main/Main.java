@@ -324,7 +324,6 @@ public class Main {
 			        }
 			        // If ghost is found, moving ghost token with 1 arbitrary adjacent token
 			        else {
-
 						swapGhost(ghostX, ghostY);
 			        }
 			    }

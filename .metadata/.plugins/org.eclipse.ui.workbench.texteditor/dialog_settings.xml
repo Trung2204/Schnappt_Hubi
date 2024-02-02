@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="game."/>
+		<item key="selection" value=""/>
 		<item key="wrap" value="true"/>
-		<item key="casesensitive" value="false"/>
+		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="chooseAction"/>
+			<item value="Action Type"/>
+			<item value="visible"/>
+			<item value="switchToMainGameScene"/>
 			<item value="Game."/>
 			<item value="removePairs"/>
 			<item value="adjacentPairs"/>
@@ -15,6 +19,7 @@
 			<item value="boardSize"/>
 		</list>
 		<list key="replacehistory">
+			<item value="Action Types"/>
 			<item value=""/>
 			<item value="board.getBoardSize()"/>
 			<item value="board.getBoardSize();"/>

@@ -12,8 +12,6 @@ import javafx.scene.shape.Rectangle;
 import com.guigame.helper.type.CellType;
 import com.guigame.player.Player;
 
-import com.guigame.application.Game;
-
 public class Board {
 	private static GridPane gridPane = new GridPane();
 	private static final int BOARD_SIZE = 5;
@@ -33,41 +31,7 @@ public class Board {
 
         setSpecialCells(rabbitsNumber,miceNumber);
 	}
-//	public GridPane drawBoard() {
-//	    for (int i = 0; i < BOARD_SIZE; i++) {
-//	        for (int j = 0; j < BOARD_SIZE; j++) {
-//	            Group gridCellGroup = gridCells[i][j].drawGridCell(i,j, magicDoorRow, magicDoorCol);
-//	            Pane pane = new Pane(gridCellGroup); // Create a new Pane and add the grid cell group to it
-//
-//	            for (Player player : Game.listOfPlayers) {
-//	                if (player.getX() == i && player.getY() == j) { // Check if the player is at this position
-//	                    Rectangle playerRectangle = player.drawPlayer();
-//	                    pane.getChildren().add(playerRectangle); // Add the player rectangle to the pane
-//	                }
-//	            }
-//
-//	            gridPane.add(pane, j, i); // Add the pane to the GridPane
-//	        }
-//	    }
-//	    return gridPane;
-//	}
-	
-//	public void setOnCellClicked() {
-//        EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent event) {
-//                Rectangle source = (Rectangle) event.getSource();
-//                source.setFill(Color.RED);
-//            }
-//        };
-//
-//        for (int i = 0; i < BOARD_SIZE; i++) {
-//            for (int j = 0; j < BOARD_SIZE; j++) {
-//                gridCells[i][j].setOnMouseClicked(handler);
-//            }
-//        }
-//    }
-	
+
 	public int getMagicDoorRow() { return magicDoorRow; }
 	public int getMagicDoorCol() { return magicDoorCol; }
 	public int getGhostRow() { return ghostRow; }

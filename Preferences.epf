@@ -1,4 +1,4 @@
-#Tue Jan 30 00:17:53 CET 2024
+#Fri Feb 02 04:34:11 CET 2024
 \!/=
 /configuration/org.eclipse.core.net/org.eclipse.core.net.hasMigrated=true
 /configuration/org.eclipse.equinox.p2.garbagecollector/gc_enabled=false
@@ -34,6 +34,7 @@
 /instance/org.eclipse.debug.ui/org.eclipse.debug.ui.errorColor=225,30,70
 /instance/org.eclipse.debug.ui/org.eclipse.debug.ui.inColor=140,175,210
 /instance/org.eclipse.debug.ui/org.eclipse.debug.ui.outColor=235,235,235
+/instance/org.eclipse.debug.ui/org.eclipse.debug.ui.remove_all_breakpoints_prompt=false
 /instance/org.eclipse.debug.ui/org.eclipse.debug.ui.save_dirty_editors_before_launch=always
 /instance/org.eclipse.debug.ui/org.eclipse.debug.ui.user_view_bindings=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<viewBindings>\r\n    <view id\="org.eclipse.jdt.debug.ui.DisplayView">\r\n        <perspective id\="org.eclipse.debug.ui.DebugPerspective" userAction\="opened"/>\r\n    </view>\r\n    <view id\="org.eclipse.debug.ui.ExpressionView">\r\n        <perspective id\="org.eclipse.debug.ui.DebugPerspective" userAction\="opened"/>\r\n    </view>\r\n</viewBindings>\r\n
 /instance/org.eclipse.debug.ui/org.eclipse.debug.uiinspectPopupSashWeights=750\:250
@@ -41,8 +42,8 @@
 /instance/org.eclipse.debug.ui/pref_state_memento.org.eclipse.debug.ui.BreakpointView=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<VariablesViewMemento org.eclipse.debug.ui.SASH_DETAILS_PART\="315" org.eclipse.debug.ui.SASH_VIEW_PART\="684">\r\n<PRESENTATION_CONTEXT_PROPERTIES IMemento.internal.id\="org.eclipse.debug.ui.BreakpointView">\r\n<BOOLEAN BOOLEAN\="true" IMemento.internal.id\="org.eclipse.debug.ui.check"/>\r\n</PRESENTATION_CONTEXT_PROPERTIES>\r\n</VariablesViewMemento>
 /instance/org.eclipse.debug.ui/pref_state_memento.org.eclipse.debug.ui.DebugVieworg.eclipse.debug.ui.DebugView=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<DebugViewMemento org.eclipse.debug.ui.BREADCRUMB_DROPDOWN_AUTO_EXPAND\="false"/>
 /instance/org.eclipse.debug.ui/pref_state_memento.org.eclipse.debug.ui.ExpressionView=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<VariablesViewMemento org.eclipse.debug.ui.SASH_DETAILS_PART\="315" org.eclipse.debug.ui.SASH_VIEW_PART\="684">\r\n<PRESENTATION_CONTEXT_PROPERTIES IMemento.internal.id\="org.eclipse.debug.ui.ExpressionView">\r\n<BOOLEAN BOOLEAN\="true" IMemento.internal.id\="PRESENTATION_SHOW_LOGICAL_STRUCTURES"/>\r\n</PRESENTATION_CONTEXT_PROPERTIES>\r\n</VariablesViewMemento>
-/instance/org.eclipse.debug.ui/pref_state_memento.org.eclipse.debug.ui.VariableView=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<VariablesViewMemento org.eclipse.debug.ui.SASH_DETAILS_PART\="315" org.eclipse.debug.ui.SASH_VIEW_PART\="684">\r\n<COLUMN_SIZES IMemento.internal.id\="org.eclipse.debug.ui.VARIALBE_COLUMN_PRESENTATION.COL_VAR_VALUE" SIZE\="136"/>\r\n<COLUMN_SIZES IMemento.internal.id\="org.eclipse.debug.ui.VARIALBE_COLUMN_PRESENTATION.COL_VAR_NAME" SIZE\="282"/>\r\n<PRESENTATION_CONTEXT_PROPERTIES IMemento.internal.id\="org.eclipse.debug.ui.VariableView">\r\n<BOOLEAN BOOLEAN\="true" IMemento.internal.id\="PRESENTATION_SHOW_LOGICAL_STRUCTURES"/>\r\n</PRESENTATION_CONTEXT_PROPERTIES>\r\n</VariablesViewMemento>
-/instance/org.eclipse.debug.ui/preferredDetailPanes=DefaultDetailPane,org.eclipse.jdt.debug.ui.JAVA_VARIABLE_DETAIL_PANE_VARIABLES\:org.eclipse.jdt.debug.ui.JAVA_VARIABLE_DETAIL_PANE_VARIABLES|org.eclipse.jdt.debug.ui.DETAIL_PANE_LINE_BREAKPOINT\:org.eclipse.jdt.debug.ui.DETAIL_PANE_LINE_BREAKPOINT|DefaultDetailPane\:DefaultDetailPane|
+/instance/org.eclipse.debug.ui/pref_state_memento.org.eclipse.debug.ui.VariableView=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<VariablesViewMemento org.eclipse.debug.ui.SASH_DETAILS_PART\="315" org.eclipse.debug.ui.SASH_VIEW_PART\="684">\r\n<COLUMN_SIZES IMemento.internal.id\="org.eclipse.debug.ui.VARIALBE_COLUMN_PRESENTATION.COL_VAR_VALUE" SIZE\="261"/>\r\n<COLUMN_SIZES IMemento.internal.id\="org.eclipse.debug.ui.VARIALBE_COLUMN_PRESENTATION.COL_VAR_NAME" SIZE\="282"/>\r\n<PRESENTATION_CONTEXT_PROPERTIES IMemento.internal.id\="org.eclipse.debug.ui.VariableView">\r\n<BOOLEAN BOOLEAN\="true" IMemento.internal.id\="PRESENTATION_SHOW_LOGICAL_STRUCTURES"/>\r\n</PRESENTATION_CONTEXT_PROPERTIES>\r\n</VariablesViewMemento>
+/instance/org.eclipse.debug.ui/preferredDetailPanes=DefaultDetailPane,org.eclipse.jdt.debug.ui.JAVA_VARIABLE_DETAIL_PANE_VARIABLES\:org.eclipse.jdt.debug.ui.JAVA_VARIABLE_DETAIL_PANE_VARIABLES|org.eclipse.jdt.debug.ui.DETAIL_PANE_EXCEPTION_BREAKPOINT\:org.eclipse.jdt.debug.ui.DETAIL_PANE_EXCEPTION_BREAKPOINT|org.eclipse.jdt.debug.ui.DETAIL_PANE_METHOD_BREAKPOINT\:org.eclipse.jdt.debug.ui.DETAIL_PANE_METHOD_BREAKPOINT|org.eclipse.jdt.debug.ui.DETAIL_PANE_LINE_BREAKPOINT\:org.eclipse.jdt.debug.ui.DETAIL_PANE_LINE_BREAKPOINT|DefaultDetailPane\:DefaultDetailPane|
 /instance/org.eclipse.debug.ui/preferredTargets=default\:default|
 /instance/org.eclipse.egit.core/GitRepositoriesView.GitDirectories=D\:\\Minh Trung\\Study\\FRA - UAS\\OOP Java\\Project\\Schnappt_Hubi\\.git;
 /instance/org.eclipse.egit.core/GitRepositoriesView.GitDirectories.relative=.git;
@@ -82,12 +83,12 @@
 /instance/org.eclipse.jdt.junit.core/org.eclipse.jdt.junit.enable_assertions=true
 /instance/org.eclipse.jdt.junit/org.eclipse.jdt.junit.content_assist_favorite_static_members_migrated=true
 /instance/org.eclipse.jdt.junit/org.eclipse.jdt.junit.show_in_all_views=false
-/instance/org.eclipse.jdt.launching/org.eclipse.jdt.launching.PREF_VM_XML=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<vmSettings defaultVM\="57,org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType13,1706314036733">\r\n    <vmType id\="org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType">\r\n        <vm id\="1706314036733" name\="jdk-21" path\="C\:\\Program Files\\Java\\jdk-21"/>\r\n    </vmType>\r\n</vmSettings>\r\n
+/instance/org.eclipse.jdt.launching/org.eclipse.jdt.launching.PREF_VM_XML=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<vmSettings defaultVM\="57,org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType13,1706314036733" defaultVMConnector\="">\r\n    <vmType id\="org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType">\r\n        <vm id\="1706314036733" name\="jdk-21" path\="C\:\\Program Files\\Java\\jdk-21"/>\r\n    </vmType>\r\n</vmSettings>\r\n
 /instance/org.eclipse.jdt.ui/CustomFiltersActionGroup.org.eclipse.jdt.ui.JavaOutlinePage.TAG_DUMMY_TO_TEST_EXISTENCE=storedViewPreferences
 /instance/org.eclipse.jdt.ui/content_assist_completion_replacement_background=200,200,0
 /instance/org.eclipse.jdt.ui/content_assist_completion_replacement_foreground=200,0,0
 /instance/org.eclipse.jdt.ui/content_assist_disabled_computers=org.eclipse.jdt.ui.textProposalCategory\u0000org.eclipse.jdt.ui.javaPostfixProposalCategory\u0000org.eclipse.jdt.ui.javaAllProposalCategory\u0000org.eclipse.jdt.ui.javaTypeProposalCategory\u0000org.eclipse.jdt.ui.javaNoTypeProposalCategory\u0000org.eclipse.jdt.ui.javaChainProposalCategory\u0000
-/instance/org.eclipse.jdt.ui/content_assist_lru_history=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><history maxLHS\="100" maxRHS\="10"><lhs name\="javafx.scene.paint.Paint"><rhs name\="javafx.scene.paint.Color"/></lhs><lhs name\="java.lang.Enum"><rhs name\="com.guigame.helper.type.FieldType"/></lhs><lhs name\="java.lang.constant.Constable"><rhs name\="com.guigame.helper.type.FieldType"/></lhs><lhs name\="com.guigame.helper.type.FieldType"><rhs name\="com.guigame.helper.type.FieldType"/></lhs></history>
+/instance/org.eclipse.jdt.ui/content_assist_lru_history=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><history maxLHS\="100" maxRHS\="10"><lhs name\="javafx.scene.paint.Paint"><rhs name\="javafx.scene.paint.Color"/></lhs><lhs name\="java.lang.Enum"><rhs name\="com.guigame.helper.type.FieldType"/><rhs name\="com.guigame.application.MainGameModel$GameState"/></lhs><lhs name\="java.lang.constant.Constable"><rhs name\="com.guigame.helper.type.FieldType"/><rhs name\="com.guigame.application.MainGameModel$GameState"/></lhs><lhs name\="com.guigame.helper.type.FieldType"><rhs name\="com.guigame.helper.type.FieldType"/></lhs><lhs name\="com.guigame.application.MainGameModel$GameState"><rhs name\="com.guigame.application.MainGameModel$GameState"/></lhs></history>
 /instance/org.eclipse.jdt.ui/content_assist_number_of_computers=16
 /instance/org.eclipse.jdt.ui/content_assist_parameters_background=52,57,61
 /instance/org.eclipse.jdt.ui/content_assist_parameters_foreground=238,238,238
@@ -269,7 +270,7 @@
 /instance/org.eclipse.ui.genericeditor/overriddenByCSS=,matchingBracketsColor,
 /instance/org.eclipse.ui.ide/IMPORT_FILES_AND_FOLDERS_MODE=prompt
 /instance/org.eclipse.ui.ide/IMPORT_FILES_AND_FOLDERS_VIRTUAL_FOLDER_MODE=prompt
-/instance/org.eclipse.ui.ide/platformState=1706313435288
+/instance/org.eclipse.ui.ide/platformState=1706313435332
 /instance/org.eclipse.ui.ide/quickStart=false
 /instance/org.eclipse.ui.ide/tipsAndTricks=true
 /instance/org.eclipse.ui.navigator/org.eclipse.ui.navigator.ProjectExplorer.filterActivation=\:org.eclipse.jdt.java.ui.filters.HidePackageDeclaration\:org.eclipse.jdt.java.ui.filters.HideOutputFolder\:org.eclipse.buildship.ui.navigator.filter.gradle.subProject\:org.eclipse.ui.navigator.resources.nested.HideTopLevelProjectIfNested\:org.eclipse.buildship.ui.navigator.filter.gradle.buildfolder\:org.eclipse.jdt.java.ui.filters.HideEmptyInnerPackages\:org.eclipse.jdt.java.ui.filters.HideInnerClassFiles\:org.eclipse.ui.navigator.resources.filters.startsWithDot\:org.eclipse.jdt.java.ui.filters.HideEmptyLibraryContainers\:org.eclipse.jdt.java.ui.filters.HideImportDeclaration\:org.eclipse.jdt.java.ui.filters.HideSyntheticMembers\:org.eclipse.mylyn.tasks.ui.navigator.filters.tasks\:org.eclipse.ui.navigator.resources.nested.HideFolderWhenProjectIsShownAsNested\:
@@ -328,11 +329,6 @@
 /instance/org.eclipse.ui.workbench/org.eclipse.ui.workbench.ACTIVE_TAB_BG_END=41,41,41
 /instance/org.eclipse.ui.workbench/org.eclipse.ui.workbench.ACTIVE_TAB_BG_START=43,44,45
 /instance/org.eclipse.ui.workbench/org.eclipse.ui.workbench.ACTIVE_TAB_TEXT_COLOR=221,221,221
-/instance/org.eclipse.ui.workbench/org.eclipse.ui.workbench.FORM_HEADING_ERROR_COLOR=255,110,110
-/instance/org.eclipse.ui.workbench/org.eclipse.ui.workbench.FORM_HEADING_INFO_COLOR=170,170,170
-/instance/org.eclipse.ui.workbench/org.eclipse.ui.workbench.FORM_HEADING_WARNING_COLOR=255,200,0
-/instance/org.eclipse.ui.workbench/org.eclipse.ui.workbench.HOVER_BACKGROUND=52,57,61
-/instance/org.eclipse.ui.workbench/org.eclipse.ui.workbench.HOVER_FOREGROUND=238,238,238
 /instance/org.eclipse.ui.workbench/org.eclipse.ui.workbench.INACTIVE_TAB_BG_END=49,53,56
 /instance/org.eclipse.ui.workbench/org.eclipse.ui.workbench.INACTIVE_TAB_BG_START=59,64,66
 /instance/org.eclipse.ui.workbench/org.eclipse.ui.workbench.INACTIVE_TAB_TEXT_COLOR=187,187,187

@@ -20,9 +20,6 @@ public class Main extends Application {
 			primaryStage.setWidth(1280); // 1280
 	        primaryStage.setHeight(720); // 720
 			
-//			primaryStage.setWidth(600);
-//	        primaryStage.setHeight(400);
-			
 			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("InitialMenu.fxml"));
 			Scene scene = new Scene(root,1280,720);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());

@@ -5,24 +5,24 @@ import java.io.IOException;
 import com.guigame.helper.type.CharacterType;
 import com.guigame.player.Player;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class PlayController {
 	private Stage stage;
 	private Scene scene;
-	private Parent root;
+	private AnchorPane root;
 	
 	@FXML
 	private Label player1Label,player2Label,player3Label,player4Label;
@@ -320,14 +320,23 @@ public class PlayController {
 
         // Create the MainGameView with the model
         MainGameView view = new MainGameView(model);
-
-        // Create the MainGameController with the model and view
-        MainGameController controller = new MainGameController();
-        controller.setModel(model);
-        controller.setView(view);
-        
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainGame.fxml"));
+		
+     	// Load the FXML
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("MainGame.fxml"));
 		root = (AnchorPane)loader.load();
+		MainGameController controller = loader.getController(); // Get the controller instance created by FXMLLoader
+		controller.setModel(model);
+		controller.setView(view);
+		controller.initializeGameLoop(); 
+		// Draw the game before starting game loop
+		view.update();
+        GridPane gridPaneBoard = view.getGameBoard();
+        VBox clockCompassBox = view.getClockAndCompass();
+        // Set the VBox to the top right corner
+        AnchorPane.setTopAnchor(clockCompassBox, 0.0);
+        AnchorPane.setRightAnchor(clockCompassBox, 0.0);
+        root.getChildren().addAll(gridPaneBoard, clockCompassBox);
+        
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);

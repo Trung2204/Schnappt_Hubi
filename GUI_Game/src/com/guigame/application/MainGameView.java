@@ -7,6 +7,7 @@ import com.guigame.player.Player;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -24,18 +25,20 @@ public class MainGameView {
     public MainGameView(MainGameModel model) {
         this.model = model;
         this.gameBoard = new GridPane();
+        this.clockAndCompass = new VBox();
     }
+    public GridPane getGameBoard() { return gameBoard; }
+    public VBox getClockAndCompass() { return clockAndCompass; } 
     
     // Methods to draw the GUI based on the model state...
     public void update() {
         // Clear the game board
         gameBoard.getChildren().clear();
+        clockAndCompass.getChildren().clear();
 
         // Redraw the game board based on the model's state
         drawBoard();
-
-        // Update other elements based on the model's state
-        // For example, update the score, the current player's turn, etc.
+    	drawClockCompass();
     }
     private void drawBoard() {
         for (int i = 0; i < model.getBoard().getBoardSize(); i++) {
@@ -273,4 +276,19 @@ public class MainGameView {
 		}
         return rectangle;
     }
+
+	private void drawClockCompass() {
+		Label clockLabel = new Label("CLOCK");
+		Label timeLabel = new Label();
+		timeLabel.setText("Time: "+model.getClock().getTime());
+		
+		Label compassLabel = new Label("COMPASS");
+		Label fieldLabel = new Label();
+		fieldLabel.setText("Field: "+model.getCompass().getFieldType());
+		
+		Label actionNumberLabel = new Label();
+		actionNumberLabel.setText("Number of actions: "+model.getCompass().getNumberOfAction());
+		
+		clockAndCompass.getChildren().addAll(clockLabel,timeLabel,compassLabel,fieldLabel,actionNumberLabel);
+	}
 }

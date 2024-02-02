@@ -23,33 +23,12 @@ public class Player {
 	private int numberOfActions;
 	private ActionType actionType;
 	private DirectionType directionType;
-//	private static final int CELL_SIZE = 55;
-//	private Rectangle rectangle;
 	
 	public Player(int x, int y, CharacterType character) {
 		this.x = x;
 		this.y = y;
 		this.character = character;
-//		this.rectangle = new Rectangle(CELL_SIZE, CELL_SIZE, Color.BLACK);
 	}
-//	public Rectangle drawPlayer() {
-//		switch (character) {
-//		case RABBIT: {
-//			Image rabbitImage = new Image(getClass().getResource("/resources/rabbit_1.png").toExternalForm()); // replace with your image path
-//			rectangle.setFill(new ImagePattern(rabbitImage));
-//	        break;
-//		}
-//		case MOUSE: {
-//			Image mouseImage = new Image(getClass().getResource("/resources/mouse_1.png").toExternalForm()); // replace with your image path
-//			rectangle.setFill(new ImagePattern(mouseImage));
-//	        break;
-//		}
-//		default:
-//			rectangle.setFill(Color.CYAN);
-//			break;
-//		}
-//	    return rectangle;
-//	}
 	
 	public void setX(int x) { this.x = x; }
 	public void setY(int y) { this.y = y; }
@@ -154,5 +133,9 @@ public class Player {
 	}
 	public void print() {
 		System.out.println("("+x+","+y+")"+ "\t" +character+" has "+numberOfActions+" action(s)");
+	}
+
+	public void decrementNumberOfActions() {
+		if(this.numberOfActions > 0) this.numberOfActions--;	
 	}
 }

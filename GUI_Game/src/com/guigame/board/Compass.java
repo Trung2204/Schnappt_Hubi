@@ -1,4 +1,4 @@
-package com.guigame.player;
+package com.guigame.board;
 import java.util.Random;
 
 import com.guigame.helper.type.FieldType;

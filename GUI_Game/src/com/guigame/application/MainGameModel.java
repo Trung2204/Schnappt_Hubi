@@ -5,14 +5,15 @@ import java.util.List;
 import java.util.Random;
 
 import com.guigame.board.Board;
+import com.guigame.board.Clock;
+import com.guigame.board.Compass;
 import com.guigame.board.GridCell;
 import com.guigame.helper.type.ActionType;
 import com.guigame.helper.type.CellType;
 import com.guigame.helper.type.CharacterType;
 import com.guigame.helper.type.DirectionType;
+import com.guigame.helper.type.FieldType;
 import com.guigame.helper.type.Pair;
-import com.guigame.player.Clock;
-import com.guigame.player.Compass;
 import com.guigame.player.Player;
 
 public class MainGameModel {
@@ -26,6 +27,7 @@ public class MainGameModel {
     private int numberOfMice    = 0;
    
     // Additional game state variables
+    private boolean viewUpdated;
     private static boolean win = false; 
     private static int ghostX = -1;
 	private static int ghostY = -1;
@@ -80,11 +82,11 @@ public class MainGameModel {
 	public enum GameState{
 		FIND_ADJACENT_PAIRS,
         SPIN_COMPASS,
+        SWAP_GHOST,
         UPDATE_CLOCK,
         UPDATE_PLAYER_ACTIONS,
         PERFORM_PLAYER_ACTION,
         REMOVE_PAIRS,
-        SWAP_GHOST,
         NEXT_PLAYER,
         CHECK_GAME_OVER
 	}
@@ -460,6 +462,7 @@ public class MainGameModel {
 		this.compass = new Compass();
         // Initialize the game state
         this.currentState = GameState.FIND_ADJACENT_PAIRS;
+        this.viewUpdated = false;
     }
     
     // Getter methods
@@ -473,7 +476,12 @@ public class MainGameModel {
     public int getNumberOfMice() { return numberOfMice; }
     public boolean isGhostActivated() { return isGhostActivated; }
     public boolean isMagicDoorFound() { return isMagicDoorFound; }
+    public boolean isGhostFound() { return isGhostFound; }
     public GameState getCurrentState() { return currentState; }
+    public boolean getWin() { return win; }
+    public boolean isViewUpdated() { return this.viewUpdated; }
+    
+    public void setViewUpdated(boolean viewUpdated) { this.viewUpdated = viewUpdated; }
     
     // Other methods to update the game state...
     // New methods for game logic
@@ -485,15 +493,36 @@ public class MainGameModel {
     public void spinCompass() {
         // Spin the compass...
     	compass.spin();
-        currentState = GameState.UPDATE_CLOCK;
+        currentState = GameState.SWAP_GHOST;
     }
     
     public void swapGhost() {
-        // Swap the ghost...
-        int x = ghostX;
-        int y = ghostY;
-        swapGhost(x, y);
-        currentState = GameState.NEXT_PLAYER;
+        if (!isGhostActivated) {
+        	currentState = GameState.UPDATE_CLOCK;
+        }
+        else {
+        	// Swap the ghost...
+        	if (compass.getFieldType() == FieldType.GHOST) {
+        		// If ghost is not found, moving 2 tokens of the same type
+        		if (!isGhostFound) {
+        			Random random = new Random();
+					int randomIndex = random.nextInt(adjacentPairs.size());
+					Pair chosenPair = adjacentPairs.get(randomIndex);
+					int row1 = chosenPair.getRow1();
+					int col1 = chosenPair.getCol1();
+					int row2 = chosenPair.getRow2();
+					int col2 = chosenPair.getCol2();
+
+		        	board.swapGridCells(row1, col1, row2, col2);
+		        	currentState = GameState.UPDATE_CLOCK;
+        		}
+        		// If ghost is found, moving ghost token with 1 arbitrary adjacent token
+		        else {
+					swapGhost(ghostX, ghostY);
+					currentState = GameState.UPDATE_CLOCK;
+		        }
+        	}
+        }
     }
 
     public void updateClock() {
@@ -514,17 +543,28 @@ public class MainGameModel {
     public void performPlayerAction(ActionType action, DirectionType direction) {
         // Perform the chosen action for the current player...
     	Player currentPlayer = listOfPlayers[currentPlayerIndex];
-    	if (action == ActionType.MOVE) {
-            attemptMove(currentPlayer, direction);
-        } else if (action == ActionType.VIEW_CURTAIN) {
-            attemptViewCurtain(currentPlayer, direction);
-        } else if (action == ActionType.OPEN_MAGIC_DOOR) {
-            attemptOpenMagicDoor(currentPlayer, direction);
-        } else if (action == ActionType.VIEW_TOKEN) {
-            attemptViewToken(currentPlayer);
-        } else {
-            passAction();
-        }
+    	switch (action) {
+	        case MOVE:
+	            // Perform move action
+	        	attemptMove(currentPlayer, direction);
+	            break;
+	        case VIEW_CURTAIN:
+	            // Perform view curtain action
+	        	attemptViewCurtain(currentPlayer, direction);
+	            break;
+	        case VIEW_TOKEN:
+	            // Perform view token action
+	        	attemptViewToken(currentPlayer);
+	            break;
+	        case OPEN_MAGIC_DOOR:
+	            // Perform open magic door action
+	        	attemptOpenMagicDoor(currentPlayer, direction);
+	            break;
+	        case NONE:
+	            // Perform none action
+	        	passAction();
+	            break;
+    	}
     	currentState = GameState.REMOVE_PAIRS;
     }
     public void removePairsState(int x, int y) {
@@ -566,8 +606,4 @@ public class MainGameModel {
             currentState = GameState.FIND_ADJACENT_PAIRS;
         }
     }
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
 }

@@ -5,7 +5,6 @@
     <fullyQualifiedTypeName name="javafx.scene.Group"/>
     <fullyQualifiedTypeName name="javafx.scene.layout.HBox"/>
     <fullyQualifiedTypeName name="javafx.scene.control.TextArea"/>
-    <fullyQualifiedTypeName name="com.guigame.helper.type.FieldType"/>
     <fullyQualifiedTypeName name="java.util.concurrent.TimeUnit"/>
     <fullyQualifiedTypeName name="javafx.application.Platform"/>
     <fullyQualifiedTypeName name="com.guigame.application.Game"/>
@@ -17,13 +16,19 @@
     <fullyQualifiedTypeName name="javafx.animation.KeyFrame"/>
     <fullyQualifiedTypeName name="com.guigame.player.Clock"/>
     <fullyQualifiedTypeName name="com.guigame.player.Compass"/>
-    <fullyQualifiedTypeName name="com.guigame.player.Player"/>
     <fullyQualifiedTypeName name="javafx.scene.control.Button"/>
-    <fullyQualifiedTypeName name="javafx.scene.layout.GridPane"/>
-    <fullyQualifiedTypeName name="javafx.scene.layout.VBox"/>
     <fullyQualifiedTypeName name="com.guigame.board.GridCell"/>
     <fullyQualifiedTypeName name="javafx.scene.Node"/>
     <fullyQualifiedTypeName name="javafx.scene.shape.Rectangle"/>
     <fullyQualifiedTypeName name="javafx.scene.paint.Color"/>
     <fullyQualifiedTypeName name="com.guigame.board.Board"/>
+    <fullyQualifiedTypeName name="java.lang.reflect.InvocationTargetException"/>
+    <fullyQualifiedTypeName name="javafx.scene.control.Label"/>
+    <fullyQualifiedTypeName name="javafx.scene.layout.GridPane"/>
+    <fullyQualifiedTypeName name="javafx.scene.layout.VBox"/>
+    <fullyQualifiedTypeName name="com.guigame.application.MainGameModel.GameState"/>
+    <fullyQualifiedTypeName name="com.guigame.helper.type.FieldType"/>
+    <fullyQualifiedTypeName name="javafx.scene.control.MenuItem"/>
+    <fullyQualifiedTypeName name="javafx.scene.control.MenuButton"/>
+    <fullyQualifiedTypeName name="com.guigame.player.Player"/>
 </qualifiedTypeNameHistroy>

@@ -5,12 +5,14 @@ import java.util.Random;
 import com.guigame.board.GridCell;
 import com.guigame.player.Player;
 
-import javafx.scene.Group;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -20,7 +22,7 @@ public class MainGameView {
 	private MainGameModel model;
 	private GridPane gameBoard;
 	private VBox clockAndCompass;
-	
+
 	// Constructor
     public MainGameView(MainGameModel model) {
         this.model = model;
@@ -53,40 +55,71 @@ public class MainGameView {
                 	}
                 }
                 gameBoard.add(pane, j, i);
+                gameBoard.setLayoutX(70);
+                gameBoard.setLayoutY(70);
             }
         }
     }
 
-    private Node drawGridCell(GridCell cell, int i, int j, int magicDoorX, int magicDoorY) {
+    private StackPane drawWalls(Image wallImage, Rectangle background) {
+    	StackPane stackPane = new StackPane();
+    	ImageView imageView = new ImageView();
+    	Image backgroundImage = new Image(getClass().getResource("/resources/cell_wall_background.png").toExternalForm());
+    	ImagePattern imagePattern = new ImagePattern(backgroundImage);
+    	  
+//    	background.setStroke(Color.BLACK);
+//    	background.setStrokeWidth(5);
+    	background.setFill(imagePattern);
+    	imageView.setImage(wallImage);
+    	stackPane.getChildren().addAll(background, imageView);
+    	
+    	return stackPane;
+    }
+    
+    private StackPane drawTokens(Image tokenImage, Rectangle background) {
+    	StackPane stackPane = new StackPane();
+    	ImageView imageView = new ImageView();
+        Image backgroundImage = new Image(getClass().getResource("/resources/cell_background.png").toExternalForm());
+        ImagePattern imagePattern = new ImagePattern(backgroundImage);
+        
+//    	background.setStroke(Color.BLACK);
+//    	background.setStrokeWidth(5);
+        background.setFill(imagePattern);
+        
+    	imageView.setFitHeight(32);
+    	imageView.setFitWidth(32);
+    	imageView.setImage(tokenImage);
+    	stackPane.getChildren().addAll(background, imageView);
+    	StackPane.setAlignment(imageView, Pos.CENTER);
+    	return stackPane;
+    }
+    
+    private StackPane drawGridCell(GridCell cell, int i, int j, int magicDoorX, int magicDoorY) {
         // Create a new Node to represent the cell
         // This could be an ImageView for an image, a Rectangle for a colored square, etc.
-        Rectangle rectangle = new Rectangle(100, 100, Color.WHITE);
-        Rectangle imageRectangle = new Rectangle(32, 32);
+        StackPane stackPane = new StackPane();
+        Rectangle background = new Rectangle(100, 100);
+
         switch (cell.getCellType()) {
-	        case NONE_WALL: {
-				imageRectangle = new Rectangle(100, 100);
-				Image noneWallImage = new Image(getClass().getResource("/resources/none_wall.png").toExternalForm()); // replace with your image path
-				imageRectangle.setFill(new ImagePattern(noneWallImage));
-				imageRectangle.setLayoutX((rectangle.getWidth() - imageRectangle.getWidth()) / 2);
-				imageRectangle.setLayoutY((rectangle.getHeight() - imageRectangle.getHeight()) / 2);
-				break;
-			}
+
 			case CARROT_TOKEN: {
 				Image carrotImage = new Image(getClass().getResource("/resources/carrot_token.png").toExternalForm()); // replace with your image path
-				imageRectangle.setFill(new ImagePattern(carrotImage));
-				imageRectangle.setLayoutX((rectangle.getWidth() - imageRectangle.getWidth()) / 2);
-				imageRectangle.setLayoutY((rectangle.getHeight() - imageRectangle.getHeight()) / 2);
+				stackPane = drawTokens(carrotImage, background);
 				break;
 			}
 			case CHEESE_TOKEN: {
 				Image cheeseImage = new Image(getClass().getResource("/resources/cheese_token.png").toExternalForm()); // replace with your image path
-				imageRectangle.setFill(new ImagePattern(cheeseImage));
-				imageRectangle.setLayoutX((rectangle.getWidth() - imageRectangle.getWidth()) / 2);
-				imageRectangle.setLayoutY((rectangle.getHeight() - imageRectangle.getHeight()) / 2);
+				stackPane = drawTokens(cheeseImage, background);
 				break;
 			}
+			
+	        case NONE_WALL: {
+				Image noneWallImage = new Image(getClass().getResource("/resources/none_wall.png").toExternalForm()); // replace with your image path
+				stackPane = drawWalls(noneWallImage, background);
+				break;
+			}
+	        
 			case CURTAIN_WALL: {
-				imageRectangle = new Rectangle(100, 100);
 				Image curtainImage = null;
 				if (i == 1 || i == 3)	{
 					curtainImage = new Image(getClass().getResource("/resources/horizontal_curtain_wall.png").toExternalForm()); // replace with your image path
@@ -94,16 +127,12 @@ public class MainGameView {
 				else {
 					curtainImage = new Image(getClass().getResource("/resources/vertical_curtain_wall.png").toExternalForm()); // replace with your image path
 				}
-				imageRectangle.setFill(new ImagePattern(curtainImage));
-				imageRectangle.setLayoutX((rectangle.getWidth() - imageRectangle.getWidth()) / 2);
-				imageRectangle.setLayoutY((rectangle.getHeight() - imageRectangle.getHeight()) / 2);
+				stackPane = drawWalls(curtainImage, background);
 				break;
 			}
 			case WINDOW_WALL: {
-				imageRectangle = new Rectangle(100, 100);
-				Image windowWallImage = null;
-				Random random = new Random();
-				int randomValue = random.nextInt(2); // Generates either 0 or 1
+				Image windowWallImage;
+				int randomValue = new Random().nextInt(2); // Generates either 0 or 1
 	
 				if (i == 1 || i == 3)	{
 					windowWallImage = new Image(getClass().getResource("/resources/horizontal_window_wall.png").toExternalForm()); // replace with your image path
@@ -115,27 +144,21 @@ public class MainGameView {
 						windowWallImage = new Image(getClass().getResource("/resources/vertical_closed_window_wall.png").toExternalForm());
 					}
 				}
-				imageRectangle.setFill(new ImagePattern(windowWallImage));
-				imageRectangle.setLayoutX((rectangle.getWidth() - imageRectangle.getWidth()) / 2);
-				imageRectangle.setLayoutY((rectangle.getHeight() - imageRectangle.getHeight()) / 2);
+				stackPane = drawWalls(windowWallImage, background);
 				break;
 			}
 			case MOUSEHOLE_WALL: {
-				imageRectangle = new Rectangle(100, 100);
-				Image mouseHoleImage = null;
+				Image mouseHoleImage;
 				if (i == 1 || i == 3)	{
 					mouseHoleImage = new Image(getClass().getResource("/resources/horizontal_mousehole_wall.png").toExternalForm()); // replace with your image path
 				}
 				else {
 					mouseHoleImage = new Image(getClass().getResource("/resources/vertical_mousehole_wall.png").toExternalForm()); // replace with your image path
 				}
-				imageRectangle.setFill(new ImagePattern(mouseHoleImage));
-				imageRectangle.setLayoutX((rectangle.getWidth() - imageRectangle.getWidth()) / 2);
-				imageRectangle.setLayoutY((rectangle.getHeight() - imageRectangle.getHeight()) / 2);
+				stackPane = drawWalls(mouseHoleImage, background);
 				break;
 			}
 			case OPEN_WALL: {
-				imageRectangle = new Rectangle(100, 100);
 				Image openWallImage = null;
 				if (i == 1 || i == 3){
 					if (i == magicDoorX && j == magicDoorY)	{
@@ -152,107 +175,74 @@ public class MainGameView {
 						openWallImage = new Image(getClass().getResource("/resources/vertical_open_wall.png").toExternalForm()); // replace with your image path
 					}
 				}
-				imageRectangle.setFill(new ImagePattern(openWallImage));
-				imageRectangle.setLayoutX((rectangle.getWidth() - imageRectangle.getWidth()) / 2);
-				imageRectangle.setLayoutY((rectangle.getHeight() - imageRectangle.getHeight()) / 2);
+				stackPane = drawWalls(openWallImage, background);
 				break;
 			}
 			case MAGIC_DOOR_WALL: {
-				imageRectangle = new Rectangle(100, 100);
-				Image magicDoorImage = null;
+				Image magicDoorImage;
 				if (i == 1 || i == 3)	{
 					magicDoorImage = new Image(getClass().getResource("/resources/horizontal_closed_magic_door_wall_curtain.png").toExternalForm()); // replace with your image path
 				}
 				else {
 					magicDoorImage = new Image(getClass().getResource("/resources/vertical_closed_magic_door_wall_curtain.png").toExternalForm()); // replace with your image path
 				}
-				imageRectangle.setFill(new ImagePattern(magicDoorImage));
-				imageRectangle.setLayoutX((rectangle.getWidth() - imageRectangle.getWidth()) / 2);
-				imageRectangle.setLayoutY((rectangle.getHeight() - imageRectangle.getHeight()) / 2);
+				stackPane = drawWalls(magicDoorImage, background);
 				break;
 			}
 	
 			case GHOST: {
-				imageRectangle = new Rectangle(100, 100);
 				Image ghostImage = new Image(getClass().getResource("/resources/ghost.png").toExternalForm()); // replace with your image path
-				imageRectangle.setFill(new ImagePattern(ghostImage));
-				imageRectangle.setLayoutX((rectangle.getWidth() - imageRectangle.getWidth()) / 2);
-				imageRectangle.setLayoutY((rectangle.getHeight() - imageRectangle.getHeight()) / 2);
+				stackPane = drawWalls(ghostImage, background);
 				break;
 			}
 	
 			case DARK_CATERPILLAR: {
-				imageRectangle = new Rectangle(100, 100);
 				Image darkCaterImage = new Image(getClass().getResource("/resources/black_caterpillar.png").toExternalForm()); // replace with your image path
-				imageRectangle.setFill(new ImagePattern(darkCaterImage));
-				imageRectangle.setLayoutX((rectangle.getWidth() - imageRectangle.getWidth()) / 2);
-				imageRectangle.setLayoutY((rectangle.getHeight() - imageRectangle.getHeight()) / 2);
+				stackPane = drawTokens(darkCaterImage, background);
 				break;
 			}
 	
 			case DARK_FROG: {
-				imageRectangle = new Rectangle(100, 100);
-				Image darkFrogIM = new Image(getClass().getResource("/resources/black_frog.png").toExternalForm()); // replace with your image path
-				imageRectangle.setFill(new ImagePattern(darkFrogIM));
-				imageRectangle.setLayoutX((rectangle.getWidth() - imageRectangle.getWidth()) / 2);
-				imageRectangle.setLayoutY((rectangle.getHeight() - imageRectangle.getHeight()) / 2);
+				Image darkFrogImage = new Image(getClass().getResource("/resources/black_frog.png").toExternalForm()); // replace with your image path
+				stackPane = drawTokens(darkFrogImage, background);
 				break;
 			}
 			case DARK_BAT: {
-				imageRectangle = new Rectangle(100, 100);
-				Image darkBatIm = new Image(getClass().getResource("/resources/black_bat.png").toExternalForm()); // replace with your image path
-				imageRectangle.setFill(new ImagePattern(darkBatIm));
-				imageRectangle.setLayoutX((rectangle.getWidth() - imageRectangle.getWidth()) / 2);
-				imageRectangle.setLayoutY((rectangle.getHeight() - imageRectangle.getHeight()) / 2);
+				Image darkBatImage = new Image(getClass().getResource("/resources/black_bat.png").toExternalForm()); // replace with your image path
+				stackPane = drawTokens(darkBatImage, background);
 				break;
 			}
 			case DARK_OWL: {
-				imageRectangle = new Rectangle(100, 100);
-				Image darkOwlIm = new Image(getClass().getResource("/resources/black_owl.png").toExternalForm()); // replace with your image path
-				imageRectangle.setFill(new ImagePattern(darkOwlIm));
-				imageRectangle.setLayoutX((rectangle.getWidth() - imageRectangle.getWidth()) / 2);
-				imageRectangle.setLayoutY((rectangle.getHeight() - imageRectangle.getHeight()) / 2);
+				Image darkOwlImage = new Image(getClass().getResource("/resources/black_owl.png").toExternalForm()); // replace with your image path
+				stackPane = drawTokens(darkOwlImage, background);
 				break;
 			}
 	
 			case WHITE_BAT: {
-				imageRectangle = new Rectangle(100, 100);
-				Image whiteBatIm = new Image(getClass().getResource("/resources/white_bat.png").toExternalForm()); // replace with your image path
-				imageRectangle.setFill(new ImagePattern(whiteBatIm));
-				imageRectangle.setLayoutX((rectangle.getWidth() - imageRectangle.getWidth()) / 2);
-				imageRectangle.setLayoutY((rectangle.getHeight() - imageRectangle.getHeight()) / 2);
+				Image whiteBatImage = new Image(getClass().getResource("/resources/white_bat.png").toExternalForm()); // replace with your image path
+				stackPane = drawTokens(whiteBatImage, background);
 				break;
 			}
 			case WHITE_CATERPILLAR: {
-				imageRectangle = new Rectangle(100, 100);
-				Image whiteCaterIm = new Image(getClass().getResource("/resources/white_caterpillar.png").toExternalForm()); // replace with your image path
-				imageRectangle.setFill(new ImagePattern(whiteCaterIm));
-				imageRectangle.setLayoutX((rectangle.getWidth() - imageRectangle.getWidth()) / 2);
-				imageRectangle.setLayoutY((rectangle.getHeight() - imageRectangle.getHeight()) / 2);
+				Image whiteCaterImage = new Image(getClass().getResource("/resources/white_caterpillar.png").toExternalForm()); // replace with your image path
+				stackPane = drawTokens(whiteCaterImage, background);
 				break;
 			}
 			case WHITE_FROG: {
-				imageRectangle = new Rectangle(100, 100);
-				Image whiteFrogIm = new Image(getClass().getResource("/resources/white_frog.png").toExternalForm()); // replace with your image path
-				imageRectangle.setFill(new ImagePattern(whiteFrogIm));
-				imageRectangle.setLayoutX((rectangle.getWidth() - imageRectangle.getWidth()) / 2);
-				imageRectangle.setLayoutY((rectangle.getHeight() - imageRectangle.getHeight()) / 2);
+				Image whiteFrogImage = new Image(getClass().getResource("/resources/white_frog.png").toExternalForm()); // replace with your image path
+				stackPane = drawTokens(whiteFrogImage, background);
 				break;
 			}
 			case WHITE_OWL: {
-				imageRectangle = new Rectangle(100, 100);
-				Image whiteOwlIm = new Image(getClass().getResource("/resources/white_owl.png").toExternalForm()); // replace with your image path
-				imageRectangle.setFill(new ImagePattern(whiteOwlIm));
-				imageRectangle.setLayoutX((rectangle.getWidth() - imageRectangle.getWidth()) / 2);
-				imageRectangle.setLayoutY((rectangle.getHeight() - imageRectangle.getHeight()) / 2);
+				Image whiteOwlImage = new Image(getClass().getResource("/resources/white_owl.png").toExternalForm()); // replace with your image path
+				stackPane = drawTokens(whiteOwlImage, background);
 				break;
 			}
 			default:
-				rectangle.setFill(Color.BLACK);
 				break;
         }
-        Group group = new Group(rectangle, imageRectangle);
-	    return group;
+//        stackPane.getChildren().addAll(background, imageView);
+	    return stackPane;
     }
     
     private Node drawPlayer(Player player) {
@@ -281,13 +271,18 @@ public class MainGameView {
 		Label clockLabel = new Label("CLOCK");
 		Label timeLabel = new Label();
 		timeLabel.setText("Time: "+model.getClock().getTime());
+		clockLabel.setTextFill(Color.WHITE);
+		timeLabel.setTextFill(Color.WHITE);
 		
 		Label compassLabel = new Label("COMPASS");
 		Label fieldLabel = new Label();
 		fieldLabel.setText("Field: "+model.getCompass().getFieldType());
+		compassLabel.setTextFill(Color.WHITE);
+		fieldLabel.setTextFill(Color.WHITE);
 		
 		Label actionNumberLabel = new Label();
 		actionNumberLabel.setText("Number of actions: "+model.getCompass().getNumberOfAction());
+		actionNumberLabel.setTextFill(Color.WHITE);
 		
 		clockAndCompass.getChildren().addAll(clockLabel,timeLabel,compassLabel,fieldLabel,actionNumberLabel);
 	}

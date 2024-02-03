@@ -27,7 +27,6 @@ public class MainGameModel {
     private int numberOfMice    = 0;
    
     // Additional game state variables
-    private boolean viewUpdated;
     private static boolean win = false; 
     private static int ghostX = -1;
 	private static int ghostY = -1;
@@ -36,7 +35,7 @@ public class MainGameModel {
 	private static boolean isGhostActivated = false;
 
     private static List<Pair> adjacentPairs = new ArrayList<>();
-    private void findAdjacentPairs() {
+    public void findAdjacentPairs() {
         // Iterate through the array
         for (int x = 0; x < board.getBoardSize(); x = x + 2) {
             for (int y = 0; y < board.getBoardSize(); y = y + 2) {
@@ -80,61 +79,64 @@ public class MainGameModel {
     
     // Game states
 	public enum GameState{
-		FIND_ADJACENT_PAIRS,
         SPIN_COMPASS,
-        SWAP_GHOST,
         UPDATE_CLOCK,
         UPDATE_PLAYER_ACTIONS,
         PERFORM_PLAYER_ACTION,
-        REMOVE_PAIRS,
         NEXT_PLAYER,
-        CHECK_GAME_OVER
+        CHECK_GAME_OVER,
+        WIN,
+        LOSE
 	}
 	private GameState currentState;
-    
-    private boolean handlePhaseOne(Player currentPlayer, ActionType action, DirectionType direction) {
-        // If Magic Door has not been found yet, players can only view the curtain or move
-        if (!isMagicDoorFound) {
-            if (action == ActionType.MOVE) {
-                return attemptMove(currentPlayer, direction);
-            }
-            else if (action == ActionType.VIEW_CURTAIN) {
-                return attemptViewCurtain(currentPlayer, direction);
-            }
-            else return passAction();
-        }
-        // If Magic Door has been found, the action Open Magic Door is added
-        else {
-            if (action == ActionType.MOVE) {
-                return attemptMove(currentPlayer, direction);
-            }
-            else if (action == ActionType.VIEW_CURTAIN) {
-                return attemptViewCurtain(currentPlayer, direction);
-            }
-            else if (action == ActionType.OPEN_MAGIC_DOOR) {
-                return attemptOpenMagicDoor(currentPlayer, direction);
-            }
-            else return passAction();
-        }
-//	    // Default return statement
-//		return false;
-    }
-	private boolean handlePhaseTwo(Player currentPlayer, ActionType action, DirectionType direction) {
-	        // In this phase, the magic door is now open wall, no need to consider it anymore
-	        if (action == ActionType.MOVE) {
-	            return attemptMove(currentPlayer, direction);
-	        }
-	        else if (action == ActionType.VIEW_CURTAIN) {
-	            return attemptViewCurtain(currentPlayer, direction);
-	        }
-	        else if (action == ActionType.VIEW_TOKEN) {
-	            return attemptViewToken(currentPlayer);
-	        }
-	        else return passAction();
-	//	    // Default return statement
-	//		return false;
+    private boolean viewUpdated;
+	
+	private void handlePhaseOne(Player currentPlayer, ActionType action, DirectionType direction) {
+    	// If Magic Door has not been found yet, players can only view the curtain or move
+	    if (!isMagicDoorFound) {
+	    	switch (action) {
+	    	case MOVE:
+	    		attemptMove(currentPlayer,direction);
+	    		break;
+	    	case VIEW_CURTAIN:
+	        	attemptViewCurtain(currentPlayer, direction);
+	            break;
+			default:
+				break;
+	    	}
 	    }
-	private boolean attemptMove(Player currentPlayer, DirectionType direction) {
+	    // If Magic Door has been found, the action Open Magic Door is added
+	    else {
+	    	switch (action) {
+	    	case MOVE:
+	    		attemptMove(currentPlayer,direction);
+	    		break;
+	    	case VIEW_CURTAIN:
+	        	attemptViewCurtain(currentPlayer, direction);
+	            break;
+	    	case OPEN_MAGIC_DOOR:
+	    		attemptOpenMagicDoor(currentPlayer, direction);
+	    		break;
+			default:
+				break;
+	    	}
+	    }
+    }
+    private void handlePhaseTwo(Player currentPlayer, ActionType action, DirectionType direction) {
+    	switch (action) {
+    	case MOVE:
+    		attemptMove(currentPlayer,direction);
+    		break;
+    	case VIEW_CURTAIN:
+        	attemptViewCurtain(currentPlayer, direction);
+            break;
+    	case VIEW_TOKEN:
+    		attemptViewToken(currentPlayer);
+		default:
+			break;
+    	}
+    }
+	private void attemptMove(Player currentPlayer, DirectionType direction) {
 	    int newX = currentPlayer.getX();
 	    int newY = currentPlayer.getY();
 	
@@ -161,7 +163,6 @@ public class MainGameModel {
 	        // Check if the adjacent cell is a curtain wall
 	        if (adjacentCell.getCellType() == CellType.CURTAIN_WALL) {
 	            System.err.println("\n" + "CANNOT MOVE BECAUSE OF CURTAIN!" + "\n");
-	            return false;
 	        }
 	        // If not a curtain wall, then move the player
 	        else {
@@ -170,10 +171,8 @@ public class MainGameModel {
 	                if (adjacentCell.getCellType() == CellType.WINDOW_WALL || adjacentCell.getCellType() == CellType.OPEN_WALL) {
 	                    System.out.println("Player's moving...");
 	                    currentPlayer.move(direction);
-	                    return true;
 	                } else {
 	                    System.err.println("\n" + "Rabbit can only move through WINDOW or OPEN wall");
-	                    return false;
 	                }
 	            }
 	            // Mouse can only move through Mouse hole and Open wall
@@ -181,21 +180,16 @@ public class MainGameModel {
 	                if (adjacentCell.getCellType() == CellType.MOUSEHOLE_WALL || adjacentCell.getCellType() == CellType.OPEN_WALL) {
 	                    System.out.println("Player's moving...");
 	                    currentPlayer.move(direction);
-	                    return true;
 	                } else {
 	                    System.err.println("\n" + "Mouse can only move through MOUSE HOLE or OPEN wall");
-	                    return false;
 	                }
 	            }
 	        }
 	    } else {
 	        System.err.println("\n" + "MOVE OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
-	        return false;
 	    }
-	    // Default return statement
-	    return false;
 	}
-	private boolean attemptViewCurtain(Player currentPlayer, DirectionType direction) {
+	private void attemptViewCurtain(Player currentPlayer, DirectionType direction) {
 	    int newX = currentPlayer.getX();
 	    int newY = currentPlayer.getY();
 	    switch (direction) {
@@ -227,19 +221,16 @@ public class MainGameModel {
 	                System.err.println("Magic door is found, needs at least 1 player on each side and use 1 action to open!");
 	                isMagicDoorFound = true;
 	            }
-	            return true;
 	        }
 	        // If not a curtain wall, cannot perform action
 	        else {
 	            System.err.println( "\n" + "The wall has already been revealed" + "\n");
-	            return false;
 	        }
 	    } else {
 	        System.err.println( "\n" + "VIEW CURTAIN OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
-	        return false;
 	    }
 	}
-	private boolean attemptViewToken (Player currentPlayer) {
+	private void attemptViewToken (Player currentPlayer) {
 	    int newX = currentPlayer.getX();
 	    int newY = currentPlayer.getY();
 	    GridCell newCell = board.getGridCellAt(newX, newY);
@@ -256,13 +247,10 @@ public class MainGameModel {
 	                ghostY = newY;
 	                System.out.println("Ghost is found at ("+ghostX+","+ghostY+")");
 	            }
-	            return true;
 	        } else if (newCell.getCellType() == CellType.CHEESE_TOKEN){
 	            System.err.println("\n" + "Rabbit can only view carrot tokens");
-	            return false;
 	        } else {
 	            System.out.println("\n" + "The token has already been revealed");
-	            return false;
 	        }
 	    }
 	    // Mouse can only view cheese tokens
@@ -278,19 +266,14 @@ public class MainGameModel {
 	                ghostY = newY;
 	                System.out.println("Ghost is found at ("+ghostX+","+ghostY+")");
 	            }
-	            return true;
 	        } else if (newCell.getCellType() == CellType.CARROT_TOKEN) {
 	            System.err.println("Mouse can only view cheese tokens");
-	            return false;
 	        } else {
 	            System.out.println("The token has already been revealed");
-	            return false;
 	        }
 	    }
-	    // Default return statement
-	    return false;
 	}
-	private boolean attemptOpenMagicDoor(Player currentPlayer, DirectionType direction) {
+	private void attemptOpenMagicDoor(Player currentPlayer, DirectionType direction) {
 	        int newX = currentPlayer.getX();
 	        int newY = currentPlayer.getY();
 	        switch (direction) {
@@ -347,28 +330,18 @@ public class MainGameModel {
 	                    if (isGhostActivated == false) {
 	                        isGhostActivated = true;
 	                    }
-	                    return true;
 	                } else {
 	                    System.err.println("THERE IS NO PLAYER ON THE OTHER SIDE OF THE BOARD. PLEASE TRY AGAIN.");
-	                    return false;
 	                }
 	            }
 	            // If it's not a magic door, player cannot open it
 	            else {
 	                System.err.println("This is not the magic door! Try to move to the magic door to open it!");
-	                return false;
 	            }
 	        } else {
 	            System.err.println( "\n" + "OPEN MAGIC DOOR OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
-	            return false;
 	        }
-	//		// Default return statement
-	//		return false;
 	    }
-	private boolean passAction() {
-	    System.out.println("Player do nothing...");
-	    return true;
-	}
 	private void swapGhost(int x, int y) {
 	    // Create a Random object
 	    Random random = new Random();
@@ -424,14 +397,12 @@ public class MainGameModel {
 	                    repeat = true;
 	                }
 	                break;
-	
-	
 	            default:
 	                // Handle default case
 	        }
 	    } while (repeat);
 	}
-	private void scanForWin()	{
+	private void scanForWin() {
 	    int count = 0;
 	    for (int i = 0; i < numberOfPlayers; i++) {
 	        int playerX = listOfPlayers[i].getX();
@@ -461,7 +432,7 @@ public class MainGameModel {
 		this.clock = new Clock();
 		this.compass = new Compass();
         // Initialize the game state
-        this.currentState = GameState.FIND_ADJACENT_PAIRS;
+        this.currentState = GameState.SPIN_COMPASS;
         this.viewUpdated = false;
     }
     
@@ -480,49 +451,36 @@ public class MainGameModel {
     public GameState getCurrentState() { return currentState; }
     public boolean getWin() { return win; }
     public boolean isViewUpdated() { return this.viewUpdated; }
-    
+    // Setter methods
     public void setViewUpdated(boolean viewUpdated) { this.viewUpdated = viewUpdated; }
+    public void setCurrentState(GameState currentState) { this.currentState = currentState; }
     
     // Other methods to update the game state...
-    // New methods for game logic
-    public void findAdjacentPairsState() {
-		findAdjacentPairs();
-    	currentState = GameState.SPIN_COMPASS;
-    }
-    
     public void spinCompass() {
         // Spin the compass...
     	compass.spin();
-        currentState = GameState.SWAP_GHOST;
-    }
-    
-    public void swapGhost() {
-        if (!isGhostActivated) {
-        	currentState = GameState.UPDATE_CLOCK;
-        }
-        else {
-        	// Swap the ghost...
+    	// In phase 2, when the magic door was opened, if hitting ghost field, ghost moves
+    	if (isGhostActivated) {
         	if (compass.getFieldType() == FieldType.GHOST) {
         		// If ghost is not found, moving 2 tokens of the same type
-        		if (!isGhostFound) {
-        			Random random = new Random();
-					int randomIndex = random.nextInt(adjacentPairs.size());
-					Pair chosenPair = adjacentPairs.get(randomIndex);
-					int row1 = chosenPair.getRow1();
-					int col1 = chosenPair.getCol1();
-					int row2 = chosenPair.getRow2();
-					int col2 = chosenPair.getCol2();
+    	        if (!isGhostFound) {
+    				Random random = new Random();
+    				int randomIndex = random.nextInt(adjacentPairs.size());
+    				Pair chosenPair = adjacentPairs.get(randomIndex);
+    				int row1 = chosenPair.getRow1();
+    				int col1 = chosenPair.getCol1();
+    				int row2 = chosenPair.getRow2();
+    				int col2 = chosenPair.getCol2();
 
-		        	board.swapGridCells(row1, col1, row2, col2);
-		        	currentState = GameState.UPDATE_CLOCK;
-        		}
-        		// If ghost is found, moving ghost token with 1 arbitrary adjacent token
-		        else {
-					swapGhost(ghostX, ghostY);
-					currentState = GameState.UPDATE_CLOCK;
-		        }
+    	        	board.swapGridCells(row1, col1, row2, col2);
+    	        }
+    	        // If ghost is found, moving ghost token with 1 arbitrary adjacent token
+    	        else {
+    				swapGhost(ghostX, ghostY);
+    	        }
         	}
-        }
+    	}
+        currentState = GameState.UPDATE_CLOCK;
     }
 
     public void updateClock() {
@@ -539,48 +497,20 @@ public class MainGameModel {
         currentPlayer.setNumberOfActions(compass.getNumberOfAction());
         currentState = GameState.PERFORM_PLAYER_ACTION; 
     }
-
+   
     public void performPlayerAction(ActionType action, DirectionType direction) {
         // Perform the chosen action for the current player...
     	Player currentPlayer = listOfPlayers[currentPlayerIndex];
-    	switch (action) {
-	        case MOVE:
-	            // Perform move action
-	        	attemptMove(currentPlayer, direction);
-	            break;
-	        case VIEW_CURTAIN:
-	            // Perform view curtain action
-	        	attemptViewCurtain(currentPlayer, direction);
-	            break;
-	        case VIEW_TOKEN:
-	            // Perform view token action
-	        	attemptViewToken(currentPlayer);
-	            break;
-	        case OPEN_MAGIC_DOOR:
-	            // Perform open magic door action
-	        	attemptOpenMagicDoor(currentPlayer, direction);
-	            break;
-	        case NONE:
-	            // Perform none action
-	        	passAction();
-	            break;
-    	}
-    	currentState = GameState.REMOVE_PAIRS;
-    }
-    public void removePairsState(int x, int y) {
-    	// Create a copy of the list to avoid ConcurrentModificationException
-        List<Pair> pairsToRemove = new ArrayList<>();
-
-        // Scan the list for pairs with the specified coordinates
-        for (Pair pair : adjacentPairs) {
-            if ((pair.getRow1() == x && pair.getCol1() == y) || (pair.getRow2() == x && pair.getCol2() == y)) {
-                pairsToRemove.add(pair);
-            }
-        }
-
-        // Remove the identified pairs
-        adjacentPairs.removeAll(pairsToRemove);
-        currentState = GameState.NEXT_PLAYER;
+    	// Phase 1
+		if (!isGhostActivated) {
+			handlePhaseOne(currentPlayer, action, direction);
+		}
+		// Phase 2
+		else {
+			handlePhaseTwo(currentPlayer, action, direction);
+//			scanForWin();
+		}
+    	currentState = GameState.PERFORM_PLAYER_ACTION;
     }
 
     public void nextPlayer() {
@@ -595,15 +525,17 @@ public class MainGameModel {
         if (win) {
             // Handle game over...
         	System.out.println("Game over! Congratulations, you win!");
+        	currentState = GameState.WIN;
         } 
         if (clock.getTime() == 12) {
             System.err.println("\nTIME'S UP");
             if (!win) {
                 System.out.println("You lose! Better luck next time");
             }
+            currentState = GameState.LOSE;
         }
         else {
-            currentState = GameState.FIND_ADJACENT_PAIRS;
+            currentState = GameState.SPIN_COMPASS;
         }
     }
 }

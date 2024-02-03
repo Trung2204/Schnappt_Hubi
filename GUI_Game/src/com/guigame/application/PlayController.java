@@ -1,6 +1,8 @@
 package com.guigame.application;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import com.guigame.helper.type.CharacterType;
 import com.guigame.player.Player;
@@ -8,18 +10,22 @@ import com.guigame.player.Player;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class PlayController {
+public class PlayController implements Initializable {
+	public ImageView playBackground;
 	private Stage stage;
 	private Scene scene;
 	private AnchorPane root;
@@ -333,7 +339,7 @@ public class PlayController {
         GridPane gridPaneBoard = view.getGameBoard();
         VBox clockCompassBox = view.getClockAndCompass();
         // Set the VBox to the top right corner
-        AnchorPane.setTopAnchor(clockCompassBox, 0.0);
+        AnchorPane.setTopAnchor(clockCompassBox, 500.0);
         AnchorPane.setRightAnchor(clockCompassBox, 0.0);
         root.getChildren().addAll(gridPaneBoard, clockCompassBox);
         
@@ -349,5 +355,10 @@ public class PlayController {
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
+	}
+	public void initialize(URL location, ResourceBundle resources) {
+		// Load the background image using getClass().getResource()
+		Image backgroundImage = new Image(getClass().getResource("/resources/playBackground.jpg").toExternalForm());
+		playBackground.setImage(backgroundImage);
 	}
 }

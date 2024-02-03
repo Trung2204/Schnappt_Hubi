@@ -23,7 +23,6 @@ public class CreditController implements Initializable {
 	public ImageView DMTimage;
 	@FXML
 	private Label nptpLabel;
-	public ImageView NPTPimage;
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
@@ -36,7 +35,6 @@ public class CreditController implements Initializable {
 		Image hmtImage = new Image(getClass().getResource("/resources/void blep.jpg").toExternalForm());
 		HMTimage.setImage(hmtImage);
 		DMTimage.setImage(hmtImage);
-		NPTPimage.setImage(hmtImage);
 
 		nptpLabel.setText("Nguyen Phuoc\nThien Phu");
 //

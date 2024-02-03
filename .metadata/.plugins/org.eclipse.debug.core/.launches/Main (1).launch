@@ -14,5 +14,4 @@
     <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.guigame.application.Main"/>
     <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="GUI_Game"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="GUI_Game"/>
-    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="--module-path &quot;C:\Program Files\JavaFX\javafx-sdk-21.0.2\lib&quot; --add-modules javafx.controls,javafx.fxml"/>
 </launchConfiguration>

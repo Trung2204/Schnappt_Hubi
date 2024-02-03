@@ -192,7 +192,7 @@ public class MainGameView {
 	
 			case GHOST: {
 				Image ghostImage = new Image(getClass().getResource("/resources/ghost.png").toExternalForm()); // replace with your image path
-				stackPane = drawWalls(ghostImage, background);
+				stackPane = drawTokens(ghostImage, background);
 				break;
 			}
 	

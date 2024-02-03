@@ -9,154 +9,72 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id = "root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.guigame.application.MainGameController">
+<AnchorPane fx:id="MainGameAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.guigame.application.MainGameController">
    <children>
-      <Pane layoutX="640.0" layoutY="0.0" prefHeight="170.0" prefWidth="350.0" style="-fx-background-color: GREY;">
+   <ImageView cache="true" cacheHint="QUALITY" fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../../resources/maingame_background.jpeg" />
+         </image>
+      </ImageView>
+      <Pane layoutX="640.0" layoutY="150.0" prefHeight="350.0" prefWidth="350.0" style="-fx-background-color: GREY;">
          <children>
-            <Label alignment="CENTER" layoutY="10.0" prefHeight="17.0" prefWidth="350.0" text="PLAYER CHOOSE ACTIONS">
+            <Label alignment="CENTER" layoutY="10.0" prefHeight="20.0" prefWidth="350.0" text="PLAYER CHOOSE ACTIONS">
                <font>
                   <Font name="Montserrat Black" size="16.0" />
                </font>
             </Label>
-            <Separator layoutY="30.0" prefHeight="13.0" prefWidth="350.0" />
-            <Button layoutX="230.0" layoutY="64.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="UP" />
-            <Button layoutX="230.0" layoutY="116.0" mnemonicParsing="false" onAction="#handleDownDirectionSelectionPlayer1" prefHeight="25.0" prefWidth="55.0" text="DOWN" />
-            <Button layoutX="175.0" layoutY="91.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="LEFT" />
-            <Button layoutX="285.0" layoutY="91.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="RIGHT" />
-            <MenuButton fx:id="player1ActionTypes" layoutX="12.0" layoutY="88.0" mnemonicParsing="false" text="Action Types">
+            <Separator layoutY="30.0" prefHeight="15.0" prefWidth="350.0" />
+            <Label fx:id="playerIndexLabel" alignment="CENTER" layoutX="55.0" layoutY="55.0" text="Player ONE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="numberOfActionsLabel" layoutX="180.0" layoutY="53.0" prefHeight="55.0" prefWidth="156.0" text="Number of remaining actions: 0" textOverrun="LEADING_WORD_ELLIPSIS" wrapText="true">
+               <font>
+                  <Font name="System Italic" size="16.0" />
+               </font>
+            </Label>
+            <Button fx:id="upButton" alignment="CENTER" layoutX="230.0" layoutY="150.0" mnemonicParsing="false" onAction="#handleUp" prefHeight="25.0" prefWidth="55.0" text="UP" />
+            <Button fx:id="downButton" alignment="CENTER" layoutX="230.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleDown" prefHeight="25.0" prefWidth="55.0" text="DOWN" />
+            <Button fx:id="leftButton" alignment="CENTER" layoutX="175.0" layoutY="175.0" mnemonicParsing="false" onAction="#handleLeft" prefHeight="25.0" prefWidth="55.0" text="LEFT" />
+            <Button fx:id="rightButton" alignment="CENTER" layoutX="285.0" layoutY="175.0" mnemonicParsing="false" onAction="#handleRight" prefHeight="25.0" prefWidth="55.0" text="RIGHT" />
+            <MenuButton fx:id="ActionTypes" layoutX="15.0" layoutY="175.0" mnemonicParsing="false" text="Action Types">
               <items>
-                <MenuItem mnemonicParsing="false" onAction="#handleMoveActionSelectionPlayer1" text="Move" />
-                <MenuItem mnemonicParsing="false" onAction ="#handleViewCurtainActionSelectionPlayer1" text="View Curtain" />
-				<MenuItem mnemonicParsing="false" text="Open Magic Door" />
-				<MenuItem mnemonicParsing="false" text="View Token" />
-				<MenuItem mnemonicParsing="false" text="Skip one action" />
+                <MenuItem mnemonicParsing="false" onAction="#handleMove" text="Move" />
+                <MenuItem mnemonicParsing="false" onAction="#handleViewCurtain" text="View Curtain" />
+				<MenuItem mnemonicParsing="false" onAction="#handleOpenMagicDoor" text="Open Magic Door" />
+				<MenuItem mnemonicParsing="false" onAction="#handleViewToken" text="View Token" />
               </items>
                <font>
                   <Font size="14.0" />
                </font>
             </MenuButton>
-            <Label layoutX="68.0" layoutY="52.0" text="Player One">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font>
-            </Label>
-            <ImageView fitHeight="55.0" fitWidth="55.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="55.0" fitWidth="55.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../resources/rabbit_1.png" />
+                  <Image url="@../../../resources/rabbit_1.png" />
                </image>
             </ImageView>
+            <Button fx:id="endTurnButton" alignment="CENTER" layoutX="225.0" layoutY="269.0" mnemonicParsing="false" onAction="#handleEndTurn" text="End Turn" />
          </children>
       </Pane>
-      <Pane layoutX="640.0" layoutY="175.0" prefHeight="170.0" prefWidth="350.0" style="-fx-background-color: GREY;">
-         <children>
-            <Label alignment="CENTER" layoutY="10.0" prefHeight="17.0" prefWidth="350.0" text="PLAYER CHOOSE ACTIONS">
-               <font>
-                  <Font name="Montserrat Black" size="16.0" />
-               </font>
-            </Label>
-            <Separator layoutY="30.0" prefHeight="13.0" prefWidth="350.0" />
-            <Button layoutX="230.0" layoutY="64.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="UP" />
-            <Button layoutX="230.0" layoutY="116.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="DOWN" />
-            <Button layoutX="175.0" layoutY="91.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="LEFT" />
-            <Button layoutX="285.0" layoutY="91.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="RIGHT" />
-            <MenuButton layoutX="12.0" layoutY="88.0" mnemonicParsing="false" text="Action Types">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Move" />
-                  <MenuItem mnemonicParsing="false" text="View curtain" />
-                  <MenuItem mnemonicParsing="false" text="Open Magic Door" />
-                  <MenuItem mnemonicParsing="false" text="View Token" />
-                  <MenuItem mnemonicParsing="false" text="Skip one action" />
-               </items>
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </MenuButton>
-            <Label layoutX="68.0" layoutY="52.0" text="Player Two">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font>
-            </Label>
-            <ImageView fitHeight="55.0" fitWidth="55.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../resources/rabbit_1.png" />
-               </image>
-            </ImageView>
-         </children>
-      </Pane>
-      <Pane layoutX="640.0" layoutY="350.0" prefHeight="170.0" prefWidth="350.0" style="-fx-background-color: GREY;">
-         <children>
-            <Label alignment="CENTER" layoutY="10.0" prefHeight="17.0" prefWidth="350.0" text="PLAYER CHOOSE ACTIONS">
-               <font>
-                  <Font name="Montserrat Black" size="16.0" />
-               </font>
-            </Label>
-            <Separator layoutY="30.0" prefHeight="13.0" prefWidth="350.0" />
-            <Button layoutX="230.0" layoutY="64.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="UP" />
-            <Button layoutX="230.0" layoutY="116.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="DOWN" />
-            <Button layoutX="175.0" layoutY="91.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="LEFT" />
-            <Button layoutX="285.0" layoutY="91.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="RIGHT" />
-            <MenuButton layoutX="12.0" layoutY="88.0" mnemonicParsing="false" text="Action Types">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Move" />
-                  <MenuItem mnemonicParsing="false" text="View curtain" />
-                  <MenuItem mnemonicParsing="false" text="Open Magic Door" />
-                  <MenuItem mnemonicParsing="false" text="View Token" />
-                  <MenuItem mnemonicParsing="false" text="Skip one action" />
-               </items>
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </MenuButton>
-            <Label layoutX="68.0" layoutY="52.0" text="Player Three">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font>
-            </Label>
-            <ImageView fitHeight="55.0" fitWidth="55.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../resources/rabbit_1.png" />
-               </image>
-            </ImageView>
-         </children>
-      </Pane>
-      <Pane layoutX="640.0" layoutY="525.0" prefHeight="170.0" prefWidth="350.0" style="-fx-background-color: GREY;">
-         <children>
-            <Label alignment="CENTER" layoutY="10.0" prefHeight="17.0" prefWidth="350.0" text="PLAYER CHOOSE ACTIONS">
-               <font>
-                  <Font name="Montserrat Black" size="16.0" />
-               </font>
-            </Label>
-            <Separator layoutY="30.0" prefHeight="13.0" prefWidth="350.0" />
-            <Button layoutX="230.0" layoutY="64.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="UP" />
-            <Button layoutX="230.0" layoutY="116.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="DOWN" />
-            <Button layoutX="175.0" layoutY="91.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="LEFT" />
-            <Button layoutX="285.0" layoutY="91.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="RIGHT" />
-            <MenuButton layoutX="12.0" layoutY="88.0" mnemonicParsing="false" text="Action Types">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Move" />
-                  <MenuItem mnemonicParsing="false" text="View curtain" />
-                  <MenuItem mnemonicParsing="false" text="Open Magic Door" />
-                  <MenuItem mnemonicParsing="false" text="View Token" />
-                  <MenuItem mnemonicParsing="false" text="Skip one action" />
-               </items>
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </MenuButton>
-            <Label layoutX="68.0" layoutY="52.0" text="Player Four">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font>
-            </Label>
-            <ImageView fitHeight="55.0" fitWidth="55.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../resources/rabbit_1.png" />
-               </image>
-            </ImageView>
-         </children>
-      </Pane>
-      <Button fx:id="pressToStart" layoutX="221.0" layoutY="571.0" mnemonicParsing="false" onAction="#startGameLoop" text="Press to start!" />
+      <Button fx:id="pressToStart" layoutX="275.0" layoutY="620.0" mnemonicParsing="false" onAction="#startGameLoop" prefWidth="100.0" text="Press to start" />
+      <Button fx:id="pressToStop" layoutX="275.0" layoutY="655.0" mnemonicParsing="false" onAction="#stopGameLoop" prefWidth="100.0" text="Press to stop" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#261b1b" height="524.0" layoutX="58.0" layoutY="58.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="12.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#261b1b" height="12.0" layoutX="58.0" layoutY="58.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="524.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#261b1b" height="12.0" layoutX="57.0" layoutY="570.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="524.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#261b1b" height="524.0" layoutX="570.0" layoutY="58.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="12.0" />
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1050.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../resources/Clock.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="350.0" fitWidth="242.0" layoutX="1028.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../resources/Compass.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

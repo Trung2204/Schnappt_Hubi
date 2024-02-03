@@ -1,26 +1,20 @@
 package com.guigame.application;
 
-import java.io.IOException;
-
+import com.guigame.application.MainGameModel.GameState;
 import com.guigame.helper.type.ActionType;
 import com.guigame.helper.type.DirectionType;
-import com.guigame.helper.type.FieldType;
 import com.guigame.player.Player;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class MainGameController {
 	private MainGameModel model;
@@ -28,37 +22,76 @@ public class MainGameController {
 	private AnimationTimer gameLoop;
 	
 	@FXML
-	private AnchorPane root;
+	private AnchorPane MainGameAnchorPane;
 	
 	@FXML
-	private Button pressToStart;
+	private Button pressToStart,pressToStop,upButton,downButton,leftButton,rightButton,endTurnButton;
 	@FXML
     public void startGameLoop(ActionEvent event) {
     	Platform.runLater(() -> {
+    		System.out.println("Game starts");
     		startGame();
     	});
+    }
+	@FXML
+	public void stopGameLoop(ActionEvent event) {
+		System.out.println("Game stops");
+    	stopGame();
     }
 	
 	private ActionType actionChosen = null;
 	private DirectionType directionChosen = null;
-	// Handle player 1 action performance
+	// Handle player actions performance
 	@FXML
-	private MenuButton player1ActionTypes;
+	private MenuButton ActionTypes;
 	@FXML
-    public void handleMoveActionSelectionPlayer1(ActionEvent event) {
-		player1ActionTypes.setText("Move");
+    public void handleMove(ActionEvent event) {
+		ActionTypes.setText("Move");
 		actionChosen = ActionType.MOVE;
 		System.out.println("Player selected Move");
 	}
 	@FXML
-	public void handleViewCurtainActionSelectionPlayer1(ActionEvent event) {
+	public void handleViewCurtain(ActionEvent event) {
+		ActionTypes.setText("View Curtain");
 		actionChosen = ActionType.VIEW_CURTAIN;
 		System.out.println("Player selected View Curtain");
 	}
 	@FXML
-	public void handleDownDirectionSelectionPlayer1(ActionEvent event) {
+    public void handleOpenMagicDoor(ActionEvent event) {
+		ActionTypes.setText("Open Magic Door");
+		actionChosen = ActionType.OPEN_MAGIC_DOOR;
+		System.out.println("Player selected Open Magic Door");
+	}
+	@FXML
+    public void handleViewToken(ActionEvent event) {
+		ActionTypes.setText("View Token");
+		actionChosen = ActionType.VIEW_TOKEN;
+		System.out.println("Player selected View Token");
+		directionChosen = DirectionType.NONE;
+	}
+	@FXML
+	public void handleUp(ActionEvent event) {
+		directionChosen = DirectionType.UP;
+		System.out.println("Player selected Up");
+	}
+	@FXML
+	public void handleDown(ActionEvent event) {
 		directionChosen = DirectionType.DOWN;
 		System.out.println("Player selected Down");
+	}
+	@FXML
+	public void handleLeft(ActionEvent event) {
+		directionChosen = DirectionType.LEFT;
+		System.out.println("Player selected Left");
+	}
+	@FXML
+	public void handleRight(ActionEvent event) {
+		directionChosen = DirectionType.RIGHT;
+		System.out.println("Player selected Right");
+	}
+	@FXML
+	public void handleEndTurn(ActionEvent event) {
+	    model.setCurrentState(GameState.NEXT_PLAYER);
 	}
 	
 	// No-argument constructor
@@ -67,62 +100,62 @@ public class MainGameController {
 	// Setter methods
     public void setModel(MainGameModel model) { this.model = model; }
     public void setView(MainGameView view) { this.view = view; }
-    
+    @FXML
+    private Label playerIndexLabel,numberOfActionsLabel;
+    private int remainingActions = 0;
     public void initializeGameLoop() {
+    	model.findAdjacentPairs();
 		// Initialize game loop
 		this.gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
             	Platform.runLater(() -> {
-            		if (model.getWin()) {
-            			System.out.println("You win! Congratulations!");
-            			stopGame();
-            		}
-            		if (model.getClock().getTime() == 12) {
-            			System.err.println("\nTIME'S UP");
-            			if (!model.getWin()) {
-            				System.out.println("You lose! Better luck next time");
-            				stopGame();
-            			}
-            		}
             		// Update the model based on the current game state
                     switch (model.getCurrentState()) {
-                    	case FIND_ADJACENT_PAIRS:
-                            model.findAdjacentPairsState();
-                            break;
                         case SPIN_COMPASS:
+                        	String currentPlayerIndex = null;
+                        	switch(model.getCurrentPlayerIndex()) {
+                        	case 0:
+                        		currentPlayerIndex = "ONE";
+                        		break;
+                        	case 1:
+                        		currentPlayerIndex = "TWO";
+                        		break;
+                        	case 2:
+                        		currentPlayerIndex = "THREE";
+                        		break;
+                        	case 3:
+                        		currentPlayerIndex = "FOUR";
+                        		break;
+                        	}
+                        	playerIndexLabel.setText("Player "+currentPlayerIndex);
                             model.spinCompass();
-                            // Set viewUpdated to true as the game state has changed
-                            model.setViewUpdated(true);
-                            break;
-                        case SWAP_GHOST:
-                            model.swapGhost();
+                            model.setViewUpdated(true); // Set viewUpdated to true as the game state has changed
                             break;
                         case UPDATE_CLOCK:
                             model.updateClock();
-                            // Set viewUpdated to true as the game state has changed
                             model.setViewUpdated(true);
                             break;
                         case UPDATE_PLAYER_ACTIONS:
                             model.updatePlayerActions();
-                            // Set viewUpdated to true as the game state has changed
                             model.setViewUpdated(true);
                             break;
                         case PERFORM_PLAYER_ACTION:
+                        	System.out.println("Player "+model.getCurrentPlayerIndex()+" is performing action");
+                        	// Get the number of actions of the current player
                         	Player currentPlayer = model.getListOfPlayers()[model.getCurrentPlayerIndex()];
-                        	while (currentPlayer.getNumberOfActions() > 0 && actionChosen != null && directionChosen != null) {
-                        		model.performPlayerAction(actionChosen, directionChosen);
+                        	remainingActions = currentPlayer.getNumberOfActions();
+                        	numberOfActionsLabel.setText("Number of remaining actions: "+remainingActions);
+                            // If an action and direction are chosen, perform the action
+                            if (actionChosen != null && directionChosen != null && remainingActions > 0) {
+                                model.performPlayerAction(actionChosen, directionChosen);
+                                // Decrement the number of actions
+                                currentPlayer.decrementNumberOfActions();
                                 // Reset the action and direction
                                 actionChosen = null;
                                 directionChosen = null;
-                                // Decrement the number of actions
-                                currentPlayer.decrementNumberOfActions();
-                                // Set viewUpdated to true as the game state has changed
                                 model.setViewUpdated(true);
-                        	}
-                            break;
-                        case REMOVE_PAIRS:
-                            model.removePairsState(model.getListOfPlayers()[model.getCurrentPlayerIndex()].getX(), model.getListOfPlayers()[model.getCurrentPlayerIndex()].getY());
+                            }
                             break;
                         case NEXT_PLAYER:
                             model.nextPlayer();
@@ -130,6 +163,10 @@ public class MainGameController {
                         case CHECK_GAME_OVER:
                             model.checkGameOver();
                             break;
+                        case WIN:
+                        	stopGame();
+                        case LOSE:
+                        	stopGame();
                     }
                     // Check if the view needs to be updated
                     if (model.isViewUpdated()) {
@@ -138,40 +175,29 @@ public class MainGameController {
                         GridPane gridPaneBoard = view.getGameBoard();
                         VBox clockCompassBox = view.getClockAndCompass();
                         // Set the VBox to the top right corner
-                        AnchorPane.setTopAnchor(clockCompassBox, 0.0);
+                        AnchorPane.setTopAnchor(clockCompassBox, 500.0);
                         AnchorPane.setRightAnchor(clockCompassBox, 0.0);
                         
                         // Remove the old nodes
-                        root.getChildren().removeAll(gridPaneBoard, clockCompassBox);
+                        MainGameAnchorPane.getChildren().removeAll(gridPaneBoard, clockCompassBox);
 
                         // Add the updated nodes
-                        root.getChildren().addAll(gridPaneBoard, clockCompassBox);
+                        MainGameAnchorPane.getChildren().addAll(gridPaneBoard, clockCompassBox);
 
                         // Reset the view updated flag
                         model.setViewUpdated(false);
                     }
-//                    // Redraw the view based on the updated model
-//                    view.update();
-//                    GridPane gridPaneBoard = view.getGameBoard();
-//                    VBox clockCompassBox = view.getClockAndCompass();
-//                    // Set the VBox to the top right corner
-//                    AnchorPane.setTopAnchor(clockCompassBox, 0.0);
-//                    AnchorPane.setRightAnchor(clockCompassBox, 0.0);
-//                    
-//                    // Clear the root children and add the updated nodes
-//                    root.getChildren().removeAll(gridPaneBoard, clockCompassBox);
-//                    root.getChildren().addAll(gridPaneBoard, clockCompassBox);
             	});
             }
         };
     }
     
 	// Start the game loop
-	public void startGame() {
+	private void startGame() {
 		gameLoop.start();
     }
 	// Stop the game loop
-    public void stopGame() {
+    private void stopGame() {
         gameLoop.stop();
     }
 }

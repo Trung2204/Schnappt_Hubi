@@ -1,31 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="800.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.guigame.application.InitialMenuController">
+<?import javafx.scene.paint.Color?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="800.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.guigame.application.InitialMenuController">
+
    <children>
-      <Button alignment="CENTER" layoutX="612.0" layoutY="170.0" mnemonicParsing="false" onAction="#switchToPlayScene" text="PLAY" textAlignment="CENTER" AnchorPane.leftAnchor="585.0" AnchorPane.rightAnchor="585.0">
+      <ImageView fx:id="initialBackground" fitHeight="720" fitWidth="1280" />
+
+<!--      <Button alignment="CENTER" layoutX="586.0" layoutY="310.0" mnemonicParsing="false" onAction="#switchToPlayScene" text="PLAY" textAlignment="CENTER" AnchorPane.leftAnchor="586.0" AnchorPane.rightAnchor="584.0">-->
+<!--         <font>-->
+<!--            <Font name="Comic Sans MS" size="16.0" />-->
+<!--         </font>-->
+<!--      </Button>-->
+
+      <Button alignment="CENTER" layoutX="586.0" layoutY="310.0" mnemonicParsing="false" onAction="#switchToPlayScene" text="PLAY" textAlignment="CENTER"
+              AnchorPane.leftAnchor="586.0" AnchorPane.rightAnchor="584.0" style="-fx-font-family: 'Comic Sans MS'; -fx-font-size: 16.0; -fx-font-weight: bold;" />
+
+      <Button alignment="CENTER" layoutX="586.0" layoutY="370.0" mnemonicParsing="false" onAction="#switchToManualScene" text="MANUAL" textAlignment="CENTER"
+              AnchorPane.leftAnchor="586.0" AnchorPane.rightAnchor="584.0" style="-fx-font-family: 'Comic Sans MS'; -fx-font-size: 16.0; -fx-font-weight: bold;" />
+
+      <Button alignment="CENTER" layoutX="585.0" layoutY="430.0" mnemonicParsing="false" onAction="#switchToCreditScene" text="CREDIT" textAlignment="CENTER"
+              AnchorPane.leftAnchor="585.0" AnchorPane.rightAnchor="585.0" style="-fx-font-family: 'Comic Sans MS'; -fx-font-size: 16.0; -fx-font-weight: bold;" />
+
+      <Label fx:id = "gamename" alignment="CENTER" layoutX="-1.0" layoutY="44.0" prefHeight="35.0" prefWidth="1283.0" text="SCHNAPPT HUBI" textAlignment="CENTER"
+             AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-2.400000000000091">
          <font>
-            <Font name="System Bold" size="16.0" />
+            <Font name="Chiller" size="100.0" />
          </font>
-      </Button>
-      <Button alignment="CENTER" layoutX="596.0" layoutY="231.0" mnemonicParsing="false" onAction="#switchToManualScene" text="MANUAL" textAlignment="CENTER" AnchorPane.leftAnchor="585.0" AnchorPane.rightAnchor="585.0">
-         <font>
-            <Font name="System Bold" size="16.0" />
-         </font>
-      </Button>
-      <Button alignment="CENTER" layoutX="589.0" layoutY="290.0" mnemonicParsing="false" onAction="#switchToCreditScene" text="CREDIT" textAlignment="CENTER" AnchorPane.leftAnchor="585.0" AnchorPane.rightAnchor="585.0">
-         <font>
-            <Font name="System Bold" size="16.0" />
-         </font>
-      </Button>
-      <Label alignment="CENTER" layoutX="-1.0" layoutY="44.0" prefHeight="35.0" prefWidth="1283.0" text="SCHNAPPT HUBI!" textAlignment="CENTER" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-2.400000000000091">
-         <font>
-            <Font name="Montserrat Black" size="24.0" />
-         </font>
+         <textFill>
+            <Color fx:id="YELLOW_COLOR" red="1.0" green="1.0" blue="0.0" />
+         </textFill>
       </Label>
+
    </children>
 </AnchorPane>

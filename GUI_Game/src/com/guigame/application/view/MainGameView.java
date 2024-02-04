@@ -1,7 +1,8 @@
-package com.guigame.application;
+package com.guigame.application.view;
 
 import java.util.Random;
 
+import com.guigame.application.model.MainGameModel;
 import com.guigame.board.GridCell;
 import com.guigame.player.Player;
 

@@ -20,9 +20,8 @@ public class Main extends Application {
 			primaryStage.setWidth(1280); // 1280
 	        primaryStage.setHeight(720); // 720
 			
-			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("InitialMenu.fxml"));
+			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("/com/guigame/application/view/InitialMenu.fxml"));
 			Scene scene = new Scene(root,1280,720);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
 			primaryStage.setScene(scene);
 			primaryStage.show();

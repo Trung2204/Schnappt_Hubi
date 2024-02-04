@@ -1,9 +1,11 @@
-package com.guigame.application;
+package com.guigame.application.controller;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.guigame.application.model.MainGameModel;
+import com.guigame.application.view.MainGameView;
 import com.guigame.helper.type.CharacterType;
 import com.guigame.player.Player;
 
@@ -328,7 +330,7 @@ public class PlayController implements Initializable {
         MainGameView view = new MainGameView(model);
 		
      	// Load the FXML
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("MainGame.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/guigame/application/view/MainGame.fxml"));
 		root = (AnchorPane)loader.load();
 		MainGameController controller = loader.getController(); // Get the controller instance created by FXMLLoader
 		controller.setModel(model);
@@ -350,7 +352,7 @@ public class PlayController implements Initializable {
 	}
 	
 	public void switchToInitialMenuScene(ActionEvent event) throws IOException {
-		root = (AnchorPane)FXMLLoader.load(getClass().getResource("InitialMenu.fxml"));
+		root = (AnchorPane)FXMLLoader.load(getClass().getResource("/com/guigame/application/view/InitialMenu.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);

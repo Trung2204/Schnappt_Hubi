@@ -2,13 +2,6 @@ package com.guigame.board;
 
 import java.util.*;
 import com.guigame.helper.type.CellType;
-import javafx.event.EventHandler;
-import javafx.scene.Group;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Rectangle;
 
 public class GridCell {
 	private CellType cellType;

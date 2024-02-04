@@ -1,19 +1,9 @@
 package com.guigame.player;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
 import com.guigame.board.Board;
 import com.guigame.board.GridCell;
-import com.guigame.helper.type.ActionType;
 import com.guigame.helper.type.CharacterType;
 import com.guigame.helper.type.DirectionType;
-
-import javafx.scene.Group;
-import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Rectangle;
 
 public class Player {
 

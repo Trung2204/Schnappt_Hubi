@@ -1,19 +1,10 @@
 package com.guigame.board;
 
 import java.util.*;
-import javafx.event.EventHandler;
-import javafx.scene.Group;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 import com.guigame.helper.type.CellType;
-import com.guigame.player.Player;
 
 public class Board {
-	private static GridPane gridPane = new GridPane();
 	private static final int BOARD_SIZE = 5;
 	private GridCell[][] gridCells;
 	private int magicDoorRow;

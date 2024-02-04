@@ -1,4 +1,4 @@
-package com.guigame.application;
+package com.guigame.application.model;
 
 import java.util.ArrayList;
 import java.util.List;

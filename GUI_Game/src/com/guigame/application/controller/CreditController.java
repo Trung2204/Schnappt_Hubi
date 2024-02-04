@@ -1,4 +1,4 @@
-package com.guigame.application;
+package com.guigame.application.controller;
 
 import java.io.IOException;
 import java.net.URL;
@@ -41,7 +41,7 @@ public class CreditController implements Initializable {
 //		setGameRulesText();
 	}
 	public void switchToInitialMenuScene(ActionEvent event) throws IOException {
-		root = (AnchorPane)FXMLLoader.load(getClass().getResource("InitialMenu.fxml"));
+		root = (AnchorPane)FXMLLoader.load(getClass().getResource("/com/guigame/application/view/InitialMenu.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);

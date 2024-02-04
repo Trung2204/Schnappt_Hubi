@@ -12,11 +12,11 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="MainGameAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.guigame.application.MainGameController">
+<AnchorPane fx:id="MainGameAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.guigame.application.controller.MainGameController">
    <children>
    <ImageView cache="true" cacheHint="QUALITY" fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true">
          <image>
-            <Image url="@../../../resources/maingame_background.jpeg" />
+            <Image url="@../../../../resources/maingame_background.jpeg" />
          </image>
       </ImageView>
       <Pane layoutX="640.0" layoutY="150.0" prefHeight="350.0" prefWidth="350.0" style="-fx-background-color: GREY;">
@@ -54,7 +54,7 @@
             </MenuButton>
             <ImageView fitHeight="55.0" fitWidth="55.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../resources/rabbit_1.png" />
+                  <Image url="@../../../../resources/rabbit_1.png" />
                </image>
             </ImageView>
             <Button fx:id="endTurnButton" alignment="CENTER" layoutX="225.0" layoutY="269.0" mnemonicParsing="false" onAction="#handleEndTurn" text="End Turn" />
@@ -68,12 +68,12 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#261b1b" height="524.0" layoutX="570.0" layoutY="58.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="12.0" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1050.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../resources/Clock.png" />
+            <Image url="@../../../../resources/Clock.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="350.0" fitWidth="242.0" layoutX="1028.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../resources/Compass.png" />
+            <Image url="@../../../../resources/Compass.png" />
          </image>
       </ImageView>
    </children>

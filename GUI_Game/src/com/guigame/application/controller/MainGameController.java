@@ -1,6 +1,8 @@
-package com.guigame.application;
+package com.guigame.application.controller;
 
-import com.guigame.application.MainGameModel.GameState;
+import com.guigame.application.model.MainGameModel;
+import com.guigame.application.model.MainGameModel.GameState;
+import com.guigame.application.view.MainGameView;
 import com.guigame.helper.type.ActionType;
 import com.guigame.helper.type.DirectionType;
 import com.guigame.player.Player;

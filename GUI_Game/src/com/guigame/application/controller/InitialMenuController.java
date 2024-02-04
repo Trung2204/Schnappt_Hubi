@@ -1,4 +1,4 @@
-package com.guigame.application;
+package com.guigame.application.controller;
 
 import java.io.IOException;
 
@@ -15,7 +15,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -33,7 +32,7 @@ public class InitialMenuController implements Initializable {
 	}
 
 	public void switchToManualScene(ActionEvent event) throws IOException {
-		root = (AnchorPane)FXMLLoader.load(getClass().getResource("Manual.fxml"));
+		root = (AnchorPane)FXMLLoader.load(getClass().getResource("/com/guigame/application/view/Manual.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setWidth(1280);
@@ -43,7 +42,7 @@ public class InitialMenuController implements Initializable {
 	}
 	
 	public void switchToCreditScene(ActionEvent event) throws IOException {
-		root = (AnchorPane)FXMLLoader.load(getClass().getResource("Credit.fxml"));
+		root = (AnchorPane)FXMLLoader.load(getClass().getResource("/com/guigame/application/view/Credit.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setWidth(1280);
@@ -53,7 +52,7 @@ public class InitialMenuController implements Initializable {
 	}
 	
 	public void switchToPlayScene(ActionEvent event) throws IOException {
-		root = (AnchorPane)FXMLLoader.load(getClass().getResource("Play.fxml"));
+		root = (AnchorPane)FXMLLoader.load(getClass().getResource("/com/guigame/application/view/Play.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setWidth(1280);

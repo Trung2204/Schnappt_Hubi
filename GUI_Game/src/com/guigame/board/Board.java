@@ -27,6 +27,8 @@ public class Board {
 	public int getMagicDoorCol() { return magicDoorCol; }
 	public int getGhostRow() { return ghostRow; }
 	public int getGhostCol() { return ghostCol; }
+	public void setGhostRowNull() { this.ghostRow = -1; }
+	public void setGhostColNull() { this.ghostCol = -1; }
 	
 	public int getBoardSize() {
 		return BOARD_SIZE;
@@ -81,30 +83,6 @@ public class Board {
 				}
 			}
 		}
-		// Iterate through rows
-		for (int i = 0; i < gridCells.length; i++) {
-			// Iterate through columns
-    		for (int j = 0; j < gridCells[i].length; j++) {
-    			// The squares can be moved in
-    			if (i % 2 == 0 && j % 2 == 0) {
-    				// check if gridCells[i][j] is not ghost
-    				if (i == ghostRow && j == ghostCol) {
-    					gridCells[i][j] = new GridCell(random.nextBoolean() ? CellType.CARROT_TOKEN : CellType.CHEESE_TOKEN);
-    				}
-    				// else if it is ghost
-    				else {
-    					int index = random.nextInt(tokens.size());
-    					gridCells[i][j] = new GridCell(tokens.get(index));
-    					tokens.remove(index);
-     				}
-    			} else if (i % 2 != 0 && j % 2 != 0) {
-                    // Assign NONE_WALL to the cross between walls
-                    gridCells[i][j] = new GridCell(CellType.NONE_WALL);
-    			} else {
-    				gridCells[i][j] = new GridCell(CellType.CURTAIN_WALL);
-    			}
-    		}
-    	}
 	    
 	    // Pre-calculate the valid cells for MAGIC_DOOR_WALL and GHOST
 	    List<int[]> validCellsMagicDoor = new ArrayList<>(Arrays.asList(
@@ -141,6 +119,31 @@ public class Board {
 	    ghostRow = ghostCell[0];
 	    // ghostCol == gridCells[][y]
 	    ghostCol = ghostCell[1];
+	    
+	    // Iterate through rows
+ 		for (int i = 0; i < gridCells.length; i++) {
+ 			// Iterate through columns
+     		for (int j = 0; j < gridCells[i].length; j++) {
+     			// The squares can be moved in
+     			if (i % 2 == 0 && j % 2 == 0) {
+     				// check if gridCells[i][j] is ghost
+     				if (i == ghostRow && j == ghostCol) {
+     					gridCells[i][j] = new GridCell(random.nextBoolean() ? CellType.CARROT_TOKEN : CellType.CHEESE_TOKEN);
+     				}
+     				// else if it is not ghost
+     				else {
+     					int indexToken = random.nextInt(tokens.size());
+     					gridCells[i][j] = new GridCell(tokens.get(indexToken));
+     					tokens.remove(indexToken);
+      				}
+     			} else if (i % 2 != 0 && j % 2 != 0) {
+                     // Assign NONE_WALL to the cross between walls
+                     gridCells[i][j] = new GridCell(CellType.NONE_WALL);
+     			} else {
+     				gridCells[i][j] = new GridCell(CellType.CURTAIN_WALL);
+     			}
+     		}
+     	}
 	}
 
 	public GridCell getGridCellAt(int row, int col) {

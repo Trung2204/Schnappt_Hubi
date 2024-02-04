@@ -60,6 +60,8 @@ public class GridCell {
 
     	if (x == board.getGhostRow() && y == board.getGhostCol()) {
     		this.cellType = CellType.GHOST;
+    		board.setGhostColNull();
+    		board.setGhostRowNull();
     	} else {
             Random random = new Random();
             int index = random.nextInt(flippedTokens.size());

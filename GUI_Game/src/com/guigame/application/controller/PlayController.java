@@ -15,16 +15,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.converter.IntegerStringConverter;
 
 public class PlayController implements Initializable {
 	public ImageView playBackground;
@@ -44,47 +48,72 @@ public class PlayController implements Initializable {
 	private int numberOfPlayers = 0;
 	@FXML
 	private TextField numberOfPlayersField;
+	public void initialize() {
+		// Only allow numbers in the TextField
+	    TextFormatter<Integer> formatter = new TextFormatter<>(new IntegerStringConverter(), 0, change -> {
+	        String newText = change.getControlNewText();
+	        if (newText.matches("\\d*")) { // allows empty string or any number of digits
+	            return change;
+	        }
+	        return null;
+	    });
+	    numberOfPlayersField.setTextFormatter(formatter);
+	}
 	@FXML
 	private void handleSubmitButtonAction(ActionEvent event) {
 		numberOfPlayers = Integer.parseInt(numberOfPlayersField.getText());
-        nextButton.setDisable(false);
-        nextButton.setOpacity(1);
-        // Show player labels based on the number of players
-        if (numberOfPlayers >= 2) {
-            player1Label.setOpacity(1);
-            player1Character.setDisable(false);
-            player1Character.setOpacity(1);
-            player1Position.setDisable(false);
-            player1Position.setOpacity(1);
-            player1OKButton.setDisable(false);
-            player1OKButton.setOpacity(1);
-            
-            player2Label.setOpacity(1);
-            player2Character.setDisable(false);
-            player2Character.setOpacity(1);
-            player2Position.setDisable(false);
-            player2Position.setOpacity(1);
-            player2OKButton.setDisable(false);
-            player2OKButton.setOpacity(1);
-        }
-        if (numberOfPlayers >= 3) {
-            player3Label.setOpacity(1);
-            player3Character.setDisable(false);
-            player3Character.setOpacity(1);
-            player3Position.setDisable(false);
-            player3Position.setOpacity(1);
-            player3OKButton.setDisable(false);
-            player3OKButton.setOpacity(1);
-        }
-        if (numberOfPlayers >= 4) {
-            player4Label.setOpacity(1);
-            player4Character.setDisable(false);
-            player4Character.setOpacity(1);
-            player4Position.setDisable(false);
-            player4Position.setOpacity(1);
-            player4OKButton.setDisable(false);
-            player4OKButton.setOpacity(1);
-        }
+		if (numberOfPlayers < 2 || numberOfPlayers > 4) {
+	        // Show an alert to the user
+	        Alert alert = new Alert(AlertType.WARNING);
+	        alert.setTitle("Invalid Input");
+	        alert.setHeaderText(null);
+	        alert.setContentText("Please enter a number between 2 and 4.");
+
+	        alert.showAndWait();
+
+	        // Clear the TextField
+	        numberOfPlayersField.clear();
+	    } else {
+	        // Handle the valid input...
+	    	nextButton.setDisable(false);
+	        nextButton.setOpacity(1);
+	        // Show player labels based on the number of players
+	        if (numberOfPlayers >= 2) {
+	            player1Label.setOpacity(1);
+	            player1Character.setDisable(false);
+	            player1Character.setOpacity(1);
+	            player1Position.setDisable(false);
+	            player1Position.setOpacity(1);
+	            player1OKButton.setDisable(false);
+	            player1OKButton.setOpacity(1);
+	            
+	            player2Label.setOpacity(1);
+	            player2Character.setDisable(false);
+	            player2Character.setOpacity(1);
+	            player2Position.setDisable(false);
+	            player2Position.setOpacity(1);
+	            player2OKButton.setDisable(false);
+	            player2OKButton.setOpacity(1);
+	        }
+	        if (numberOfPlayers >= 3) {
+	            player3Label.setOpacity(1);
+	            player3Character.setDisable(false);
+	            player3Character.setOpacity(1);
+	            player3Position.setDisable(false);
+	            player3Position.setOpacity(1);
+	            player3OKButton.setDisable(false);
+	            player3OKButton.setOpacity(1);
+	        }
+	        if (numberOfPlayers >= 4) {
+	            player4Label.setOpacity(1);
+	            player4Character.setDisable(false);
+	            player4Character.setOpacity(1);
+	            player4Position.setDisable(false);
+	            player4Position.setOpacity(1);
+	            player4OKButton.setDisable(false);
+	            player4OKButton.setOpacity(1);
+	        }
+	    }
     }
 	
 	// Handler for player 1's selection of character and position

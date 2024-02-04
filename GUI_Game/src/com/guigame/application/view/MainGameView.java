@@ -1,5 +1,7 @@
 package com.guigame.application.view;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import com.guigame.application.model.MainGameModel;
@@ -23,7 +25,7 @@ public class MainGameView {
 	private MainGameModel model;
 	private GridPane gameBoard;
 	private VBox clockAndCompass;
-
+	
 	// Constructor
     public MainGameView(MainGameModel model) {
         this.model = model;
@@ -44,14 +46,17 @@ public class MainGameView {
     	drawClockCompass();
     }
     private void drawBoard() {
+        ArrayList<Image> rabbitImages = createRabbitImageList();
+        ArrayList<Image> mouseImages = createMouseImageList();
         for (int i = 0; i < model.getBoard().getBoardSize(); i++) {
             for (int j = 0; j < model.getBoard().getBoardSize(); j++) {
                 GridCell cell = model.getBoard().getGridCellAt(i, j);
-                Node cellNodeBoard = drawGridCell(cell,i,j, model.getBoard().getMagicDoorRow(), model.getBoard().getMagicDoorCol()); 
-                Pane pane = new Pane(cellNodeBoard);
+                Node cellNodeBoard = drawGridCell(cell,i,j, model.getBoard().getMagicDoorRow(), model.getBoard().getMagicDoorCol());   
+                Pane pane = new Pane(cellNodeBoard);    
+                
                 for (Player player : model.getListOfPlayers()) {
                 	if (player.getX() == i && player.getY() == j) {
-                		Node cellNodePlayer = drawPlayer(player);
+                		Node cellNodePlayer = drawPlayer(player, rabbitImages, mouseImages);
                 		pane.getChildren().add(cellNodePlayer);
                 	}
                 }
@@ -61,7 +66,18 @@ public class MainGameView {
             }
         }
     }
+    private ArrayList<Image> createMouseImageList() {
+        Image mouseImage1 = new Image(getClass().getResource("/resources/mouse_1.png").toExternalForm());
+        Image mouseImage2 = new Image(getClass().getResource("/resources/mouse_2.png").toExternalForm());
+   
+		return new ArrayList<Image>(Arrays.asList(mouseImage1, mouseImage2));
+	}
+	private ArrayList<Image> createRabbitImageList() {
+        Image rabbitImage1 = new Image(getClass().getResource("/resources/rabbit_1.png").toExternalForm());
+        Image rabbitImage2 = new Image(getClass().getResource("/resources/rabbit_2.png").toExternalForm());
 
+    	return new ArrayList<Image>(Arrays.asList(rabbitImage1, rabbitImage2));
+    }
     private StackPane drawWalls(Image wallImage, Rectangle background) {
     	StackPane stackPane = new StackPane();
     	ImageView imageView = new ImageView();
@@ -246,19 +262,29 @@ public class MainGameView {
 	    return stackPane;
     }
     
-    private Node drawPlayer(Player player) {
+    private Node drawPlayer(Player player, ArrayList<Image> rabbitImages, ArrayList<Image> mouseImages) {
     	// Create a new Node to represent the cell
         // This could be an ImageView for an image, a Rectangle for a colored square, etc.
         Rectangle rectangle = new Rectangle(55, 55, Color.BLACK);
         switch (player.getCharacter()) {
 	        case RABBIT: {
-				Image rabbitImage = new Image(getClass().getResource("/resources/rabbit_1.png").toExternalForm()); // replace with your image path
-				rectangle.setFill(new ImagePattern(rabbitImage));
+	        	if (!rabbitImages.isEmpty()) {
+	        		// set the first player image in the image list to the rectangle background
+					rectangle.setFill(new ImagePattern(rabbitImages.getFirst()));
+					rabbitImages.removeFirst();
+	        	} else {
+	        		System.err.println("Rabbit Images is empty!");
+	        	}
 		        break;
 			}
 	        case MOUSE: {
-				Image mouseImage = new Image(getClass().getResource("/resources/mouse_1.png").toExternalForm()); // replace with your image path
-				rectangle.setFill(new ImagePattern(mouseImage));
+	        	if (!mouseImages.isEmpty()) {
+	        		// set the first player image in the image list to the rectangle background
+					rectangle.setFill(new ImagePattern(mouseImages.getFirst()));
+					mouseImages.removeFirst();				
+	        	} else {
+	        		System.err.println("Mouse Images is empty!");
+	        	}
 		        break;
 			}
 			default:

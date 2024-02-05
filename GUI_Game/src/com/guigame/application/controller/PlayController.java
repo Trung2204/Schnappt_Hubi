@@ -61,297 +61,489 @@ public class PlayController implements Initializable {
 	}
 	@FXML
 	private void handleSubmitButtonAction(ActionEvent event) {
-		numberOfPlayers = Integer.parseInt(numberOfPlayersField.getText());
-		if (numberOfPlayers < 2 || numberOfPlayers > 4) {
-	        // Show an alert to the user
-	        Alert alert = new Alert(AlertType.WARNING);
-	        alert.setTitle("Invalid Input");
-	        alert.setHeaderText(null);
-	        alert.setContentText("Please enter a number between 2 and 4.");
-
-	        alert.showAndWait();
-
-	        // Clear the TextField
-	        numberOfPlayersField.clear();
+	    String input = numberOfPlayersField.getText();
+	    if (input.matches("\\d+")) { // Check if the input is numeric
+	        numberOfPlayers = Integer.parseInt(input);
+	        if (numberOfPlayers < 2 || numberOfPlayers > 4) {
+	            showAlert();
+	        } else {
+	            handleValidInput();
+	        }
 	    } else {
-	        // Handle the valid input...
-	    	nextButton.setDisable(false);
-	        nextButton.setOpacity(1);
-	        // Show player labels based on the number of players
-	        if (numberOfPlayers >= 2) {
-	            player1Label.setOpacity(1);
-	            player1Character.setDisable(false);
-	            player1Character.setOpacity(1);
-	            player1Position.setDisable(false);
-	            player1Position.setOpacity(1);
-	            player1OKButton.setDisable(false);
-	            player1OKButton.setOpacity(1);
-	            
-	            player2Label.setOpacity(1);
-	            player2Character.setDisable(false);
-	            player2Character.setOpacity(1);
-	            player2Position.setDisable(false);
-	            player2Position.setOpacity(1);
-	            player2OKButton.setDisable(false);
-	            player2OKButton.setOpacity(1);
-	        }
-	        if (numberOfPlayers >= 3) {
-	            player3Label.setOpacity(1);
-	            player3Character.setDisable(false);
-	            player3Character.setOpacity(1);
-	            player3Position.setDisable(false);
-	            player3Position.setOpacity(1);
-	            player3OKButton.setDisable(false);
-	            player3OKButton.setOpacity(1);
-	        }
-	        if (numberOfPlayers >= 4) {
-	            player4Label.setOpacity(1);
-	            player4Character.setDisable(false);
-	            player4Character.setOpacity(1);
-	            player4Position.setDisable(false);
-	            player4Position.setOpacity(1);
-	            player4OKButton.setDisable(false);
-	            player4OKButton.setOpacity(1);
-	        }
+	        showAlert();
 	    }
-    }
+	}
+	private void showAlert() {
+	    // Show an alert to the user
+	    Alert alert = new Alert(AlertType.WARNING);
+	    alert.setTitle("Invalid Input");
+	    alert.setHeaderText(null);
+	    alert.setContentText("Please enter a number between 2 and 4.");
+
+	    alert.showAndWait();
+
+	    // Clear the TextField
+	    numberOfPlayersField.clear();
+	    
+	    // Hide the player labels
+	    hidePlayerLabels();
+	}
+	private void handleValidInput() {
+	    // Handle the valid input...
+	    nextButton.setDisable(false);
+	    nextButton.setOpacity(1);
+	    // Show player labels based on the number of players
+	    if (numberOfPlayers >= 2) {
+	        player1Label.setOpacity(1);
+	        player1Character.setDisable(false);
+	        player1Character.setOpacity(1);
+	        player1Position.setDisable(false);
+	        player1Position.setOpacity(1);
+	        player1OKButton.setDisable(false);
+	        player1OKButton.setOpacity(1);
+	        
+	        player2Label.setOpacity(1);
+	        player2Character.setDisable(false);
+	        player2Character.setOpacity(1);
+	        player2Position.setDisable(false);
+	        player2Position.setOpacity(1);
+	        player2OKButton.setDisable(false);
+	        player2OKButton.setOpacity(1);
+	    }
+	    if (numberOfPlayers >= 3) {
+	        player3Label.setOpacity(1);
+	        player3Character.setDisable(false);
+	        player3Character.setOpacity(1);
+	        player3Position.setDisable(false);
+	        player3Position.setOpacity(1);
+	        player3OKButton.setDisable(false);
+	        player3OKButton.setOpacity(1);
+	    }
+	    if (numberOfPlayers >= 4) {
+	        player4Label.setOpacity(1);
+	        player4Character.setDisable(false);
+	        player4Character.setOpacity(1);
+	        player4Position.setDisable(false);
+	        player4Position.setOpacity(1);
+	        player4OKButton.setDisable(false);
+	        player4OKButton.setOpacity(1);
+	    }
+	}
+	private void hidePlayerLabels() {
+	    player1Label.setOpacity(0.5);
+	    player1Character.setDisable(true);
+	    player1Character.setOpacity(0.5);
+	    player1Position.setDisable(true);
+	    player1Position.setOpacity(0.5);
+	    player1OKButton.setDisable(true);
+	    player1OKButton.setOpacity(0.5);
+	    
+	    player2Label.setOpacity(0.5);
+	    player2Character.setDisable(true);
+	    player2Character.setOpacity(0.5);
+	    player2Position.setDisable(true);
+	    player2Position.setOpacity(0.5);
+	    player2OKButton.setDisable(true);
+	    player2OKButton.setOpacity(0.5);
+	    
+	    player3Label.setOpacity(0.5);
+	    player3Character.setDisable(true);
+	    player3Character.setOpacity(0.5);
+	    player3Position.setDisable(true);
+	    player3Position.setOpacity(0.5);
+	    player3OKButton.setDisable(true);
+	    player3OKButton.setOpacity(0.5);
+	    
+	    player4Label.setOpacity(0.5);
+	    player4Character.setDisable(true);
+	    player4Character.setOpacity(0.5);
+	    player4Position.setDisable(true);
+	    player4Position.setOpacity(0.5);
+	    player4OKButton.setDisable(true);
+	    player4OKButton.setOpacity(0.5);
+	}
+
+	// Keep track of the number of each character type and the selected positions
+	private int numberOfRabbits = 0;
+	private int numberOfMice = 0;
+	private boolean[][] positions = new boolean[5][5]; // Initialize to false
 	
-	// Handler for player 1's selection of character and position
+	// Handlers for the character and position selection of player 1
 	private Player player1;
 	private CharacterType selectedCharacterPlayer1 = null;
 	private int selectedXPlayer1 = -1, selectedYPlayer1 = -1;
 	@FXML
 	private void handleRabbitSelectionPlayer1(ActionEvent event) {
-		player1Character.setText("RABBIT");
-		selectedCharacterPlayer1 = CharacterType.RABBIT;
-		System.out.println("Player 1 selected Rabbit");
+	    handleCharacterSelectionPlayer1(CharacterType.RABBIT);
 	}
 	@FXML
 	private void handleMouseSelectionPlayer1(ActionEvent event) {
-		player1Character.setText("MOUSE");
-		selectedCharacterPlayer1 = CharacterType.MOUSE;
-		System.out.println("Player 1 selected Mouse");
+	    handleCharacterSelectionPlayer1(CharacterType.MOUSE);
 	}
 	@FXML
-    private void handleTopLeftSelectionPlayer1(ActionEvent event) {
-		player1Position.setText("TOP LEFT");
-		selectedXPlayer1 = 0;
-		selectedYPlayer1 = 0;
-        System.out.println("Player 1 selected Top left");
-    }
+	private void handleTopLeftSelectionPlayer1(ActionEvent event) {
+	    handlePositionSelectionPlayer1(0, 0);
+	}
 	@FXML
-    private void handleTopRightSelectionPlayer1(ActionEvent event) {
-		player1Position.setText("TOP RIGHT");
-		selectedXPlayer1 = 0;
-		selectedYPlayer1 = 4;
-        System.out.println("Player 1 selected Top right");
-    }
+	private void handleTopRightSelectionPlayer1(ActionEvent event) {
+	    handlePositionSelectionPlayer1(0, 4);
+	}
 	@FXML
-    private void handleBottomLeftSelectionPlayer1(ActionEvent event) {
-		player1Position.setText("BOTTOM LEFT");
-		selectedXPlayer1 = 4;
-		selectedYPlayer1 = 0;
-        System.out.println("Player 1 selected Bottom left");
-    }
+	private void handleBottomLeftSelectionPlayer1(ActionEvent event) {
+	    handlePositionSelectionPlayer1(4, 0);
+	}
 	@FXML
-    private void handleBottomRightSelectionPlayer1(ActionEvent event) {
-		player1Position.setText("BOTTOM RIGHT");
-		selectedXPlayer1 = 4;
-		selectedYPlayer1 = 4;
-        System.out.println("Player 1 selected Bottom right");
-    }
+	private void handleBottomRightSelectionPlayer1(ActionEvent event) {
+	    handlePositionSelectionPlayer1(4, 4);
+	}
 	@FXML
 	private void handleOKButtonPlayer1(ActionEvent event) {
-		createPlayer1IfPossible();
+	    createPlayer1IfPossible();
+	}
+	private void handleCharacterSelectionPlayer1(CharacterType type) {
+		// Temporarily update the character count
+	    int tempNumberOfRabbits = numberOfRabbits;
+	    int tempNumberOfMice = numberOfMice;
+	    if (selectedCharacterPlayer1 == CharacterType.RABBIT) tempNumberOfRabbits--;
+	    if (selectedCharacterPlayer1 == CharacterType.MOUSE) tempNumberOfMice--;
+	    if (type == CharacterType.RABBIT) tempNumberOfRabbits++;
+	    if (type == CharacterType.MOUSE) tempNumberOfMice++;
+
+	    // Check if there are maximum 2 rabbits and 2 mice
+	    if (tempNumberOfRabbits > 2 || tempNumberOfMice > 2) {
+	        showAlert("There can be maximum 2 rabbits and 2 mice.");
+	        return;
+	    }
+
+	    // Update the character count
+	    if (selectedCharacterPlayer1 == CharacterType.RABBIT) numberOfRabbits--;
+	    if (selectedCharacterPlayer1 == CharacterType.MOUSE) numberOfMice--;
+	    if (type == CharacterType.RABBIT) numberOfRabbits++;
+	    if (type == CharacterType.MOUSE) numberOfMice++;
+
+	    // Update the selected character
+	    selectedCharacterPlayer1 = type;
+	    player1Character.setText(type.toString());
+	    System.out.println("Player 1 selected " + type);
+	}
+	private void handlePositionSelectionPlayer1(int x, int y) {
+	    if (positions[x][y]) {
+	        showAlert("This position has already been selected by another player.");
+	        return;
+	    }
+
+	    // Update the selected position
+	    if (selectedXPlayer1 != -1 && selectedYPlayer1 != -1) {
+	        positions[selectedXPlayer1][selectedYPlayer1] = false;
+	    }
+	    positions[x][y] = true;
+	    selectedXPlayer1 = x;
+	    selectedYPlayer1 = y;
+	    player1Position.setText(getPositionName(x, y));
+	    System.out.println("Player 1 selected " + getPositionName(x, y));
 	}
 	private void createPlayer1IfPossible() {
-        if (selectedCharacterPlayer1 != null && selectedXPlayer1 != -1 && selectedYPlayer1 != -1) {
-            // Create a new player
-            player1 = new Player(selectedXPlayer1, selectedYPlayer1, selectedCharacterPlayer1);
-            player1.print();
-        }
-    }
-		
-	// Handler for player 2's selection of character and position
+	    if (selectedCharacterPlayer1 != null && selectedXPlayer1 != -1 && selectedYPlayer1 != -1) {
+	        // Create a new player
+	        player1 = new Player(selectedXPlayer1, selectedYPlayer1, selectedCharacterPlayer1);
+	        player1.print();
+	    }
+	}
+	// Handlers for the character and position selection of player 2
 	private Player player2;
 	private CharacterType selectedCharacterPlayer2 = null;
 	private int selectedXPlayer2 = -1, selectedYPlayer2 = -1;
 	@FXML
 	private void handleRabbitSelectionPlayer2(ActionEvent event) {
-		player2Character.setText("RABBIT");
-		selectedCharacterPlayer2 = CharacterType.RABBIT;
-		System.out.println("Player 2 selected Rabbit");
+	    handleCharacterSelectionPlayer2(CharacterType.RABBIT);
 	}
 	@FXML
 	private void handleMouseSelectionPlayer2(ActionEvent event) {
-		player2Character.setText("MOUSE");
-		selectedCharacterPlayer2 = CharacterType.MOUSE;
-		System.out.println("Player 2 selected Mouse");
+	    handleCharacterSelectionPlayer2(CharacterType.MOUSE);
 	}
 	@FXML
-    private void handleTopLeftSelectionPlayer2(ActionEvent event) {
-		player2Position.setText("TOP LEFT");
-		selectedXPlayer2 = 0;
-		selectedYPlayer2 = 0;
-        System.out.println("Player 2 selected Top left");
-    }
+	private void handleTopLeftSelectionPlayer2(ActionEvent event) {
+	    handlePositionSelectionPlayer2(0, 0);
+	}
 	@FXML
-    private void handleTopRightSelectionPlayer2(ActionEvent event) {
-		player2Position.setText("TOP RIGHT");
-		selectedXPlayer2 = 0;
-		selectedYPlayer2 = 4;
-        System.out.println("Player 2 selected Top right");
-    }
+	private void handleTopRightSelectionPlayer2(ActionEvent event) {
+	    handlePositionSelectionPlayer2(0, 4);
+	}
 	@FXML
-    private void handleBottomLeftSelectionPlayer2(ActionEvent event) {
-		player2Position.setText("BOTTOM LEFT");
-		selectedXPlayer2 = 4;
-		selectedYPlayer2 = 0;
-        System.out.println("Player 2 selected Bottom left");
-    }
+	private void handleBottomLeftSelectionPlayer2(ActionEvent event) {
+	    handlePositionSelectionPlayer2(4, 0);
+	}
 	@FXML
-    private void handleBottomRightSelectionPlayer2(ActionEvent event) {
-		player2Position.setText("BOTTOM RIGHT");
-		selectedXPlayer2 = 4;
-		selectedYPlayer2 = 4;
-        System.out.println("Player 2 selected Bottom right");
-    }
+	private void handleBottomRightSelectionPlayer2(ActionEvent event) {
+	    handlePositionSelectionPlayer2(4, 4);
+	}
 	@FXML
 	private void handleOKButtonPlayer2(ActionEvent event) {
-		createPlayer2IfPossible();
+	    createPlayer2IfPossible();
+	}
+	private void handleCharacterSelectionPlayer2(CharacterType type) {
+		// Temporarily update the character count
+	    int tempNumberOfRabbits = numberOfRabbits;
+	    int tempNumberOfMice = numberOfMice;
+	    if (selectedCharacterPlayer2 == CharacterType.RABBIT) tempNumberOfRabbits--;
+	    if (selectedCharacterPlayer2 == CharacterType.MOUSE) tempNumberOfMice--;
+	    if (type == CharacterType.RABBIT) tempNumberOfRabbits++;
+	    if (type == CharacterType.MOUSE) tempNumberOfMice++;
+
+	    // Check if there are maximum 2 rabbits and 2 mice
+	    if (tempNumberOfRabbits > 2 || tempNumberOfMice > 2) {
+	        showAlert("There can be maximum 2 rabbits and 2 mice.");
+	        return;
+	    }
+
+	    // Update the character count
+	    if (selectedCharacterPlayer2 == CharacterType.RABBIT) numberOfRabbits--;
+	    if (selectedCharacterPlayer2 == CharacterType.MOUSE) numberOfMice--;
+	    if (type == CharacterType.RABBIT) numberOfRabbits++;
+	    if (type == CharacterType.MOUSE) numberOfMice++;
+
+	    // Update the selected character
+	    selectedCharacterPlayer2 = type;
+	    player2Character.setText(type.toString());
+	    System.out.println("Player 2 selected " + type);
+	}
+	private void handlePositionSelectionPlayer2(int x, int y) {
+	    if (positions[x][y]) {
+	        showAlert("This position has already been selected by another player.");
+	        return;
+	    }
+
+	    // Update the selected position
+	    if (selectedXPlayer2 != -1 && selectedYPlayer2 != -1) {
+	        positions[selectedXPlayer2][selectedYPlayer2] = false;
+	    }
+	    positions[x][y] = true;
+	    selectedXPlayer2 = x;
+	    selectedYPlayer2 = y;
+	    player2Position.setText(getPositionName(x, y));
+	    System.out.println("Player 2 selected " + getPositionName(x, y));
 	}
 	private void createPlayer2IfPossible() {
-        if (selectedCharacterPlayer2 != null && selectedXPlayer2 != -1 && selectedYPlayer2 != -1) {
-            // Create a new player
-            player2 = new Player(selectedXPlayer2, selectedYPlayer2, selectedCharacterPlayer2);
-            player2.print();
-        }
-    }
-		
-	// Handler for player 3's selection of character and position
+	    if (selectedCharacterPlayer2 != null && selectedXPlayer2 != -1 && selectedYPlayer2 != -1) {
+	        // Create a new player
+	        player2 = new Player(selectedXPlayer2, selectedYPlayer2, selectedCharacterPlayer2);
+	        player2.print();
+	    }
+	}
+	// Handlers for the character and position selection of player 3
 	private Player player3;
 	private CharacterType selectedCharacterPlayer3 = null;
 	private int selectedXPlayer3 = -1, selectedYPlayer3 = -1;
 	@FXML
 	private void handleRabbitSelectionPlayer3(ActionEvent event) {
-		player3Character.setText("RABBIT");
-		selectedCharacterPlayer3 = CharacterType.RABBIT;
-		System.out.println("Player 3 selected Rabbit");
+	    handleCharacterSelectionPlayer3(CharacterType.RABBIT);
 	}
 	@FXML
 	private void handleMouseSelectionPlayer3(ActionEvent event) {
-		player3Character.setText("MOUSE");
-		selectedCharacterPlayer3 = CharacterType.MOUSE;
-		System.out.println("Player 3 selected Mouse");
+	    handleCharacterSelectionPlayer3(CharacterType.MOUSE);
 	}
 	@FXML
-    private void handleTopLeftSelectionPlayer3(ActionEvent event) {
-		player3Position.setText("TOP LEFT");
-		selectedXPlayer3 = 0;
-		selectedYPlayer3 = 0;
-        System.out.println("Player 3 selected Top left");
-    }
+	private void handleTopLeftSelectionPlayer3(ActionEvent event) {
+	    handlePositionSelectionPlayer3(0, 0);
+	}
 	@FXML
-    private void handleTopRightSelectionPlayer3(ActionEvent event) {
-		player3Position.setText("TOP RIGHT");
-		selectedXPlayer3 = 0;
-		selectedYPlayer3 = 4;
-        System.out.println("Player 3 selected Top right");
-    }
+	private void handleTopRightSelectionPlayer3(ActionEvent event) {
+	    handlePositionSelectionPlayer3(0, 4);
+	}
 	@FXML
-    private void handleBottomLeftSelectionPlayer3(ActionEvent event) {
-		player3Position.setText("BOTTOM LEFT");
-		selectedXPlayer3 = 4;
-		selectedYPlayer3 = 0;
-        System.out.println("Player 3 selected Bottom left");
-    }
+	private void handleBottomLeftSelectionPlayer3(ActionEvent event) {
+	    handlePositionSelectionPlayer3(4, 0);
+	}
 	@FXML
-    private void handleBottomRightSelectionPlayer3(ActionEvent event) {
-		player3Position.setText("BOTTOM RIGHT");
-		selectedXPlayer3 = 4;
-		selectedYPlayer3 = 4;
-        System.out.println("Player 3 selected Bottom right");
-    }
+	private void handleBottomRightSelectionPlayer3(ActionEvent event) {
+	    handlePositionSelectionPlayer3(4, 4);
+	}
 	@FXML
 	private void handleOKButtonPlayer3(ActionEvent event) {
-		createPlayer3IfPossible();
+	    createPlayer3IfPossible();
+	}
+	private void handleCharacterSelectionPlayer3(CharacterType type) {
+		// Temporarily update the character count
+	    int tempNumberOfRabbits = numberOfRabbits;
+	    int tempNumberOfMice = numberOfMice;
+	    if (selectedCharacterPlayer3 == CharacterType.RABBIT) tempNumberOfRabbits--;
+	    if (selectedCharacterPlayer3 == CharacterType.MOUSE) tempNumberOfMice--;
+	    if (type == CharacterType.RABBIT) tempNumberOfRabbits++;
+	    if (type == CharacterType.MOUSE) tempNumberOfMice++;
+
+	    // Check if there are maximum 2 rabbits and 2 mice
+	    if (tempNumberOfRabbits > 2 || tempNumberOfMice > 2) {
+	        showAlert("There can be maximum 2 rabbits and 2 mice.");
+	        return;
+	    }
+
+	    // Update the character count
+	    if (selectedCharacterPlayer3 == CharacterType.RABBIT) numberOfRabbits--;
+	    if (selectedCharacterPlayer3 == CharacterType.MOUSE) numberOfMice--;
+	    if (type == CharacterType.RABBIT) numberOfRabbits++;
+	    if (type == CharacterType.MOUSE) numberOfMice++;
+
+	    // Update the selected character
+	    selectedCharacterPlayer3 = type;
+	    player3Character.setText(type.toString());
+	    System.out.println("Player 3 selected " + type);
+	}
+	private void handlePositionSelectionPlayer3(int x, int y) {
+	    if (positions[x][y]) {
+	        showAlert("This position has already been selected by another player.");
+	        return;
+	    }
+
+	    // Update the selected position
+	    if (selectedXPlayer3 != -1 && selectedYPlayer3 != -1) {
+	        positions[selectedXPlayer3][selectedYPlayer3] = false;
+	    }
+	    positions[x][y] = true;
+	    selectedXPlayer3 = x;
+	    selectedYPlayer3 = y;
+	    player3Position.setText(getPositionName(x, y));
+	    System.out.println("Player 3 selected " + getPositionName(x, y));
 	}
 	private void createPlayer3IfPossible() {
-        if (selectedCharacterPlayer3 != null && selectedXPlayer3 != -1 && selectedYPlayer3 != -1) {
-            // Create a new player
-            player3 = new Player(selectedXPlayer3, selectedYPlayer3, selectedCharacterPlayer3);
-            player3.print();
-        }
-    }
-	
-	// Handler for player 4's selection of character and position
+	    if (selectedCharacterPlayer3 != null && selectedXPlayer3 != -1 && selectedYPlayer3 != -1) {
+	        // Create a new player
+	        player3 = new Player(selectedXPlayer3, selectedYPlayer3, selectedCharacterPlayer3);
+	        player3.print();
+	    }
+	}
+	// Handlers for the character and position selection of player 4
 	private Player player4;
 	private CharacterType selectedCharacterPlayer4 = null;
 	private int selectedXPlayer4 = -1, selectedYPlayer4 = -1;
 	@FXML
 	private void handleRabbitSelectionPlayer4(ActionEvent event) {
-		player4Character.setText("RABBIT");
-		selectedCharacterPlayer4 = CharacterType.RABBIT;
-		System.out.println("Player 4 selected Rabbit");
+	    handleCharacterSelectionPlayer4(CharacterType.RABBIT);
 	}
 	@FXML
 	private void handleMouseSelectionPlayer4(ActionEvent event) {
-		player4Character.setText("MOUSE");
-		selectedCharacterPlayer4 = CharacterType.MOUSE;
-		System.out.println("Player 4 selected Mouse");
+	    handleCharacterSelectionPlayer4(CharacterType.MOUSE);
 	}
 	@FXML
-    private void handleTopLeftSelectionPlayer4(ActionEvent event) {
-		player4Position.setText("TOP LEFT");
-		selectedXPlayer4 = 0;
-		selectedYPlayer4 = 0;
-        System.out.println("Player 4 selected Top left");
-    }
+	private void handleTopLeftSelectionPlayer4(ActionEvent event) {
+	    handlePositionSelectionPlayer4(0, 0);
+	}
 	@FXML
-    private void handleTopRightSelectionPlayer4(ActionEvent event) {
-		player4Position.setText("TOP RIGHT");
-		selectedXPlayer4 = 0;
-		selectedYPlayer4 = 4;
-        System.out.println("Player 4 selected Top right");
-    }
+	private void handleTopRightSelectionPlayer4(ActionEvent event) {
+	    handlePositionSelectionPlayer4(0, 4);
+	}
 	@FXML
-    private void handleBottomLeftSelectionPlayer4(ActionEvent event) {
-		player4Position.setText("BOTTOM LEFT");
-		selectedXPlayer4 = 4;
-		selectedYPlayer4 = 0;
-        System.out.println("Player 4 selected Bottom left");
-    }
+	private void handleBottomLeftSelectionPlayer4(ActionEvent event) {
+	    handlePositionSelectionPlayer4(4, 0);
+	}
 	@FXML
-    private void handleBottomRightSelectionPlayer4(ActionEvent event) {
-		player4Position.setText("BOTTOM RIGHT");
-		selectedXPlayer4 = 4;
-		selectedYPlayer4 = 4;
-        System.out.println("Player 4 selected Bottom right");
-    }
+	private void handleBottomRightSelectionPlayer4(ActionEvent event) {
+	    handlePositionSelectionPlayer4(4, 4);
+	}
 	@FXML
 	private void handleOKButtonPlayer4(ActionEvent event) {
-		createPlayer4IfPossible();
+	    createPlayer4IfPossible();
+	}
+	private void handleCharacterSelectionPlayer4(CharacterType type) {
+		// Temporarily update the character count
+	    int tempNumberOfRabbits = numberOfRabbits;
+	    int tempNumberOfMice = numberOfMice;
+	    if (selectedCharacterPlayer4 == CharacterType.RABBIT) tempNumberOfRabbits--;
+	    if (selectedCharacterPlayer4 == CharacterType.MOUSE) tempNumberOfMice--;
+	    if (type == CharacterType.RABBIT) tempNumberOfRabbits++;
+	    if (type == CharacterType.MOUSE) tempNumberOfMice++;
+
+	    // Check if there are maximum 2 rabbits and 2 mice
+	    if (tempNumberOfRabbits > 2 || tempNumberOfMice > 2) {
+	        showAlert("There can be maximum 2 rabbits and 2 mice.");
+	        return;
+	    }
+
+	    // Update the character count
+	    if (selectedCharacterPlayer4 == CharacterType.RABBIT) numberOfRabbits--;
+	    if (selectedCharacterPlayer4 == CharacterType.MOUSE) numberOfMice--;
+	    if (type == CharacterType.RABBIT) numberOfRabbits++;
+	    if (type == CharacterType.MOUSE) numberOfMice++;
+
+	    // Update the selected character
+	    selectedCharacterPlayer4 = type;
+	    player4Character.setText(type.toString());
+	    System.out.println("Player 4 selected " + type);
+	}
+	private void handlePositionSelectionPlayer4(int x, int y) {
+	    if (positions[x][y]) {
+	        showAlert("This position has already been selected by another player.");
+	        return;
+	    }
+
+	    // Update the selected position
+	    if (selectedXPlayer4 != -1 && selectedYPlayer4 != -1) {
+	        positions[selectedXPlayer4][selectedYPlayer4] = false;
+	    }
+	    positions[x][y] = true;
+	    selectedXPlayer4 = x;
+	    selectedYPlayer4 = y;
+	    player4Position.setText(getPositionName(x, y));
+	    System.out.println("Player 4 selected " + getPositionName(x, y));
 	}
 	private void createPlayer4IfPossible() {
-        if (selectedCharacterPlayer4 != null && selectedXPlayer4 != -1 && selectedYPlayer4 != -1) {
-            // Create a new player
-            player4 = new Player(selectedXPlayer4, selectedYPlayer4, selectedCharacterPlayer4);
-            player4.print();
-        }
-    }
+	    if (selectedCharacterPlayer4 != null && selectedXPlayer4 != -1 && selectedYPlayer4 != -1) {
+	        // Create a new player
+	        player4 = new Player(selectedXPlayer4, selectedYPlayer4, selectedCharacterPlayer4);
+	        player4.print();
+	    }
+	}
+	
+	private void showAlert(String message) {
+	    // Show an alert to the user
+	    Alert alert = new Alert(AlertType.WARNING);
+	    alert.setTitle("Invalid Selection");
+	    alert.setHeaderText(null);
+	    alert.setContentText(message);
+
+	    alert.showAndWait();
+	}
+	private String getPositionName(int x, int y) {
+	    String positionName = "";
+	    if (x == 0 && y == 0) {
+	        positionName = "TOP LEFT";
+	    } else if (x == 0 && y == 4) {
+	        positionName = "TOP RIGHT";
+	    } else if (x == 4 && y == 0) {
+	        positionName = "BOTTOM LEFT";
+	    } else if (x == 4 && y == 4) {
+	        positionName = "BOTTOM RIGHT";
+	    }
+	    return positionName;
+	}
 	
 	public void switchToMainGameScene(ActionEvent event) throws IOException {
-		Player[] listOfPlayers = new Player[numberOfPlayers];
-		Player[] allPlayers = {player1,player2,player3,player4};
-		for (int i = 0; i < numberOfPlayers; i++) {
-		    listOfPlayers[i] = allPlayers[i];
-		}
-		int numberOfRabbits = 0;
-		int numberOfMice = 0;
-		for (Player player : listOfPlayers) {
-			if (player.getCharacter() == CharacterType.MOUSE) numberOfMice++;
-			else if (player.getCharacter() == CharacterType.RABBIT) numberOfRabbits++;
-		}
+	    Player[] listOfPlayers = new Player[numberOfPlayers];
+	    Player[] allPlayers = {player1,player2,player3,player4};
+	    for (int i = 0; i < numberOfPlayers; i++) {
+	        if (allPlayers[i] == null) {
+	            // Show an alert to the user
+	            Alert alert = new Alert(AlertType.WARNING);
+	            alert.setTitle("Incomplete Selection");
+	            alert.setHeaderText(null);
+	            alert.setContentText("Player " + (i+1) + " has not finished their selection.");
+
+	            alert.showAndWait();
+	            return;
+	        }
+	        listOfPlayers[i] = allPlayers[i];
+	    }
+	    // Check if there is at least one rabbit and one mouse
+	    if (numberOfRabbits < 1 || numberOfMice < 1) {
+	        // Show an alert to the user
+	        Alert alert = new Alert(AlertType.WARNING);
+	        alert.setTitle("Invalid Selection");
+	        alert.setHeaderText(null);
+	        alert.setContentText("There must be at least one rabbit and one mouse.");
+
+	        alert.showAndWait();
+	        return;
+	    }
+
 		// Create the MainGameModel with the user input
         MainGameModel model = new MainGameModel(numberOfPlayers,listOfPlayers,numberOfRabbits,numberOfMice);
 

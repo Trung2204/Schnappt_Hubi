@@ -81,7 +81,7 @@ public class MainGameView {
     private StackPane drawWalls(Image wallImage, Rectangle background) {
     	StackPane stackPane = new StackPane();
     	ImageView imageView = new ImageView();
-    	Image backgroundImage = new Image(getClass().getResource("/resources/cell_wall_background.png").toExternalForm());
+    	Image backgroundImage = new Image(getClass().getResource("/resources/wall_background2.jpeg").toExternalForm());
     	ImagePattern imagePattern = new ImagePattern(backgroundImage);
     	  
 //    	background.setStroke(Color.BLACK);
@@ -96,7 +96,7 @@ public class MainGameView {
     private StackPane drawTokens(Image tokenImage, Rectangle background) {
     	StackPane stackPane = new StackPane();
     	ImageView imageView = new ImageView();
-        Image backgroundImage = new Image(getClass().getResource("/resources/cell_background.png").toExternalForm());
+        Image backgroundImage = new Image(getClass().getResource("/resources/wall_background2.jpeg").toExternalForm());
         ImagePattern imagePattern = new ImagePattern(backgroundImage);
         
 //    	background.setStroke(Color.BLACK);

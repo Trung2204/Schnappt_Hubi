@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+<<<<<<< HEAD
 		<item key="selection" value="layer4"/>
+=======
+		<item key="selection" value=""/>
+>>>>>>> a77585faddbc785e45a3aab47c017510890b5dea
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="true"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+<<<<<<< HEAD
 			<item value="layer2"/>
 			<item value="layer3"/>
+=======
+			<item value="draw"/>
+			<item value="create mouse images"/>
+>>>>>>> a77585faddbc785e45a3aab47c017510890b5dea
 			<item value="drawPlayer"/>
 			<item value="CellType.GHOST"/>
 			<item value="isGhostFound"/>

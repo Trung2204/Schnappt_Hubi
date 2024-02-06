@@ -27,7 +27,7 @@
                </font>
             </Label>
             <Separator layoutY="30.0" prefHeight="15.0" prefWidth="350.0" />
-            <Label fx:id="playerIndexLabel" alignment="CENTER" layoutX="65.0" layoutY="55.0" text="Player">
+            <Label fx:id="playerIndexLabel" alignment="CENTER" layoutX="35.0" layoutY="55.0" text="Player">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -52,25 +52,16 @@
                   <Font size="14.0" />
                </font>
             </MenuButton>
-            <ImageView fx:id="characterImage" fitHeight="55.0" fitWidth="55.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../resources/unknown.png" />
-               </image>
-            </ImageView>
             <Button fx:id="endTurnButton" alignment="CENTER" disable="true" layoutX="225.0" layoutY="269.0" mnemonicParsing="false" onAction="#handleEndTurn" text="End Turn" />
          </children>
       </Pane>
-      <Button fx:id="pressToStart" layoutX="275.0" layoutY="620.0" mnemonicParsing="false" onAction="#startGameLoop" prefWidth="100.0" text="Press to start" />
-      <Button fx:id="pressToStop" layoutX="275.0" layoutY="655.0" mnemonicParsing="false" onAction="#stopGameLoop" prefWidth="100.0" text="Press to stop" />
+      <Button fx:id="pressToStart" layoutX="250.0" layoutY="600.0" mnemonicParsing="false" onAction="#startGameLoop" prefWidth="150.0" text="Press to start/ continue" />
+      <Button fx:id="pressToPause" layoutX="275.0" layoutY="635.0" mnemonicParsing="false" onAction="#pauseGameLoop" prefWidth="100.0" text="Press to pause" />
+      <Button fx:id="goBackToSetting" alignment="CENTER" layoutX="10.0" layoutY="635.0" mnemonicParsing="false" onAction="#switchToPlayScene" prefHeight="42.0" prefWidth="75.0" text="Go back to setting" textAlignment="CENTER" wrapText="true" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#261b1b" height="524.0" layoutX="58.0" layoutY="58.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="12.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#261b1b" height="12.0" layoutX="58.0" layoutY="58.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="524.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#261b1b" height="12.0" layoutX="57.0" layoutY="570.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="524.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#261b1b" height="524.0" layoutX="570.0" layoutY="58.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="12.0" />
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1050.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../resources/Clock.png" />
-         </image>
-      </ImageView>
       <ImageView fitHeight="350.0" fitWidth="242.0" layoutX="1028.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../resources/Compass.png" />

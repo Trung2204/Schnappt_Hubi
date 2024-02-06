@@ -543,14 +543,23 @@ public class MainGameModel {
 
     public void checkGameOver() {
         // Check if the game is over...
-        if (win) {
-        	currentState = GameState.WIN;
-        } 
-        if (clock.getTime() == 12 && !win) {
-            currentState = GameState.LOSE;
-        }
-        else {
-            currentState = GameState.SPIN_COMPASS;
-        }
+    	// Phase 1
+		if (!isGhostActivated) {
+			if (clock.getTime() == 12) {
+	            currentState = GameState.LOSE;
+	        } else {
+	            currentState = GameState.SPIN_COMPASS;
+	        }
+		}
+		// Phase 2
+		else {
+			if (win) {
+	        	currentState = GameState.WIN;
+	        }else if (clock.getTime() == 12 && !win) {
+	            currentState = GameState.LOSE;
+	        }else {
+	            currentState = GameState.SPIN_COMPASS;
+	        }
+		}
     }
 }

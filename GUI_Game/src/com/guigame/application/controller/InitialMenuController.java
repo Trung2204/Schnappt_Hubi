@@ -27,7 +27,7 @@ public class InitialMenuController implements Initializable {
 
 	public void initialize(URL location, ResourceBundle resources) {
 		// Load the background image using getClass().getResource()
-		Image backgroundImage = new Image(getClass().getResource("/resources/start_scene_background.jpeg").toExternalForm());
+		Image backgroundImage = new Image(getClass().getResource("/resources/start_scene_background_16_9.jpeg").toExternalForm());
 		initialBackground.setImage(backgroundImage);
 	}
 

@@ -1,12 +1,11 @@
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>>=a77585faddbc785e45a3aab47c017510890b5dea
 IMPORT_FILES_AND_FOLDERS_MODE=prompt
 IMPORT_FILES_AND_FOLDERS_RELATIVE=true
 IMPORT_FILES_AND_FOLDERS_TYPE=23,1
 IMPORT_FILES_AND_FOLDERS_VIRTUAL_FOLDER_MODE=prompt
 eclipse.preferences.version=1
-<<<<<<< HEAD
-platformState=1706313435448
-=======
-platformState=1702740474018
->>>>>>> a77585faddbc785e45a3aab47c017510890b5dea
+platformState=1706313435456
 quickStart=false
 tipsAndTricks=true

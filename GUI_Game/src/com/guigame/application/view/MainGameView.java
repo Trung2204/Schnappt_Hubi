@@ -11,6 +11,7 @@ import com.guigame.player.Player;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -20,6 +21,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 public class MainGameView {
 	private MainGameModel model;
@@ -54,10 +56,26 @@ public class MainGameView {
                 Node cellNodeBoard = drawGridCell(cell,i,j, model.getBoard().getMagicDoorRow(), model.getBoard().getMagicDoorCol());   
                 Pane pane = new Pane(cellNodeBoard);    
                 
+                int playerCount = 0; // Keep track of the number of players in each cell
                 for (Player player : model.getListOfPlayers()) {
                 	if (player.getX() == i && player.getY() == j) {
                 		Node cellNodePlayer = drawPlayer(player, rabbitImages, mouseImages);
+                		switch (playerCount) {
+                        case 0: // Top left corner
+                            cellNodePlayer.relocate(0, 0);
+                            break;
+                        case 1: // Top right corner
+                            cellNodePlayer.relocate(52, 0);
+                            break;
+                        case 2: // Bottom left corner
+                            cellNodePlayer.relocate(0, 52);
+                            break;
+                        case 3: // Bottom right corner
+                            cellNodePlayer.relocate(52, 52);
+                            break;
+                		}
                 		pane.getChildren().add(cellNodePlayer);
+                		playerCount++;
                 	}
                 }
                 gameBoard.add(pane, j, i);
@@ -78,21 +96,19 @@ public class MainGameView {
 
     	return new ArrayList<Image>(Arrays.asList(rabbitImage1, rabbitImage2));
     }
-    private StackPane drawWalls(Image wallImage, Rectangle background) {
+    private StackPane drawWalls(Image wallImage, Rectangle background, Tooltip tooltip) {
     	StackPane stackPane = new StackPane();
     	ImageView imageView = new ImageView();
     	Image backgroundImage = new Image(getClass().getResource("/resources/wall_background2.jpeg").toExternalForm());
     	ImagePattern imagePattern = new ImagePattern(backgroundImage);
-    	  
-//    	background.setStroke(Color.BLACK);
-//    	background.setStrokeWidth(5);
+
     	background.setFill(imagePattern);
     	imageView.setImage(wallImage);
+    	Tooltip.install(imageView, tooltip);
     	stackPane.getChildren().addAll(background, imageView);
     	
     	return stackPane;
     }
-    
     private StackPane drawTokens(Image tokenImage, Rectangle background) {
     	StackPane stackPane = new StackPane();
     	ImageView imageView = new ImageView();
@@ -110,7 +126,6 @@ public class MainGameView {
     	StackPane.setAlignment(imageView, Pos.CENTER);
     	return stackPane;
     }
-    
     private StackPane drawGridCell(GridCell cell, int i, int j, int magicDoorX, int magicDoorY) {
         // Create a new Node to represent the cell
         // This could be an ImageView for an image, a Rectangle for a colored square, etc.
@@ -118,7 +133,6 @@ public class MainGameView {
         Rectangle background = new Rectangle(100, 100);
 
         switch (cell.getCellType()) {
-
 			case CARROT_TOKEN: {
 				Image carrotImage = new Image(getClass().getResource("/resources/carrot_token.png").toExternalForm()); // replace with your image path
 				stackPane = drawTokens(carrotImage, background);
@@ -132,7 +146,9 @@ public class MainGameView {
 			
 	        case NONE_WALL: {
 				Image noneWallImage = new Image(getClass().getResource("/resources/none_wall.png").toExternalForm()); // replace with your image path
-				stackPane = drawWalls(noneWallImage, background);
+				Tooltip tooltip = new Tooltip("This wall cannot be accessed.");
+				tooltip.setShowDelay(Duration.seconds(0.3));
+				stackPane = drawWalls(noneWallImage,background,tooltip);
 				break;
 			}
 	        
@@ -144,7 +160,9 @@ public class MainGameView {
 				else {
 					curtainImage = new Image(getClass().getResource("/resources/vertical_curtain_wall.png").toExternalForm()); // replace with your image path
 				}
-				stackPane = drawWalls(curtainImage, background);
+				Tooltip tooltip = new Tooltip("This is a curtain, requiring an action to reveal.");
+				tooltip.setShowDelay(Duration.seconds(0.3));
+				stackPane = drawWalls(curtainImage, background, tooltip);
 				break;
 			}
 			case WINDOW_WALL: {
@@ -161,7 +179,9 @@ public class MainGameView {
 						windowWallImage = new Image(getClass().getResource("/resources/vertical_closed_window_wall.png").toExternalForm());
 					}
 				}
-				stackPane = drawWalls(windowWallImage, background);
+				Tooltip tooltip = new Tooltip("This is a window, only rabbits can jump through.");
+				tooltip.setShowDelay(Duration.seconds(0.3));
+				stackPane = drawWalls(windowWallImage, background, tooltip);
 				break;
 			}
 			case MOUSEHOLE_WALL: {
@@ -172,7 +192,9 @@ public class MainGameView {
 				else {
 					mouseHoleImage = new Image(getClass().getResource("/resources/vertical_mousehole_wall.png").toExternalForm()); // replace with your image path
 				}
-				stackPane = drawWalls(mouseHoleImage, background);
+				Tooltip tooltip = new Tooltip("This is a mousehole, only mice can get through.");
+				tooltip.setShowDelay(Duration.seconds(0.3));
+				stackPane = drawWalls(mouseHoleImage, background, tooltip);
 				break;
 			}
 			case OPEN_WALL: {
@@ -192,7 +214,9 @@ public class MainGameView {
 						openWallImage = new Image(getClass().getResource("/resources/vertical_open_wall.png").toExternalForm()); // replace with your image path
 					}
 				}
-				stackPane = drawWalls(openWallImage, background);
+				Tooltip tooltip = new Tooltip("This is an opened wall, both rabbits and mice can get through.");
+				tooltip.setShowDelay(Duration.seconds(0.3));
+				stackPane = drawWalls(openWallImage, background, tooltip);
 				break;
 			}
 			case MAGIC_DOOR_WALL: {
@@ -203,7 +227,9 @@ public class MainGameView {
 				else {
 					magicDoorImage = new Image(getClass().getResource("/resources/vertical_closed_magic_door_wall_curtain.png").toExternalForm()); // replace with your image path
 				}
-				stackPane = drawWalls(magicDoorImage, background);
+				Tooltip tooltip = new Tooltip("This is a Magic Door, requiring one player on each side and an action to open.");
+				tooltip.setShowDelay(Duration.seconds(0.3));
+				stackPane = drawWalls(magicDoorImage, background, tooltip);
 				break;
 			}
 	
@@ -258,14 +284,13 @@ public class MainGameView {
 			default:
 				break;
         }
-//        stackPane.getChildren().addAll(background, imageView);
 	    return stackPane;
     }
     
     private Node drawPlayer(Player player, ArrayList<Image> rabbitImages, ArrayList<Image> mouseImages) {
     	// Create a new Node to represent the cell
         // This could be an ImageView for an image, a Rectangle for a colored square, etc.
-        Rectangle rectangle = new Rectangle(55, 55, Color.BLACK);
+        Rectangle rectangle = new Rectangle(48, 48, Color.BLACK);
         switch (player.getCharacter()) {
 	        case RABBIT: {
 	        	if (!rabbitImages.isEmpty()) {

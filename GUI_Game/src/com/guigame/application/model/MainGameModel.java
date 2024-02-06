@@ -530,7 +530,7 @@ public class MainGameModel {
 		// Phase 2
 		else {
 			handlePhaseTwo(currentPlayer, action, direction);
-//			scanForWin();
+			scanForWin();
 		}
     	currentState = GameState.PERFORM_PLAYER_ACTION;
     }
@@ -543,17 +543,10 @@ public class MainGameModel {
 
     public void checkGameOver() {
         // Check if the game is over...
-        scanForWin();
         if (win) {
-            // Handle game over...
-        	System.out.println("Game over! Congratulations, you win!");
         	currentState = GameState.WIN;
         } 
-        if (clock.getTime() == 12) {
-            System.err.println("\nTIME'S UP");
-            if (!win) {
-                System.out.println("You lose! Better luck next time");
-            }
+        if (clock.getTime() == 12 && !win) {
             currentState = GameState.LOSE;
         }
         else {

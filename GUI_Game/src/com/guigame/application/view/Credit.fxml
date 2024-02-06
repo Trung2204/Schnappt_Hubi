@@ -24,22 +24,22 @@
          </font>
       </Button>
 
-      <VBox alignment="CENTER" layoutX="257.0" layoutY="200.0" spacing="10">
+      <VBox alignment="CENTER" layoutX="257.0" layoutY="215.0" spacing="10">
          <ImageView fx:id="DMTimage" fitHeight="223" fitWidth="150" />
-         <Label style="-fx-text-fill: white; -fx-font-family: 'Comic Sans MS'; -fx-font-size: 20.0; -fx-font-weight: bold;" text="Doan Minh Trung" />
+         <Label style="-fx-text-fill: darkgoldenrod; -fx-font-family: 'Comic Sans MS'; -fx-font-size: 20.0; -fx-font-weight: bold; -fx-stroke: black; -fx-stroke-width: 1;" text="Doan Minh Trung" />
       </VBox>
 
-      <VBox alignment="CENTER" layoutX="557.0" layoutY="200.0" spacing="10">
+      <VBox alignment="CENTER" layoutX="557.0" layoutY="220.0" spacing="10">
          <ImageView fx:id="HMTimage" fitHeight="223" fitWidth="150" />
-         <Label style="-fx-text-fill: white; -fx-font-family: 'Comic Sans MS'; -fx-font-size: 20.0; -fx-font-weight: bold;" text="Hoang Minh Tri" />
+         <Label style="-fx-text-fill: darkgoldenrod; -fx-font-family: 'Comic Sans MS'; -fx-font-size: 20.0; -fx-font-weight: bold; -fx-stroke: black; -fx-stroke-width: 1;" text="Hoang Minh Tri" />
       </VBox>
 
-      <VBox alignment="CENTER" layoutX="857.0" layoutY="200.0" spacing="10">
+      <VBox alignment="CENTER" layoutX="857.0" layoutY="210.0" spacing="10">
          <ImageView fitHeight="223" fitWidth="150">
             <image>
                <Image url="@../../../../resources/phu.jpg" />
             </image></ImageView>
-         <Label fx:id="nptpLabel" style="-fx-text-fill: white; -fx-font-family: 'Comic Sans MS'; -fx-font-size: 20.0; -fx-font-weight: bold;" wrapText="true" />
+         <Label fx:id="nptpLabel" style="-fx-text-fill: darkgoldenrod; -fx-font-family: 'Comic Sans MS'; -fx-font-size: 20.0; -fx-font-weight: bold; -fx-stroke: black; -fx-stroke-width: 1;" wrapText="true" />
       </VBox>
 
    </children>

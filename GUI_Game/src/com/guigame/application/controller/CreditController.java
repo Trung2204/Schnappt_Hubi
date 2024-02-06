@@ -34,7 +34,8 @@ public class CreditController implements Initializable {
 
 		Image hmtImage = new Image(getClass().getResource("/resources/void blep.jpg").toExternalForm());
 		HMTimage.setImage(hmtImage);
-		DMTimage.setImage(hmtImage);
+		Image dmtImage = new Image(getClass().getResource("/resources/trung.jpg").toExternalForm());
+		DMTimage.setImage(dmtImage);
 
 		nptpLabel.setText("Nguyen Phuoc\nThien Phu");
 //

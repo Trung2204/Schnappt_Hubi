@@ -27,7 +27,7 @@
                </font>
             </Label>
             <Separator layoutY="30.0" prefHeight="15.0" prefWidth="350.0" />
-            <Label fx:id="playerIndexLabel" alignment="CENTER" layoutX="55.0" layoutY="55.0" text="Player ONE">
+            <Label fx:id="playerIndexLabel" alignment="CENTER" layoutX="65.0" layoutY="55.0" text="Player">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -37,27 +37,27 @@
                   <Font name="System Italic" size="16.0" />
                </font>
             </Label>
-            <Button fx:id="upButton" alignment="CENTER" layoutX="230.0" layoutY="150.0" mnemonicParsing="false" onAction="#handleUp" prefHeight="25.0" prefWidth="55.0" text="UP" />
-            <Button fx:id="downButton" alignment="CENTER" layoutX="230.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleDown" prefHeight="25.0" prefWidth="55.0" text="DOWN" />
-            <Button fx:id="leftButton" alignment="CENTER" layoutX="175.0" layoutY="175.0" mnemonicParsing="false" onAction="#handleLeft" prefHeight="25.0" prefWidth="55.0" text="LEFT" />
-            <Button fx:id="rightButton" alignment="CENTER" layoutX="285.0" layoutY="175.0" mnemonicParsing="false" onAction="#handleRight" prefHeight="25.0" prefWidth="55.0" text="RIGHT" />
-            <MenuButton fx:id="ActionTypes" layoutX="15.0" layoutY="175.0" mnemonicParsing="false" text="Action Types">
+            <Button fx:id="upButton" alignment="CENTER" disable="true" layoutX="230.0" layoutY="150.0" mnemonicParsing="false" onAction="#handleUp" prefHeight="25.0" prefWidth="55.0" text="UP" />
+            <Button fx:id="downButton" alignment="CENTER" disable="true" layoutX="230.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleDown" prefHeight="25.0" prefWidth="55.0" text="DOWN" />
+            <Button fx:id="leftButton" alignment="CENTER" disable="true" layoutX="175.0" layoutY="175.0" mnemonicParsing="false" onAction="#handleLeft" prefHeight="25.0" prefWidth="55.0" text="LEFT" />
+            <Button fx:id="rightButton" alignment="CENTER" disable="true" layoutX="285.0" layoutY="175.0" mnemonicParsing="false" onAction="#handleRight" prefHeight="25.0" prefWidth="55.0" text="RIGHT" />
+            <MenuButton fx:id="ActionTypes" disable="true" layoutX="15.0" layoutY="175.0" mnemonicParsing="false" text="Action Types">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#handleMove" text="Move" />
                 <MenuItem mnemonicParsing="false" onAction="#handleViewCurtain" text="View Curtain" />
-				<MenuItem mnemonicParsing="false" onAction="#handleOpenMagicDoor" text="Open Magic Door" />
-				<MenuItem mnemonicParsing="false" onAction="#handleViewToken" text="View Token" />
+				<MenuItem fx:id="actionOpenMagicDoor" mnemonicParsing="false" onAction="#handleOpenMagicDoor" text="Open Magic Door" visible="false" />
+				<MenuItem fx:id="actionViewToken" mnemonicParsing="false" onAction="#handleViewToken" text="View Token" visible="false" />
               </items>
                <font>
                   <Font size="14.0" />
                </font>
             </MenuButton>
-            <ImageView fitHeight="55.0" fitWidth="55.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="characterImage" fitHeight="55.0" fitWidth="55.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../resources/rabbit_1.png" />
+                  <Image url="@../../../../resources/unknown.png" />
                </image>
             </ImageView>
-            <Button fx:id="endTurnButton" alignment="CENTER" layoutX="225.0" layoutY="269.0" mnemonicParsing="false" onAction="#handleEndTurn" text="End Turn" />
+            <Button fx:id="endTurnButton" alignment="CENTER" disable="true" layoutX="225.0" layoutY="269.0" mnemonicParsing="false" onAction="#handleEndTurn" text="End Turn" />
          </children>
       </Pane>
       <Button fx:id="pressToStart" layoutX="275.0" layoutY="620.0" mnemonicParsing="false" onAction="#startGameLoop" prefWidth="100.0" text="Press to start" />

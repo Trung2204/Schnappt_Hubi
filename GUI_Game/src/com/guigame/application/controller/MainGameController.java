@@ -14,6 +14,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -25,13 +28,20 @@ public class MainGameController {
 	
 	@FXML
 	private AnchorPane MainGameAnchorPane;
-	
+	@FXML
+	private ImageView characterImage;
 	@FXML
 	private Button pressToStart,pressToStop,upButton,downButton,leftButton,rightButton,endTurnButton;
+	@FXML
+	private MenuButton ActionTypes;
+	@FXML
+	private MenuItem actionOpenMagicDoor,actionViewToken;
 	@FXML
     public void startGameLoop(ActionEvent event) {
     	Platform.runLater(() -> {
     		System.out.println("Game starts");
+    		ActionTypes.setDisable(false);
+    		endTurnButton.setDisable(false);
     		startGame();
     	});
     }
@@ -45,24 +55,25 @@ public class MainGameController {
 	private DirectionType directionChosen = null;
 	// Handle player actions performance
 	@FXML
-	private MenuButton ActionTypes;
-	@FXML
     public void handleMove(ActionEvent event) {
 		ActionTypes.setText("Move");
 		actionChosen = ActionType.MOVE;
 		System.out.println("Player selected Move");
+		enableDirectionButtons();
 	}
 	@FXML
 	public void handleViewCurtain(ActionEvent event) {
 		ActionTypes.setText("View Curtain");
 		actionChosen = ActionType.VIEW_CURTAIN;
 		System.out.println("Player selected View Curtain");
+		enableDirectionButtons();
 	}
 	@FXML
     public void handleOpenMagicDoor(ActionEvent event) {
 		ActionTypes.setText("Open Magic Door");
 		actionChosen = ActionType.OPEN_MAGIC_DOOR;
 		System.out.println("Player selected Open Magic Door");
+		enableDirectionButtons();
 	}
 	@FXML
     public void handleViewToken(ActionEvent event) {
@@ -94,6 +105,18 @@ public class MainGameController {
 	@FXML
 	public void handleEndTurn(ActionEvent event) {
 	    model.setCurrentState(GameState.NEXT_PLAYER);
+	}
+	private void enableDirectionButtons() {
+		upButton.setDisable(false);
+		downButton.setDisable(false);
+		leftButton.setDisable(false);
+		rightButton.setDisable(false);
+	}
+	private void disableDirectionButtons() {
+		upButton.setDisable(true);
+		downButton.setDisable(true);
+		leftButton.setDisable(true);
+		rightButton.setDisable(true);
 	}
 	
 	// No-argument constructor
@@ -131,6 +154,8 @@ public class MainGameController {
                         		break;
                         	}
                         	playerIndexLabel.setText("Player "+currentPlayerIndex);
+                        	Image newImage = new Image(getClass().getResource("/resources/rabbit_1.png").toExternalForm());
+                        	characterImage.setImage(newImage);
                             model.spinCompass();
                             model.setViewUpdated(true); // Set viewUpdated to true as the game state has changed
                             break;
@@ -143,19 +168,36 @@ public class MainGameController {
                             model.setViewUpdated(true);
                             break;
                         case PERFORM_PLAYER_ACTION:
-                        	System.out.println("Player "+model.getCurrentPlayerIndex()+" is performing action");
+                        	System.out.println("Player "+(model.getCurrentPlayerIndex()+1)+" is performing action");
                         	// Get the number of actions of the current player
                         	Player currentPlayer = model.getListOfPlayers()[model.getCurrentPlayerIndex()];
                         	remainingActions = currentPlayer.getNumberOfActions();
                         	numberOfActionsLabel.setText("Number of remaining actions: "+remainingActions);
-                            // If an action and direction are chosen, perform the action
+                            // Show action options based on the current phase of the game
+                        	// Phase 1
+                        	if (!model.isGhostActivated()) {
+                        		// If Magic Door has been found, the action Open Magic Door is enable
+                        		if (model.isMagicDoorFound()) {
+                        			actionOpenMagicDoor.setVisible(true);
+                        		}
+                        	}
+                        	// Phase 2
+                        	else {
+                        		// If Magic Door is opened, the action View Token is enable
+                        		actionViewToken.setVisible(true);
+                        	}
+                        	// If an action and direction are chosen, perform the action
                             if (actionChosen != null && directionChosen != null && remainingActions > 0) {
                                 model.performPlayerAction(actionChosen, directionChosen);
-                                // Decrement the number of actions
-                                currentPlayer.decrementNumberOfActions();
+                                // Decrement the number of remaining actions if an action is performed successfully
+                                if (model.isActionPerformed()) {
+                                	currentPlayer.decrementNumberOfActions();
+                                }
                                 // Reset the action and direction
                                 actionChosen = null;
                                 directionChosen = null;
+                                ActionTypes.setText("Action Types");
+                                disableDirectionButtons();
                                 model.setViewUpdated(true);
                             }
                             break;

@@ -1,50 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-<<<<<<< HEAD
-		<item key="selection" value="layer4"/>
-=======
-		<item key="selection" value=""/>
->>>>>>> a77585faddbc785e45a3aab47c017510890b5dea
+		<item key="selection" value="Tooltip"/>
 		<item key="wrap" value="true"/>
-		<item key="casesensitive" value="true"/>
+		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
-<<<<<<< HEAD
-			<item value="layer2"/>
-			<item value="layer3"/>
-=======
-			<item value="draw"/>
-			<item value="create mouse images"/>
->>>>>>> a77585faddbc785e45a3aab47c017510890b5dea
-			<item value="drawPlayer"/>
-			<item value="CellType.GHOST"/>
-			<item value="isGhostFound"/>
-			<item value="ghostX"/>
-			<item value="ghost.png"/>
-			<item value="handleSkipAction"/>
-			<item value="chooseAction"/>
-			<item value="Action Type"/>
-			<item value="visible"/>
-			<item value="switchToMainGameScene"/>
-			<item value="Game."/>
-			<item value="removePairs"/>
-			<item value="adjacentPairs"/>
+			<item value="tooltip"/>
+			<item value="drawWalls"/>
+			<item value="endTurn"/>
 		</list>
 		<list key="replacehistory">
-			<item value="layer4"/>
-			<item value="layer3"/>
-			<item value="Action Types"/>
-			<item value=""/>
-			<item value="board.getBoardSize()"/>
-			<item value="board.getBoardSize();"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="32"/>
-		<item key="DIALOG_Y_ORIGIN" value="204"/>
+		<item key="DIALOG_X_ORIGIN" value="927"/>
+		<item key="DIALOG_Y_ORIGIN" value="223"/>
 		<item key="DIALOG_WIDTH" value="414"/>
 		<item key="DIALOG_HEIGHT" value="454"/>
 		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>

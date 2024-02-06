@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="javafx.scene.image.Image"/>
     <fullyQualifiedTypeName name="javafx.scene.paint.ImagePattern"/>
     <fullyQualifiedTypeName name="javafx.scene.Group"/>
     <fullyQualifiedTypeName name="javafx.scene.layout.HBox"/>
@@ -11,7 +10,6 @@
     <fullyQualifiedTypeName name="com.guigame.helper.type.Pair"/>
     <fullyQualifiedTypeName name="java.time.Duration"/>
     <fullyQualifiedTypeName name="javafx.animation.PauseTransition"/>
-    <fullyQualifiedTypeName name="javafx.util.Duration"/>
     <fullyQualifiedTypeName name="javafx.animation.Timeline"/>
     <fullyQualifiedTypeName name="javafx.animation.KeyFrame"/>
     <fullyQualifiedTypeName name="com.guigame.player.Clock"/>
@@ -26,7 +24,6 @@
     <fullyQualifiedTypeName name="javafx.scene.layout.GridPane"/>
     <fullyQualifiedTypeName name="javafx.scene.layout.VBox"/>
     <fullyQualifiedTypeName name="com.guigame.helper.type.FieldType"/>
-    <fullyQualifiedTypeName name="javafx.scene.control.MenuItem"/>
     <fullyQualifiedTypeName name="javafx.scene.control.MenuButton"/>
     <fullyQualifiedTypeName name="com.guigame.player.Player"/>
     <fullyQualifiedTypeName name="com.guigame.application.MainGameModel.GameState"/>
@@ -36,4 +33,9 @@
     <fullyQualifiedTypeName name="javafx.scene.control.TextFormatter"/>
     <fullyQualifiedTypeName name="java.util.Arrays"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="javafx.scene.control.MenuItem"/>
+    <fullyQualifiedTypeName name="javafx.scene.control.Tooltip"/>
+    <fullyQualifiedTypeName name="javafx.util.Duration"/>
+    <fullyQualifiedTypeName name="javafx.scene.image.ImageView"/>
+    <fullyQualifiedTypeName name="javafx.scene.image.Image"/>
 </qualifiedTypeNameHistroy>

@@ -1,4 +1,4 @@
-#Fri Feb 02 04:34:11 CET 2024
+#Tue Feb 06 19:41:32 CET 2024
 \!/=
 /configuration/org.eclipse.core.net/org.eclipse.core.net.hasMigrated=true
 /configuration/org.eclipse.equinox.p2.garbagecollector/gc_enabled=false
@@ -29,6 +29,7 @@
 /instance/org.eclipse.debug.ui/org.eclipse.debug.ui.MemoryHistoryUnknownColor=170,175,185
 /instance/org.eclipse.debug.ui/org.eclipse.debug.ui.PREF_CHANGED_VALUE_BACKGROUND=150,80,115
 /instance/org.eclipse.debug.ui/org.eclipse.debug.ui.PREF_LAUNCH_PERSPECTIVES=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<launchPerspectives/>\r\n
+/instance/org.eclipse.debug.ui/org.eclipse.debug.ui.VariableView+org.eclipse.debug.ui.ShowTypesAction=true
 /instance/org.eclipse.debug.ui/org.eclipse.debug.ui.changedDebugElement=255,128,128
 /instance/org.eclipse.debug.ui/org.eclipse.debug.ui.consoleBackground=53,53,53
 /instance/org.eclipse.debug.ui/org.eclipse.debug.ui.errorColor=225,30,70
@@ -223,7 +224,7 @@
 /instance/org.eclipse.pde.ui/overriddenByCSS=,editor.color.default,editor.color.externalized_string,editor.color.externalized_string_italic,editor.color.header_assignment,editor.color.header_assignment_bold,editor.color.header_attributes,editor.color.header_key,editor.color.header_key_bold,editor.color.header_osgi,editor.color.header_value,editor.color.header_value_italic,editor.color.instr,editor.color.instr_bold,editor.color.string,editor.color.string_italic,editor.color.tag,editor.color.tag_bold,editor.color.xml_comment,
 /instance/org.eclipse.search/org.eclipse.search.defaultPerspective=org.eclipse.search.defaultPerspective.none
 /instance/org.eclipse.ui.browser/browsers=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<web-browsers current\="0">\r\n<system/>\r\n<external location\="C\:\\Program Files\\Internet Explorer\\iexplore.exe" name\="%browserInternetExplorer"/>\r\n<external location\="C\:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe" name\="Microsoft Edge"/>\r\n<external location\="C\:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" name\="Chrome"/>\r\n</web-browsers>
-/instance/org.eclipse.ui.browser/internalWebBrowserHistory=file\:///D\:/Minh%20Trung/Study/FRA%20-%20UAS/OOP%20Java/Project/Schnappt_Hubi/GUI_Game/src/resources/curtain_wall.png|*|file\:/D\:/Minh%20Trung/Study/FRA%20-%20UAS/OOP%20Java/Project/Schnappt_Hubi/GUI_Game/src/resources/curtain_wall.png|*|
+/instance/org.eclipse.ui.browser/internalWebBrowserHistory=file\:///D\:/Minh%20Trung/Study/FRA%20-%20UAS/OOP%20Java/Project/Schnappt_Hubi/GUI_Game/src/resources/unknown.jpg|*|file\:/D\:/Minh%20Trung/Study/FRA%20-%20UAS/OOP%20Java/Project/Schnappt_Hubi/GUI_Game/src/resources/unknown.jpg|*|file\:///D\:/Minh%20Trung/Study/FRA%20-%20UAS/OOP%20Java/Project/Schnappt_Hubi/GUI_Game/src/resources/trung.jpg|*|file\:/D\:/Minh%20Trung/Study/FRA%20-%20UAS/OOP%20Java/Project/Schnappt_Hubi/GUI_Game/src/resources/trung.jpg|*|file\:///D\:/Minh%20Trung/Study/FRA%20-%20UAS/OOP%20Java/Project/Schnappt_Hubi/GUI_Game/src/resources/trung1.jpg|*|file\:/D\:/Minh%20Trung/Study/FRA%20-%20UAS/OOP%20Java/Project/Schnappt_Hubi/GUI_Game/src/resources/trung1.jpg|*|file\:///D\:/Minh%20Trung/Study/FRA%20-%20UAS/OOP%20Java/Project/Schnappt_Hubi/GUI_Game/src/resources/trung123.jpg|*|file\:/D\:/Minh%20Trung/Study/FRA%20-%20UAS/OOP%20Java/Project/Schnappt_Hubi/GUI_Game/src/resources/trung123.jpg|*|file\:///D\:/Minh%20Trung/Study/FRA%20-%20UAS/OOP%20Java/Project/Schnappt_Hubi/GUI_Game/src/resources/curtain_wall.png|*|file\:/D\:/Minh%20Trung/Study/FRA%20-%20UAS/OOP%20Java/Project/Schnappt_Hubi/GUI_Game/src/resources/curtain_wall.png|*|
 /instance/org.eclipse.ui.editors/AbstractTextEditor.Color.Background=47,47,47
 /instance/org.eclipse.ui.editors/AbstractTextEditor.Color.Background.SystemDefault=false
 /instance/org.eclipse.ui.editors/AbstractTextEditor.Color.FindScope=30,120,155
@@ -268,9 +269,14 @@
 /instance/org.eclipse.ui.editors/writeOccurrenceIndicationColor=27,98,145
 /instance/org.eclipse.ui.genericeditor/matchingBracketsColor=249,250,244
 /instance/org.eclipse.ui.genericeditor/overriddenByCSS=,matchingBracketsColor,
+/instance/org.eclipse.ui.ide/=\=\=\=\=\=\=
+/instance/org.eclipse.ui.ide/<<<<<<<=HEAD
+/instance/org.eclipse.ui.ide/>>>>>>>=a77585faddbc785e45a3aab47c017510890b5dea
 /instance/org.eclipse.ui.ide/IMPORT_FILES_AND_FOLDERS_MODE=prompt
+/instance/org.eclipse.ui.ide/IMPORT_FILES_AND_FOLDERS_RELATIVE=true
+/instance/org.eclipse.ui.ide/IMPORT_FILES_AND_FOLDERS_TYPE=23,1
 /instance/org.eclipse.ui.ide/IMPORT_FILES_AND_FOLDERS_VIRTUAL_FOLDER_MODE=prompt
-/instance/org.eclipse.ui.ide/platformState=1706313435332
+/instance/org.eclipse.ui.ide/platformState=1706313435464
 /instance/org.eclipse.ui.ide/quickStart=false
 /instance/org.eclipse.ui.ide/tipsAndTricks=true
 /instance/org.eclipse.ui.navigator/org.eclipse.ui.navigator.ProjectExplorer.filterActivation=\:org.eclipse.jdt.java.ui.filters.HidePackageDeclaration\:org.eclipse.jdt.java.ui.filters.HideOutputFolder\:org.eclipse.buildship.ui.navigator.filter.gradle.subProject\:org.eclipse.ui.navigator.resources.nested.HideTopLevelProjectIfNested\:org.eclipse.buildship.ui.navigator.filter.gradle.buildfolder\:org.eclipse.jdt.java.ui.filters.HideEmptyInnerPackages\:org.eclipse.jdt.java.ui.filters.HideInnerClassFiles\:org.eclipse.ui.navigator.resources.filters.startsWithDot\:org.eclipse.jdt.java.ui.filters.HideEmptyLibraryContainers\:org.eclipse.jdt.java.ui.filters.HideImportDeclaration\:org.eclipse.jdt.java.ui.filters.HideSyntheticMembers\:org.eclipse.mylyn.tasks.ui.navigator.filters.tasks\:org.eclipse.ui.navigator.resources.nested.HideFolderWhenProjectIsShownAsNested\:
@@ -329,6 +335,11 @@
 /instance/org.eclipse.ui.workbench/org.eclipse.ui.workbench.ACTIVE_TAB_BG_END=41,41,41
 /instance/org.eclipse.ui.workbench/org.eclipse.ui.workbench.ACTIVE_TAB_BG_START=43,44,45
 /instance/org.eclipse.ui.workbench/org.eclipse.ui.workbench.ACTIVE_TAB_TEXT_COLOR=221,221,221
+/instance/org.eclipse.ui.workbench/org.eclipse.ui.workbench.FORM_HEADING_ERROR_COLOR=255,110,110
+/instance/org.eclipse.ui.workbench/org.eclipse.ui.workbench.FORM_HEADING_INFO_COLOR=170,170,170
+/instance/org.eclipse.ui.workbench/org.eclipse.ui.workbench.FORM_HEADING_WARNING_COLOR=255,200,0
+/instance/org.eclipse.ui.workbench/org.eclipse.ui.workbench.HOVER_BACKGROUND=52,57,61
+/instance/org.eclipse.ui.workbench/org.eclipse.ui.workbench.HOVER_FOREGROUND=238,238,238
 /instance/org.eclipse.ui.workbench/org.eclipse.ui.workbench.INACTIVE_TAB_BG_END=49,53,56
 /instance/org.eclipse.ui.workbench/org.eclipse.ui.workbench.INACTIVE_TAB_BG_START=59,64,66
 /instance/org.eclipse.ui.workbench/org.eclipse.ui.workbench.INACTIVE_TAB_TEXT_COLOR=187,187,187

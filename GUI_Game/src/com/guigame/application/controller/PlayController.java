@@ -26,7 +26,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 
@@ -92,6 +91,7 @@ public class PlayController implements Initializable {
 	    // Handle the valid input...
 	    nextButton.setDisable(false);
 	    nextButton.setOpacity(1);
+	    hidePlayerLabels();
 	    // Show player labels based on the number of players
 	    if (numberOfPlayers >= 2) {
 	        player1Label.setOpacity(1);
@@ -560,11 +560,14 @@ public class PlayController implements Initializable {
 		// Draw the game before starting game loop
 		view.update();
         GridPane gridPaneBoard = view.getGameBoard();
-        VBox clockCompassBox = view.getClockAndCompass();
-        // Set the VBox to the top right corner
-        AnchorPane.setTopAnchor(clockCompassBox, 500.0);
-        AnchorPane.setRightAnchor(clockCompassBox, 0.0);
-        root.getChildren().addAll(gridPaneBoard, clockCompassBox);
+        Label clock = view.getClock();
+        Label compass = view.getCompass();
+
+        AnchorPane.setTopAnchor(clock, 20.0);
+        AnchorPane.setRightAnchor(clock, 47.0);
+        AnchorPane.setBottomAnchor(compass, 100.0);
+        AnchorPane.setRightAnchor(compass, 40.0);
+        root.getChildren().addAll(gridPaneBoard, clock, compass);
         
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);

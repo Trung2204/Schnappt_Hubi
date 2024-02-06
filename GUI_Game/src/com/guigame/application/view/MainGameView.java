@@ -8,44 +8,68 @@ import com.guigame.application.model.MainGameModel;
 import com.guigame.board.GridCell;
 import com.guigame.player.Player;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
+import java.io.InputStream;
 
 public class MainGameView {
 	private MainGameModel model;
 	private GridPane gameBoard;
-	private VBox clockAndCompass;
+	private Label clock;
+	private Label compass;
 	
 	// Constructor
     public MainGameView(MainGameModel model) {
         this.model = model;
         this.gameBoard = new GridPane();
-        this.clockAndCompass = new VBox();
+        
+        InputStream is = getClass().getResourceAsStream("/resources/digital-7 (mono).ttf");
+		Font font = Font.loadFont(is, 50);
+		BackgroundFill backgroundFill = new BackgroundFill(Color.rgb(0, 0, 0, 0.65), CornerRadii.EMPTY, Insets.EMPTY);
+		Background background = new Background(backgroundFill);
+        this.clock = new Label();
+        clock.setFont(font);
+        clock.setTextFill(Color.LIMEGREEN);
+        clock.setBackground(background);
+        clock.setPadding(new Insets(10));
+        
+        BackgroundFill backgroundFill1 = new BackgroundFill(Color.rgb(211, 211, 211, 0.75), CornerRadii.EMPTY, Insets.EMPTY);
+		Background background1 = new Background(backgroundFill1);
+        this.compass = new Label();
+        compass.setFont(font);
+        compass.setTextFill(Color.BLACK);
+        compass.setBackground(background1);
+        clock.setPadding(new Insets(10));
     }
     public GridPane getGameBoard() { return gameBoard; }
-    public VBox getClockAndCompass() { return clockAndCompass; } 
+    public Label getClock() { return clock; } 
+    public Label getCompass() { return compass; }
     
     // Methods to draw the GUI based on the model state...
     public void update() {
         // Clear the game board
         gameBoard.getChildren().clear();
-        clockAndCompass.getChildren().clear();
 
         // Redraw the game board based on the model's state
         drawBoard();
-    	drawClockCompass();
+    	drawClock();
+    	drawCompass();
     }
     private void drawBoard() {
         ArrayList<Image> rabbitImages = createRabbitImageList();
@@ -57,9 +81,14 @@ public class MainGameView {
                 Pane pane = new Pane(cellNodeBoard);    
                 
                 int playerCount = 0; // Keep track of the number of players in each cell
+                int playerIndex = 0;
                 for (Player player : model.getListOfPlayers()) {
                 	if (player.getX() == i && player.getY() == j) {
                 		Node cellNodePlayer = drawPlayer(player, rabbitImages, mouseImages);
+                		Tooltip tooltip = new Tooltip("PLAYER "+(playerIndex+1));
+                		tooltip.setShowDelay(Duration.seconds(0.3));
+                		Tooltip.install(cellNodePlayer, tooltip);
+                		
                 		switch (playerCount) {
                         case 0: // Top left corner
                             cellNodePlayer.relocate(0, 0);
@@ -77,6 +106,7 @@ public class MainGameView {
                 		pane.getChildren().add(cellNodePlayer);
                 		playerCount++;
                 	}
+                	playerIndex++;
                 }
                 gameBoard.add(pane, j, i);
                 gameBoard.setLayoutX(70);
@@ -319,23 +349,14 @@ public class MainGameView {
         return rectangle;
     }
 
-	private void drawClockCompass() {
-		Label clockLabel = new Label("CLOCK");
-		Label timeLabel = new Label();
-		timeLabel.setText("Time: "+model.getClock().getTime());
-		clockLabel.setTextFill(Color.WHITE);
-		timeLabel.setTextFill(Color.WHITE);
-		
-		Label compassLabel = new Label("COMPASS");
-		Label fieldLabel = new Label();
-		fieldLabel.setText("Field: "+model.getCompass().getFieldType());
-		compassLabel.setTextFill(Color.WHITE);
-		fieldLabel.setTextFill(Color.WHITE);
-		
-		Label actionNumberLabel = new Label();
-		actionNumberLabel.setText("Number of actions: "+model.getCompass().getNumberOfAction());
-		actionNumberLabel.setTextFill(Color.WHITE);
-		
-		clockAndCompass.getChildren().addAll(clockLabel,timeLabel,compassLabel,fieldLabel,actionNumberLabel);
+	private void drawClock() {
+		if (model.getClock().getTime() < 9) {
+			clock.setText("0"+model.getClock().getTime()+":00");
+		}else {
+			clock.setText(model.getClock().getTime()+":00");
+		}
+	}
+	private void drawCompass() {
+		compass.setText("Hit field:"+model.getCompass().getFieldType());
 	}
 }

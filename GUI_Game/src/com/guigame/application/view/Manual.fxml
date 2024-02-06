@@ -5,6 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+<?import javafx.geometry.Insets?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.guigame.application.controller.ManualController">
    <children>
       <ImageView fx:id="manualBackground" fitHeight="720" fitWidth="1280" />
@@ -15,15 +16,152 @@
          </font>
       </Label>
 
-      <TextArea fx:id="gameRulesTextArea" editable="false" layoutX="240.0" layoutY="100.0" prefHeight="500.0" opacity="0.75" prefWidth="800.0" wrapText="true">
-         <font>
-            <Font name="System" size="18.0" />
-         </font>
-         <style>
-            -fx-text-fill: white;
-            -fx-control-inner-background: black;
-         </style>
-      </TextArea>
+
+      <TabPane layoutX="240.0" layoutY="100.0" prefHeight="500.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
+         <tabs>
+
+            <Tab text="Games rules">
+               <content>
+                  <TextArea fx:id="gameRulesTextArea" editable="false" layoutX="240.0" layoutY="100.0" prefHeight="500.0" opacity="0.75" prefWidth="800.0" wrapText="true">
+                     <font>
+                        <Font name="System" size="18.0" />
+                     </font>
+                     <style>
+                        -fx-text-fill: white;
+                        -fx-control-inner-background: black;
+                     </style>
+                  </TextArea>
+               </content>
+            </Tab>
+
+            <Tab text="Setup Page">
+               <content>
+                  <ScrollPane fitToWidth="true" fitToHeight="true">
+                     <VBox alignment="CENTER" spacing="20">
+                        <padding>
+                           <Insets top="20" bottom="20" />
+                        </padding>
+                        <VBox alignment="CENTER">
+                           <ImageView fx:id="setNoPlayers" fitWidth="284" fitHeight="182"/>
+                           <Label text="First, you will need to set the number of players." />
+                        </VBox>
+
+                        <VBox alignment="CENTER" spacing="10">
+                           <ImageView fx:id="setPlayers" fitWidth="737" fitHeight="220"/>
+                           <Label text="Then each player will need to select their character and starting position. Remember to click OK for each player." />
+                        </VBox>
+
+                        <VBox alignment="CENTER" spacing="10">
+                           <ImageView fx:id="buttonSetting" fitWidth="203" fitHeight="75"/>
+                           <Label text="Then press Next to proceed to the main game screen. The back button is to go back to the Menu screen." />
+                        </VBox>
+                     </VBox>
+                  </ScrollPane>
+               </content>
+            </Tab>
+
+            <Tab text="Main Game Screen">
+               <content>
+                  <ScrollPane fitToWidth="true" fitToHeight="true">
+                     <VBox alignment="CENTER" spacing="20">
+                        <padding>
+                           <Insets top="20" bottom="20" />
+                        </padding>
+                        <VBox alignment="CENTER">
+                           <ImageView fx:id="startButton" fitWidth="250" fitHeight="110"/>
+                           <Label text="Press the start button to start playing" />
+                        </VBox>
+
+                        <VBox alignment="CENTER" spacing="10">
+                           <ImageView fx:id="actionBox" fitWidth="519" fitHeight="513"/>
+                           <Label text="The player needs to choose an action first, then choose the direction of that action." />
+                        </VBox>
+                     </VBox>
+                  </ScrollPane>
+               </content>
+            </Tab>
+
+            <Tab text="Wall">
+               <content>
+                  <ScrollPane fitToWidth="true" fitToHeight="true">
+                     <VBox alignment="CENTER" spacing="20">
+                        <padding>
+                           <Insets top="20" bottom="20" />
+                        </padding>
+                        <HBox alignment="CENTER" spacing="20">
+                           <ImageView fx:id="horizontal_curtain_wall" fitWidth="150" fitHeight="150"/>
+                           <ImageView fx:id="vertical_curtain_wall" fitWidth="150" fitHeight="150"/>
+                           <VBox alignment="CENTER">
+                              <Label text="Curtain Wall" />
+                           </VBox>
+                        </HBox>
+
+                        <padding>
+                           <Insets top="20" bottom="20" />
+                        </padding>
+                        <HBox alignment="CENTER" spacing="20">
+                           <ImageView fx:id="horizontal_closed_magic_door_wall_curtain" fitWidth="150" fitHeight="150"/>
+                           <ImageView fx:id="vertical_closed_magic_door_wall_curtain" fitWidth="150" fitHeight="150"/>
+                           <VBox alignment="CENTER">
+                              <Label text="Closed Magic door" />
+                           </VBox>
+                        </HBox>
+
+                        <padding>
+                           <Insets top="20" bottom="20" />
+                        </padding>
+                        <HBox alignment="CENTER" spacing="20">
+                           <ImageView fx:id="horizontal_open_magic_door_wall" fitWidth="150" fitHeight="150"/>
+                           <ImageView fx:id="vertical_open_magic_door_wall" fitWidth="150" fitHeight="150"/>
+                           <VBox alignment="CENTER">
+                              <Label text="Open Magic Door" />
+                           </VBox>
+                        </HBox>
+
+                        <padding>
+                           <Insets top="20" bottom="20" />
+                        </padding>
+                        <HBox alignment="CENTER" spacing="20">
+                           <ImageView fx:id="horizontal_mousehole_wall" fitWidth="150" fitHeight="150"/>
+                           <ImageView fx:id="vertical_mousehole_wall" fitWidth="150" fitHeight="150"/>
+                           <VBox alignment="CENTER">
+                              <Label text="MouseHole Wall" />
+                           </VBox>
+                        </HBox>
+
+                        <padding>
+                           <Insets top="20" bottom="20" />
+                        </padding>
+                        <HBox alignment="CENTER" spacing="20">
+                           <ImageView fx:id="horizontal_open_wall" fitWidth="150" fitHeight="150"/>
+                           <ImageView fx:id="vertical_open_wall" fitWidth="150" fitHeight="150"/>
+                           <VBox alignment="CENTER">
+                              <Label text="Open Wall" />
+                           </VBox>
+                        </HBox>
+
+                        <padding>
+                           <Insets top="20" bottom="20" />
+                        </padding>
+                        <HBox alignment="CENTER" spacing="20">
+                           <ImageView fx:id="horizontal_window_wall" fitWidth="150" fitHeight="150"/>
+<!--                           <ImageView fx:id="vertical_closed_window_wall" fitWidth="150" fitHeight="150"/>-->
+                           <ImageView fx:id="vertical_open_window_wall" fitWidth="150" fitHeight="150"/>
+                           <VBox alignment="CENTER">
+                              <Label text="Window Wall" />
+                           </VBox>
+                        </HBox>
+
+                     </VBox>
+                  </ScrollPane>
+               </content>
+            </Tab>
+
+         </tabs>
+      </TabPane>
+
+
+
 
 
       <Button alignment="CENTER" layoutX="608.0" layoutY="619.0" mnemonicParsing="false" onAction="#switchToInitialMenuScene" text="BACK" textAlignment="CENTER">

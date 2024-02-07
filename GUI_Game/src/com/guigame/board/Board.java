@@ -8,9 +8,9 @@ public class Board {
 	private static final int BOARD_SIZE = 5;
 	private GridCell[][] gridCells;
 	private int magicDoorRow;
-    private int magicDoorCol;
-    private int ghostRow;
-    private int ghostCol;
+        private int magicDoorCol;
+        private int ghostRow;
+        private int ghostCol;
 	private ArrayList<CellType> tokens = new ArrayList<>(Arrays.asList(
 			CellType.CHEESE_TOKEN, CellType.CARROT_TOKEN,
 			CellType.CHEESE_TOKEN, CellType.CARROT_TOKEN,

@@ -6,7 +6,7 @@ public enum FieldType {
     TWO(2),
     THREE(3),
 	
-	NONE(0);
+    NONE(0);
 
     private final int action;
 

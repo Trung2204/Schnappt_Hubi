@@ -211,6 +211,7 @@ public class MainGameController {
                                     // Decrement the number of remaining actions if an action is performed successfully
                                     if (model.isActionPerformed()) {
                                     	currentPlayer.decrementNumberOfActions();
+                                    	performedActionLabel.setVisible(false);
                                     } else { // If action is not performed
                                         if (model.isMoveOutOfBound()) {
                                         	performedActionLabel.setVisible(true);
@@ -224,17 +225,17 @@ public class MainGameController {
                                         }
                                         if (model.isRabbitsMoveThroughMouseHole()) {
                                         	performedActionLabel.setVisible(true);
-                                        	performedActionLabel.setText("Rabbit can only move through WINDOW or OPEN wall!");
+                                        	performedActionLabel.setText("Rabbits cannot go through a mouse hole!");
                                             performedActionLabel.setTextFill(Color.DARKRED);
                                         }
                                         if (model.isMiceMoveThroughWindow()) {
                                         	performedActionLabel.setVisible(true);
-                                        	performedActionLabel.setText("Mouse can only move through MOUSE HOLE or OPEN wall!");
+                                        	performedActionLabel.setText("Mice cannot jump through a window!");
                                             performedActionLabel.setTextFill(Color.DARKRED);
                                         }
-                                        if (model.isViewCurtainOutOfBound()||  model.isOpenMagicDoorOutOfBound()) {
+                                        if (model.isViewCurtainOutOfBound() ||  model.isOpenMagicDoorOutOfBound()) {
                                         	performedActionLabel.setVisible(true);
-                                        	performedActionLabel.setText("There is nothing this way!");
+                                        	performedActionLabel.setText("There is nothing in this direction!");
                                             performedActionLabel.setTextFill(Color.DARKRED);
                                         }
                                         if (model.isViewOpenedCurtain()) {
@@ -244,7 +245,7 @@ public class MainGameController {
                                         }
                                         if (model.isOpenNotMagicDoor()) {
                                         	performedActionLabel.setVisible(true);
-                                        	performedActionLabel.setText("This is not the magic door! Try to find it!");
+                                        	performedActionLabel.setText("This is not the magic door!");
                                             performedActionLabel.setTextFill(Color.DARKRED);
                                         }
                                         if (model.isNoPlayerOtherSide()) {
@@ -259,16 +260,15 @@ public class MainGameController {
                                         }
                                         if (model.isRabbitsViewCheese()) {
                                         	performedActionLabel.setVisible(true);
-                                        	performedActionLabel.setText("Rabbit can only view carrot tokens!");
+                                        	performedActionLabel.setText("Rabbits can only view carrot tokens!");
                                             performedActionLabel.setTextFill(Color.DARKRED);
                                         }
                                         if (model.isMiceViewCarrot()) {
                                         	performedActionLabel.setVisible(true);
-                                        	performedActionLabel.setText("Mouse can only view cheese tokens!");
+                                        	performedActionLabel.setText("Mice can only view cheese tokens!");
                                             performedActionLabel.setTextFill(Color.DARKRED);
                                         }
                                     }
-                                    performedActionLabel.setVisible(false);
                                     // Reset the action and direction
                                     actionChosen = null;
                                     directionChosen = null;

@@ -137,7 +137,51 @@ public class MainGameModel {
 			break;
     	}
     }
-	private void attemptMove(Player currentPlayer, DirectionType direction) {
+	
+    // Track unsuccessful actions
+    private boolean moveOutOfBound = false;
+	private boolean moveThroughCurtain = false;
+	private boolean rabbitsMoveThroughMouseHole = false;
+	private boolean miceMoveThroughWindow = false;
+	
+	private boolean viewCurtainOutOfBound = false;
+	private boolean viewOpenedCurtain = false;
+	
+	private boolean openMagicDoorOutOfBound = false;
+	private boolean openNotMagicDoor = false;
+	private boolean noPlayerOtherSide = false;
+	
+	private boolean viewRevealedToken = false;
+	private boolean rabbitsViewCheese = false;
+	private boolean miceViewCarrot = false;
+	
+	public boolean isMoveOutOfBound() { return this.moveOutOfBound; }
+	public boolean isMoveThroughCurtain() { return this.moveThroughCurtain; }
+	public boolean isRabbitsMoveThroughMouseHole() { return this.rabbitsMoveThroughMouseHole; }
+	public boolean isMiceMoveThroughWindow() { return this.miceMoveThroughWindow; }
+	
+	public boolean isViewCurtainOutOfBound() { return this.viewCurtainOutOfBound; }
+	public boolean isViewOpenedCurtain() { return this.viewOpenedCurtain; }
+	
+	public boolean isOpenMagicDoorOutOfBound() { return this.openMagicDoorOutOfBound; }
+	public boolean isOpenNotMagicDoor() { return this.openNotMagicDoor; }
+	public boolean isNoPlayerOtherSide() { return this.noPlayerOtherSide; }
+	
+	public boolean isViewRevealedToken() { return this.viewRevealedToken; }
+	public boolean isRabbitsViewCheese() { return this.rabbitsViewCheese; }
+	public boolean isMiceViewCarrot() { return this.miceViewCarrot; }
+	
+    private void attemptMove(Player currentPlayer, DirectionType direction) {
+    	this.viewCurtainOutOfBound = false;
+    	this.viewOpenedCurtain = false;
+    	
+    	this.openMagicDoorOutOfBound = false;
+    	this.openNotMagicDoor = false;
+    	this.noPlayerOtherSide = false;
+    	
+    	this.viewRevealedToken = false;
+    	this.rabbitsViewCheese = false;
+    	this.miceViewCarrot = false;
 	    int newX = currentPlayer.getX();
 	    int newY = currentPlayer.getY();
 	
@@ -157,25 +201,33 @@ public class MainGameModel {
 	        default:
 	            break;
 	    }
-	
 	    // Check if adjacent cell is within bounds
 	    if (newX >= 0 && newX < board.getBoardSize() && newY >= 0 && newY < board.getBoardSize()) {
+	    	this.moveOutOfBound = false;
 	        GridCell adjacentCell = board.getGridCellAt(newX,newY);
 	        // Check if the adjacent cell is a curtain wall
 	        if (adjacentCell.getCellType() == CellType.CURTAIN_WALL) {
 	            System.err.println("\n" + "CANNOT MOVE BECAUSE OF CURTAIN!" + "\n");
+	            this.moveThroughCurtain = true;
+	            this.rabbitsMoveThroughMouseHole = false;
+	            this.miceMoveThroughWindow = false;
 	            this.actionPerformed = false;
 	        }
 	        // If not a curtain wall, then move the player
 	        else {
+	        	this.moveThroughCurtain = false;
 	            // Rabbit can only move through Window and Open wall
 	            if (currentPlayer.getCharacter() == CharacterType.RABBIT) {
 	                if (adjacentCell.getCellType() == CellType.WINDOW_WALL || adjacentCell.getCellType() == CellType.OPEN_WALL) {
 	                    System.out.println("Player's moving...");
 	                    currentPlayer.move(direction);
 	                    this.actionPerformed = true;
+	    	            this.rabbitsMoveThroughMouseHole = false;
+	    	            this.miceMoveThroughWindow = false;
 	                } else {
 	                    System.err.println("\n" + "Rabbit can only move through WINDOW or OPEN wall");
+	                    this.rabbitsMoveThroughMouseHole = true;
+	                    this.miceMoveThroughWindow = false;
 	                    this.actionPerformed = false;
 	                }
 	            }
@@ -185,18 +237,38 @@ public class MainGameModel {
 	                    System.out.println("Player's moving...");
 	                    currentPlayer.move(direction);
 	                    this.actionPerformed = true;
+	    	            this.rabbitsMoveThroughMouseHole = false;
+	    	            this.miceMoveThroughWindow = false;
 	                } else {
 	                    System.err.println("\n" + "Mouse can only move through MOUSE HOLE or OPEN wall");
+	                    this.miceMoveThroughWindow = true;
+	                    this.rabbitsMoveThroughMouseHole = false;
 	                    this.actionPerformed = false;
 	                }
 	            }
 	        }
 	    } else {
 	        System.err.println("\n" + "MOVE OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
+	        this.moveOutOfBound = true;
+	        this.moveThroughCurtain = false;
+	        this.rabbitsMoveThroughMouseHole = false;
+            this.miceMoveThroughWindow = false;
 	        this.actionPerformed = false;
 	    }
 	}
 	private void attemptViewCurtain(Player currentPlayer, DirectionType direction) {
+		this.moveOutOfBound = false;
+        this.moveThroughCurtain = false;
+        this.rabbitsMoveThroughMouseHole = false;
+        this.miceMoveThroughWindow = false;
+        
+        this.openMagicDoorOutOfBound = false;
+        this.openNotMagicDoor = false;
+        this.noPlayerOtherSide = false;
+        
+        this.viewRevealedToken = false;
+    	this.rabbitsViewCheese = false;
+    	this.miceViewCarrot = false;
 	    int newX = currentPlayer.getX();
 	    int newY = currentPlayer.getY();
 	    switch (direction) {
@@ -217,6 +289,7 @@ public class MainGameModel {
 	    }
 	    // Check if adjacent cell is within bounds
 	    if (newX >= 0 && newX < board.getBoardSize() && newY >= 0 && newY < board.getBoardSize()) {
+	    	this.viewCurtainOutOfBound = false;
 	        GridCell adjacentCell = board.getGridCellAt(newX,newY);
 	        // Check if the adjacent cell is a curtain wall, then reveal the curtain
 	        if (adjacentCell.getCellType() == CellType.CURTAIN_WALL) {
@@ -229,18 +302,33 @@ public class MainGameModel {
 	                isMagicDoorFound = true;
 	            }
 	            this.actionPerformed = true;
+	            this.viewOpenedCurtain = false;
 	        }
 	        // If not a curtain wall, cannot perform action
 	        else {
 	            System.err.println( "\n" + "The wall has already been revealed" + "\n");
+	            this.viewOpenedCurtain = true;
 	            this.actionPerformed = false;
 	        }
 	    } else {
 	        System.err.println( "\n" + "VIEW CURTAIN OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
+	        this.viewCurtainOutOfBound = true;
+	        this.viewOpenedCurtain = false;
 	        this.actionPerformed = false;
 	    }
 	}
 	private void attemptViewToken (Player currentPlayer) {
+		this.moveOutOfBound = false;
+		this.moveThroughCurtain = false;
+		this.rabbitsMoveThroughMouseHole = false;
+		this.miceMoveThroughWindow = false;
+		
+		this.viewCurtainOutOfBound = false;
+		this.viewOpenedCurtain = false;
+		
+		this.openMagicDoorOutOfBound = false;
+		this.openNotMagicDoor = false;
+		this.noPlayerOtherSide = false;
 	    int newX = currentPlayer.getX();
 	    int newY = currentPlayer.getY();
 	    GridCell newCell = board.getGridCellAt(newX, newY);
@@ -258,11 +346,20 @@ public class MainGameModel {
 	                System.out.println("Ghost is found at ("+ghostX+","+ghostY+")");
 	            }
 	            this.actionPerformed = true;
+	            this.rabbitsViewCheese = false;
+	            this.miceViewCarrot = false;
+	            this.viewRevealedToken = false;
 	        } else if (newCell.getCellType() == CellType.CHEESE_TOKEN){
 	            System.err.println("\n" + "Rabbit can only view carrot tokens");
+	            this.rabbitsViewCheese = true;
+	            this.miceViewCarrot = false;
+	            this.viewRevealedToken = false;
 	            this.actionPerformed = false;
 	        } else {
 	            System.out.println("\n" + "The token has already been revealed");
+	            this.viewRevealedToken = true;
+	            this.rabbitsViewCheese = false;
+	            this.miceViewCarrot = false;
 	            this.actionPerformed = false;
 	        }
 	    }
@@ -280,16 +377,36 @@ public class MainGameModel {
 	                System.out.println("Ghost is found at ("+ghostX+","+ghostY+")");
 	            }
 	            this.actionPerformed = true;
+	            this.rabbitsViewCheese = false;
+	            this.miceViewCarrot = false;
+	            this.viewRevealedToken = false;
 	        } else if (newCell.getCellType() == CellType.CARROT_TOKEN) {
 	            System.err.println("Mouse can only view cheese tokens");
+	            this.miceViewCarrot = true;
+	            this.rabbitsViewCheese = false;
+	            this.viewRevealedToken = false;
 	            this.actionPerformed = false;
 	        } else {
 	            System.out.println("The token has already been revealed");
+	            this.viewRevealedToken = true;
+	            this.rabbitsViewCheese = false;
+	            this.miceViewCarrot = false;
 	            this.actionPerformed = false;
 	        }
 	    }
 	}
 	private void attemptOpenMagicDoor(Player currentPlayer, DirectionType direction) {
+		this.moveOutOfBound = false;
+		this.moveThroughCurtain = false;
+		this.rabbitsMoveThroughMouseHole = false;
+		this.miceMoveThroughWindow = false;
+		
+		this.viewCurtainOutOfBound = false;
+		this.viewOpenedCurtain = false;
+		
+		this.viewRevealedToken = false;
+    	this.rabbitsViewCheese = false;
+    	this.miceViewCarrot = false;
         int newX = currentPlayer.getX();
         int newY = currentPlayer.getY();
         switch (direction) {
@@ -310,9 +427,11 @@ public class MainGameModel {
         }
         // Check if adjacent cell is within bounds
         if (newX >= 0 && newX < board.getBoardSize() && newY >= 0 && newY < board.getBoardSize()) {
+        	this.openMagicDoorOutOfBound = false;
             GridCell adjacentCell = board.getGridCellAt(newX,newY);
             // Check if the adjacent cell is a Magic Door
             if (adjacentCell.getCellType() == CellType.MAGIC_DOOR_WALL) {
+            	this.openNotMagicDoor = false;
                 int otherSideX = newX;
                 int otherSideY = newY;
                 switch (direction) {
@@ -347,18 +466,25 @@ public class MainGameModel {
                         isGhostActivated = true;
                     }
                     this.actionPerformed = true;
+                    this.noPlayerOtherSide = false;
                 } else {
                     System.err.println("THERE IS NO PLAYER ON THE OTHER SIDE OF THE BOARD. PLEASE TRY AGAIN.");
+                    this.noPlayerOtherSide = true;
                     this.actionPerformed = false;
                 }
             }
             // If it's not a magic door, player cannot open it
             else {
                 System.err.println("This is not the magic door! Try to move to the magic door to open it!");
+                this.openNotMagicDoor = true;
+                this.noPlayerOtherSide = false;
                 this.actionPerformed = false;
             }
         } else {
             System.err.println( "\n" + "OPEN MAGIC DOOR OUT OF BOUNDS. PLEASE TRY AGAIN." + "\n");
+            this.openMagicDoorOutOfBound = true;
+            this.openNotMagicDoor = false;
+            this.noPlayerOtherSide = false;
             this.actionPerformed = false;
         }
     }

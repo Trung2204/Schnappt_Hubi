@@ -52,7 +52,13 @@
                   <Font size="14.0" />
                </font>
             </MenuButton>
-            <Button fx:id="endTurnButton" alignment="CENTER" disable="true" layoutX="225.0" layoutY="269.0" mnemonicParsing="false" onAction="#handleEndTurn" text="End Turn" />
+            <Button fx:id="endTurnButton" alignment="CENTER" disable="true" layoutX="225.0" layoutY="270.0" mnemonicParsing="false" onAction="#handleEndTurn" text="End Turn" />
+            <Label layoutX="35.0" layoutY="122.0" />
+            <Label fx:id="performedActionLabel" visible="false" layoutX="15.0" layoutY="260.0" prefHeight="55.0" prefWidth="160.0" text="Performing action..." textOverrun="LEADING_WORD_ELLIPSIS" wrapText="true" >
+               <font>
+                  <Font name="System Italic" size="16.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <Button fx:id="pressToStart" layoutX="250.0" layoutY="600.0" mnemonicParsing="false" onAction="#startGameLoop" prefWidth="150.0" text="Press to start/ continue" />

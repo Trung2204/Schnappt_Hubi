@@ -197,17 +197,12 @@ public class MainGameView {
 			}
 			case WINDOW_WALL: {
 				Image windowWallImage;
-				int randomValue = new Random().nextInt(2); // Generates either 0 or 1
 	
 				if (i == 1 || i == 3)	{
 					windowWallImage = new Image(getClass().getResource("/resources/horizontal_window_wall.png").toExternalForm()); // replace with your image path
 				}
 				else {
-					if (randomValue == 0) {
-						windowWallImage = new Image(getClass().getResource("/resources/vertical_open_window_wall.png").toExternalForm());
-					} else {
-						windowWallImage = new Image(getClass().getResource("/resources/vertical_closed_window_wall.png").toExternalForm());
-					}
+					windowWallImage = new Image(getClass().getResource("/resources/vertical_open_window_wall.png").toExternalForm());
 				}
 				Tooltip tooltip = new Tooltip("This is a window, only rabbits can jump through.");
 				tooltip.setShowDelay(Duration.seconds(0.3));

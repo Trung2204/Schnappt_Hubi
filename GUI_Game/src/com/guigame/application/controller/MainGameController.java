@@ -202,6 +202,7 @@ public class MainGameController {
                         	else {
                         		// If Magic Door is opened, the action View Token is enable
                         		actionViewToken.setVisible(true);
+								actionOpenMagicDoor.setVisible(false);
                         	}
                         	
                     		// If an action and direction are chosen, perform the action

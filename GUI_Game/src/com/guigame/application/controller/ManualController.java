@@ -17,9 +17,49 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ManualController implements Initializable {
+	@FXML
 	public TextArea gameRulesTextArea;
 	@FXML
 	private ImageView manualBackground;
+	@FXML
+	private ImageView setNoPlayers;
+	@FXML
+	private ImageView setPlayers;
+	@FXML
+	private ImageView buttonSetting;
+	@FXML
+	private ImageView startButton;
+	@FXML
+	private ImageView actionBox;
+	@FXML
+	private ImageView horizontal_curtain_wall;
+	@FXML
+	private ImageView vertical_curtain_wall;
+	@FXML
+	private ImageView horizontal_closed_magic_door_wall_curtain;
+	@FXML
+	private ImageView horizontal_open_magic_door_wall;
+	@FXML
+	private ImageView vertical_closed_magic_door_wall_curtain;
+	@FXML
+	private ImageView vertical_open_magic_door_wall;
+	@FXML
+	private ImageView horizontal_mousehole_wall;
+	@FXML
+	private ImageView vertical_mousehole_wall;
+	@FXML
+	private ImageView vertical_open_wall;
+	@FXML
+	private ImageView horizontal_open_wall;
+	@FXML
+	private ImageView horizontal_window_wall;
+	@FXML
+	private ImageView vertical_open_window_wall;
+//	@FXML
+//	private ImageView vertical_closed_window_wall;
+
+
+
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
@@ -29,21 +69,78 @@ public class ManualController implements Initializable {
 		Image backgroundImage = new Image(getClass().getResource("/resources/start_scene_background_1_1.jpeg").toExternalForm());
 		manualBackground.setImage(backgroundImage);
 
+		Image noOfPlayers = new Image(getClass().getResource("/resources/setNoPlayers.png").toExternalForm());
+		setNoPlayers.setImage(noOfPlayers);
+
+		Image setPLayers = new Image(getClass().getResource("/resources/setPlayers.png").toExternalForm());
+		setPlayers.setImage(setPLayers);
+
+		Image settingButton = new Image(getClass().getResource("/resources/buttonSetting.png").toExternalForm());
+		buttonSetting.setImage(settingButton);
+
+		Image buttonStart = new Image(getClass().getResource("/resources/startButton.png").toExternalForm());
+		startButton.setImage(buttonStart);
+
+		Image boxAction = new Image(getClass().getResource("/resources/actionBox.png").toExternalForm());
+		actionBox.setImage(boxAction);
+
+		Image horicurt = new Image(getClass().getResource("/resources/horizontal_curtain_wall.png").toExternalForm());
+		horizontal_curtain_wall.setImage(horicurt);
+
+		Image vertcurt = new Image(getClass().getResource("/resources/vertical_curtain_wall.png").toExternalForm());
+		vertical_curtain_wall.setImage(vertcurt);
+
+		Image horiclosedmagic = new Image(getClass().getResource("/resources/horizontal_closed_magic_door_wall_curtain.png").toExternalForm());
+		horizontal_closed_magic_door_wall_curtain.setImage(horiclosedmagic);
+
+		Image horiopenmagic = new Image(getClass().getResource("/resources/horizontal_open_magic_door_wall.png").toExternalForm());
+		horizontal_open_magic_door_wall.setImage(horiopenmagic);
+
+		Image vertclosedmagic = new Image(getClass().getResource("/resources/vertical_closed_magic_door_wall_curtain.png").toExternalForm());
+		vertical_closed_magic_door_wall_curtain.setImage(vertclosedmagic);
+
+		Image vertopenmagic = new Image(getClass().getResource("/resources/vertical_open_magic_door_wall.png").toExternalForm());
+		vertical_open_magic_door_wall.setImage(vertopenmagic);
+
+		Image horimouse = new Image(getClass().getResource("/resources/horizontal_mousehole_wall.png").toExternalForm());
+		horizontal_mousehole_wall.setImage(horimouse);
+
+		Image vertmouse = new Image(getClass().getResource("/resources/vertical_mousehole_wall.png").toExternalForm());
+		vertical_mousehole_wall.setImage(vertmouse);
+
+		Image vertopen = new Image(getClass().getResource("/resources/vertical_open_wall.png").toExternalForm());
+		vertical_open_wall.setImage(vertopen);
+
+		Image horiopen = new Image(getClass().getResource("/resources/horizontal_open_wall.png").toExternalForm());
+		horizontal_open_wall.setImage(horiopen);
+
+		Image horiwindow = new Image(getClass().getResource("/resources/horizontal_window_wall.png").toExternalForm());
+		horizontal_window_wall.setImage(horiwindow);
+
+		Image vertopenwindow = new Image(getClass().getResource("/resources/vertical_open_window_wall.png").toExternalForm());
+		vertical_open_window_wall.setImage(vertopenwindow);
+//
+//		Image vertclosedwindow = new Image(getClass().getResource("/resources/vertical_closed_window_wall.png").toExternalForm());
+//		vertical_closed_window_wall.setImage(vertclosedwindow);
+
+
 		setGameRulesText();
 	}
 
 	private void setGameRulesText() {
-		String gameRules = "Schnappt Hubi is a grid consisting of 3x3 cells.\n\n" +
-				"\tFirst, the board requires each player to choose a character type, either a rabbit or a mouse. The number of players participating ranges from 2 to 4. If there are two or three players, there must be at least a rabbit player and a mouse player. If there are four players, there must be two rabbit players and two mouse players.\n\n" +
-				"\tThen the tokens must be placed on the board according to the number of players. The ghost token must be chosen only once, and the other one is excluded from the game. If there are two players, the number of carrot and cheese tokens is equal to each other. If there are three players, whether there is one more rabbit or mouse player, then remove a cheese token and add a carrot token for the former, and vice versa. The wall sets are covered by curtains and set on the board.\n\n" +
-				"\tThe ghost is captured when two players are in the same cell as the ghost.\n\n" +
-				"\tSecond, the players play the game turn-by-turn. For each player, the compass must be spun to get the appropriate number of moves for that player, and if the ghost field is hit in the compass, the clock increases time by one. If the clock is at midnight, all the players have played their turns, and the ghost is not captured by then, the game ends, and all players lose their game.\n\n" +
-				"\tThe game's progress is in two phases. The first one is unveiling the curtains and finding the magic door to open. The second phase, after opening the magic door, is to flip the tokens to find the ghost, and the ghost must be captured by at least two players that are in the same cell as it.\n\n" +
-				"\tFor each wall, only the rabbit player can jump (pass) through the window wall, and only the mouse player can pass through the mouse-hole wall. The open wall allows both the mouse and rabbit to move through. The magic door wall, after having been opened, is considered to work like the open wall, allowing both rabbits and mice to pass through it.\n\n" +
-				"\tOnly in phase two, when hitting the ghost field, does the ghost make a move. Compared to phase one, the field only needs to be considered in terms of the number of actions. When the ghost makes a move, if the ghost token is not found yet (by flipping the token up), then two tokens of the adjacent cells of the same kind, either two carrot or two cheese tokens, are swapped. If it is not possible, then nothing happens. If Hubi the ghost is found, the ghost token is swapped with the token in any other adjacent cell.";
-
+		String gameRules = "\t\tSchnappt Hubi is played on a 3x3 grid.\n\n" +
+				"\tFirst, players choose between being a rabbit or a mouse. The game supports 2 to 4 players, with a combination of rabbits and mice.\n\n" +
+				"\tAt the start, all walls are hidden behind curtains. Players must uncover them to reveal the walls. The goal is to catch Hubi the ghost, but first, players must find and open the magic door for Hubi to appear.\n\n" +
+				"\tEach wall type has specific rules: only rabbits can jump through windows, only mice can pass through mouse-holes, and both can pass through open walls. Once the magic door is open, it functions like an open wall, allowing both rabbits and mice to pass through.\n\n" +
+				"\tPlayers take turns, and a compass automatically determines their moves. If the compass hits the clock field, time increases by one. If it reaches midnight without capturing the ghost, the game is lost.\n\n" +
+				"\tOnce the magic door location is known, players must position themselves on each side to open it.\n\n" +
+				"\tAfter opening the magic door, players can reveal tokens to find Hubi hiding underneath.\n\n" +
+				"\tIf the compass hits the ghost field after the magic door is open, Hubi tries to move. If not found, adjacent tokens of the same type are swapped. If Hubi is found, it moves randomly in one direction.\n\n" +
+				"\tThe ghost is captured when two players occupy the same cell as the ghost." +
+				"\tThe other pages are the guides on how to navigate the game.\n\n";
 		gameRulesTextArea.setText(gameRules);
 	}
+
 
 
 	public void switchToInitialMenuScene(ActionEvent event) throws IOException {

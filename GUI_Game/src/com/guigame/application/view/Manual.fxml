@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<?import javafx.geometry.Insets?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.guigame.application.controller.ManualController">
    <children>
       <ImageView fx:id="manualBackground" fitHeight="720" fitWidth="1280" />
@@ -22,7 +22,7 @@
 
             <Tab text="Games rules">
                <content>
-                  <TextArea fx:id="gameRulesTextArea" editable="false" layoutX="240.0" layoutY="100.0" prefHeight="500.0" opacity="0.75" prefWidth="800.0" wrapText="true">
+                  <TextArea fx:id="gameRulesTextArea" editable="false" layoutX="240.0" layoutY="100.0" opacity="0.75" prefHeight="500.0" prefWidth="800.0" wrapText="true">
                      <font>
                         <Font name="System" size="18.0" />
                      </font>
@@ -36,24 +36,24 @@
 
             <Tab text="Setup Page">
                <content>
-                  <ScrollPane fitToWidth="true" fitToHeight="true">
-                     <VBox alignment="CENTER" spacing="20">
+                  <ScrollPane fitToHeight="true" fitToWidth="true" opacity="0.8" style="-fx-background-color: black;">
+                     <VBox alignment="CENTER" spacing="20" style="-fx-background-color: black;">
                         <padding>
-                           <Insets top="20" bottom="20" />
+                           <Insets bottom="20" top="20" />
                         </padding>
                         <VBox alignment="CENTER">
-                           <ImageView fx:id="setNoPlayers" fitWidth="284" fitHeight="182"/>
-                           <Label text="First, you will need to set the number of players." />
+                           <ImageView fx:id="setNoPlayers" fitHeight="182" fitWidth="284" />
+                           <Label text="First, you will need to set the number of players." style="-fx-text-fill: white;-fx-font-size: 16px;"/>
                         </VBox>
 
                         <VBox alignment="CENTER" spacing="10">
-                           <ImageView fx:id="setPlayers" fitWidth="737" fitHeight="220"/>
-                           <Label text="Then each player will need to select their character and starting position. Remember to click OK for each player." />
+                           <ImageView fx:id="setPlayers" fitHeight="220" fitWidth="737" />
+                           <Label style="-fx-text-fill: white;-fx-font-size: 16px;" text="Then each player will need to select their character and starting position. Remember to click OK for each player." />
                         </VBox>
 
                         <VBox alignment="CENTER" spacing="10">
-                           <ImageView fx:id="buttonSetting" fitWidth="203" fitHeight="75"/>
-                           <Label text="Then press Next to proceed to the main game screen. The back button is to go back to the Menu screen." />
+                           <ImageView fx:id="buttonSetting" fitHeight="75" fitWidth="203" />
+                           <Label style="-fx-text-fill: white;-fx-font-size: 16px;" text="Then press Next to proceed to the main game screen. The back button is to go back to the Menu screen." />
                         </VBox>
                      </VBox>
                   </ScrollPane>
@@ -62,19 +62,19 @@
 
             <Tab text="Main Game Screen">
                <content>
-                  <ScrollPane fitToWidth="true" fitToHeight="true">
-                     <VBox alignment="CENTER" spacing="20">
+                  <ScrollPane fitToHeight="true" fitToWidth="true" opacity="0.8" style="-fx-background-color: black;">
+                     <VBox alignment="CENTER" spacing="20" style="-fx-background-color: black;">
                         <padding>
-                           <Insets top="20" bottom="20" />
+                           <Insets bottom="20" top="20" />
                         </padding>
                         <VBox alignment="CENTER">
-                           <ImageView fx:id="startButton" fitWidth="250" fitHeight="110"/>
-                           <Label text="Press the start button to start playing" />
+                           <ImageView fx:id="startButton" fitHeight="110" fitWidth="250" />
+                           <Label style="-fx-text-fill: white;-fx-font-size: 16px;" text="Press the start button to start playing" />
                         </VBox>
 
                         <VBox alignment="CENTER" spacing="10">
-                           <ImageView fx:id="actionBox" fitWidth="519" fitHeight="513"/>
-                           <Label text="The player needs to choose an action first, then choose the direction of that action." />
+                           <ImageView fx:id="actionBox" fitHeight="513" fitWidth="519" />
+                           <Label style="-fx-text-fill: white;-fx-font-size: 16px;" text="The player needs to choose an action first, then choose the direction of that action." />
                         </VBox>
                      </VBox>
                   </ScrollPane>
@@ -83,72 +83,55 @@
 
             <Tab text="Wall">
                <content>
-                  <ScrollPane fitToWidth="true" fitToHeight="true">
-                     <VBox alignment="CENTER" spacing="20">
-                        <padding>
-                           <Insets top="20" bottom="20" />
-                        </padding>
-                        <HBox alignment="CENTER" spacing="20">
-                           <ImageView fx:id="horizontal_curtain_wall" fitWidth="150" fitHeight="150"/>
-                           <ImageView fx:id="vertical_curtain_wall" fitWidth="150" fitHeight="150"/>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" opacity="0.95" style="-fx-background-color: black;">
+                     <VBox alignment="CENTER" spacing="20" style="-fx-background-color: black;">
+
+                        <HBox alignment="CENTER" >
+                           <ImageView fx:id="horizontal_curtain_wall" fitHeight="150" fitWidth="150" />
+                           <ImageView fx:id="vertical_curtain_wall" fitHeight="150" fitWidth="150" />
                            <VBox alignment="CENTER">
-                              <Label text="Curtain Wall" />
+                              <Label style="-fx-text-fill: white;-fx-font-size: 16px;" text="Curtain Wall" />
                            </VBox>
                         </HBox>
 
-                        <padding>
-                           <Insets top="20" bottom="20" />
-                        </padding>
-                        <HBox alignment="CENTER" spacing="20">
-                           <ImageView fx:id="horizontal_closed_magic_door_wall_curtain" fitWidth="150" fitHeight="150"/>
-                           <ImageView fx:id="vertical_closed_magic_door_wall_curtain" fitWidth="150" fitHeight="150"/>
+                        <HBox alignment="CENTER">
+                           <ImageView fx:id="horizontal_closed_magic_door_wall_curtain" fitHeight="150" fitWidth="150" />
+                           <ImageView fx:id="vertical_closed_magic_door_wall_curtain" fitHeight="150" fitWidth="150" />
                            <VBox alignment="CENTER">
-                              <Label text="Closed Magic door" />
+                              <Label style="-fx-text-fill: white;-fx-font-size: 16px;" text="Closed Magic door" />
                            </VBox>
                         </HBox>
 
-                        <padding>
-                           <Insets top="20" bottom="20" />
-                        </padding>
-                        <HBox alignment="CENTER" spacing="20">
-                           <ImageView fx:id="horizontal_open_magic_door_wall" fitWidth="150" fitHeight="150"/>
-                           <ImageView fx:id="vertical_open_magic_door_wall" fitWidth="150" fitHeight="150"/>
+                        <HBox alignment="CENTER">
+                           <ImageView fx:id="horizontal_open_magic_door_wall" fitHeight="150" fitWidth="150" />
+                           <ImageView fx:id="vertical_open_magic_door_wall" fitHeight="150" fitWidth="150" />
                            <VBox alignment="CENTER">
-                              <Label text="Open Magic Door" />
+                              <Label style="-fx-text-fill: white;-fx-font-size: 16px;" text="Open Magic Door" />
                            </VBox>
                         </HBox>
 
-                        <padding>
-                           <Insets top="20" bottom="20" />
-                        </padding>
-                        <HBox alignment="CENTER" spacing="20">
-                           <ImageView fx:id="horizontal_mousehole_wall" fitWidth="150" fitHeight="150"/>
-                           <ImageView fx:id="vertical_mousehole_wall" fitWidth="150" fitHeight="150"/>
+                        <HBox alignment="CENTER">
+                           <ImageView fx:id="horizontal_mousehole_wall" fitHeight="150" fitWidth="150" />
+                           <ImageView fx:id="vertical_mousehole_wall" fitHeight="150" fitWidth="150" />
                            <VBox alignment="CENTER">
-                              <Label text="MouseHole Wall" />
+                              <Label style="-fx-text-fill: white;-fx-font-size: 16px;" text="MouseHole Wall" />
                            </VBox>
                         </HBox>
 
-                        <padding>
-                           <Insets top="20" bottom="20" />
-                        </padding>
-                        <HBox alignment="CENTER" spacing="20">
-                           <ImageView fx:id="horizontal_open_wall" fitWidth="150" fitHeight="150"/>
-                           <ImageView fx:id="vertical_open_wall" fitWidth="150" fitHeight="150"/>
+                        <HBox alignment="CENTER">
+                           <ImageView fx:id="horizontal_open_wall" fitHeight="150" fitWidth="150" />
+                           <ImageView fx:id="vertical_open_wall" fitHeight="150" fitWidth="150" />
                            <VBox alignment="CENTER">
-                              <Label text="Open Wall" />
+                              <Label style="-fx-text-fill: white;-fx-font-size: 16px;" text="Open Wall" />
                            </VBox>
                         </HBox>
 
-                        <padding>
-                           <Insets top="20" bottom="20" />
-                        </padding>
-                        <HBox alignment="CENTER" spacing="20">
-                           <ImageView fx:id="horizontal_window_wall" fitWidth="150" fitHeight="150"/>
+                        <HBox alignment="CENTER">
+                           <ImageView fx:id="horizontal_window_wall" fitHeight="150" fitWidth="150" />
 <!--                           <ImageView fx:id="vertical_closed_window_wall" fitWidth="150" fitHeight="150"/>-->
-                           <ImageView fx:id="vertical_open_window_wall" fitWidth="150" fitHeight="150"/>
+                           <ImageView fx:id="vertical_open_window_wall" fitHeight="150" fitWidth="150" />
                            <VBox alignment="CENTER">
-                              <Label text="Window Wall" />
+                              <Label style="-fx-text-fill: white;-fx-font-size: 16px;" text="Window Wall" />
                            </VBox>
                         </HBox>
 

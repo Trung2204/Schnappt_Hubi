@@ -24,6 +24,7 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class MainGameController {
@@ -31,6 +32,10 @@ public class MainGameController {
 	private MainGameView view;
 	private AnimationTimer gameLoop;
 	private boolean isGameStop;
+	
+	private Stage stage;
+	private Scene scene;
+	private AnchorPane root;
 	
 	@FXML
 	private AnchorPane MainGameAnchorPane;
@@ -57,9 +62,9 @@ public class MainGameController {
 	@FXML
 	public void switchToPlayScene(ActionEvent event) throws IOException {
 		stopGame();
-		AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("/com/guigame/application/view/Play.fxml"));
-		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		Scene scene = new Scene(root);
+		root = (AnchorPane)FXMLLoader.load(getClass().getResource("/com/guigame/application/view/Play.fxml"));
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
 	}
@@ -140,7 +145,7 @@ public class MainGameController {
     public void setModel(MainGameModel model) { this.model = model; }
     public void setView(MainGameView view) { this.view = view; }
     @FXML
-    private Label playerIndexLabel,numberOfActionsLabel;
+    private Label playerIndexLabel,numberOfActionsLabel,performedActionLabel;
     private int remainingActions = 0;
     public void initializeGameLoop() {
     	model.findAdjacentPairs();
@@ -206,7 +211,64 @@ public class MainGameController {
                                     // Decrement the number of remaining actions if an action is performed successfully
                                     if (model.isActionPerformed()) {
                                     	currentPlayer.decrementNumberOfActions();
+                                    } else { // If action is not performed
+                                        if (model.isMoveOutOfBound()) {
+                                        	performedActionLabel.setVisible(true);
+                                        	performedActionLabel.setText("Cannot move out of the house!");
+                                            performedActionLabel.setTextFill(Color.DARKRED);
+                                        }
+                                        if (model.isMoveThroughCurtain()) {
+                                        	performedActionLabel.setVisible(true);
+                                        	performedActionLabel.setText("This curtain needs to be opened first!");
+                                            performedActionLabel.setTextFill(Color.DARKRED);
+                                        }
+                                        if (model.isRabbitsMoveThroughMouseHole()) {
+                                        	performedActionLabel.setVisible(true);
+                                        	performedActionLabel.setText("Rabbit can only move through WINDOW or OPEN wall!");
+                                            performedActionLabel.setTextFill(Color.DARKRED);
+                                        }
+                                        if (model.isMiceMoveThroughWindow()) {
+                                        	performedActionLabel.setVisible(true);
+                                        	performedActionLabel.setText("Mouse can only move through MOUSE HOLE or OPEN wall!");
+                                            performedActionLabel.setTextFill(Color.DARKRED);
+                                        }
+                                        if (model.isViewCurtainOutOfBound()||  model.isOpenMagicDoorOutOfBound()) {
+                                        	performedActionLabel.setVisible(true);
+                                        	performedActionLabel.setText("There is nothing this way!");
+                                            performedActionLabel.setTextFill(Color.DARKRED);
+                                        }
+                                        if (model.isViewOpenedCurtain()) {
+                                        	performedActionLabel.setVisible(true);
+                                        	performedActionLabel.setText("This curtain was opened!");
+                                            performedActionLabel.setTextFill(Color.DARKRED);
+                                        }
+                                        if (model.isOpenNotMagicDoor()) {
+                                        	performedActionLabel.setVisible(true);
+                                        	performedActionLabel.setText("This is not the magic door! Try to find it!");
+                                            performedActionLabel.setTextFill(Color.DARKRED);
+                                        }
+                                        if (model.isNoPlayerOtherSide()) {
+                                        	performedActionLabel.setVisible(true);
+                                        	performedActionLabel.setText("There must be at least one player on each side!");
+                                            performedActionLabel.setTextFill(Color.DARKRED);
+                                        }
+                                        if (model.isViewRevealedToken()) {
+                                        	performedActionLabel.setVisible(true);
+                                        	performedActionLabel.setText("This token was revealed!");
+                                            performedActionLabel.setTextFill(Color.DARKRED);
+                                        }
+                                        if (model.isRabbitsViewCheese()) {
+                                        	performedActionLabel.setVisible(true);
+                                        	performedActionLabel.setText("Rabbit can only view carrot tokens!");
+                                            performedActionLabel.setTextFill(Color.DARKRED);
+                                        }
+                                        if (model.isMiceViewCarrot()) {
+                                        	performedActionLabel.setVisible(true);
+                                        	performedActionLabel.setText("Mouse can only view cheese tokens!");
+                                            performedActionLabel.setTextFill(Color.DARKRED);
+                                        }
                                     }
+                                    performedActionLabel.setVisible(false);
                                     // Reset the action and direction
                                     actionChosen = null;
                                     directionChosen = null;
@@ -215,6 +277,11 @@ public class MainGameController {
                                     model.setViewUpdated(true);
                             	}else {
                             		stopGame();
+                            		// Reset the action and direction
+                                    actionChosen = null;
+                                    directionChosen = null;
+                                    ActionTypes.setText("Action Types");
+                                    disableDirectionButtons();
                                     // Show an alert to the user in a new Thread
                                     new Thread(() -> {
                                         Platform.runLater(() -> {
@@ -245,6 +312,7 @@ public class MainGameController {
 
                 	        alertWin.showAndWait();
                         	System.out.println("Game over! Congratulations, you win!");
+                        	break;
                         case LOSE:
                         	stopGame();
                         	// Show an alert to the user
@@ -256,6 +324,7 @@ public class MainGameController {
                 	        alertLose.showAndWait();
                         	System.out.println("\nTIME'S UP");
                         	System.out.println("You lose! Better luck next time");
+                        	break;
                     }
                     // Check if the view needs to be updated
                     if (model.isViewUpdated()) {

@@ -1,4 +1,4 @@
-#Tue Feb 06 19:41:32 CET 2024
+#Thu Feb 08 15:21:21 CET 2024
 \!/=
 /configuration/org.eclipse.core.net/org.eclipse.core.net.hasMigrated=true
 /configuration/org.eclipse.equinox.p2.garbagecollector/gc_enabled=false
@@ -203,6 +203,7 @@
 /instance/org.eclipse.mylyn.wikitext.ui/overriddenByCSS=,block-h1,block-h2,block-h3,block-h4,block-h5,block-h6,phrase-code,block-bc,
 /instance/org.eclipse.mylyn.wikitext.ui/phrase-code=font-family\: monospace; color\:  \#569cd6;
 /instance/org.eclipse.oomph.workingsets/working.set.group=<?xml version\="1.0" encoding\="UTF-8"?>\n<workingsets\:WorkingSetGroup xmi\:version\="2.0" xmlns\:xmi\="http\://www.omg.org/XMI" xmlns\:workingsets\="http\://www.eclipse.org/oomph/workingsets/1.0"/>\n
+/instance/org.eclipse.pde.core/workspace_target_handle=local\:1707402022141.target
 /instance/org.eclipse.pde.ui/editor.color.default=217,232,247
 /instance/org.eclipse.pde.ui/editor.color.externalized_string=140,210,20
 /instance/org.eclipse.pde.ui/editor.color.externalized_string_italic=true
@@ -276,7 +277,7 @@
 /instance/org.eclipse.ui.ide/IMPORT_FILES_AND_FOLDERS_RELATIVE=true
 /instance/org.eclipse.ui.ide/IMPORT_FILES_AND_FOLDERS_TYPE=23,1
 /instance/org.eclipse.ui.ide/IMPORT_FILES_AND_FOLDERS_VIRTUAL_FOLDER_MODE=prompt
-/instance/org.eclipse.ui.ide/platformState=1706313435464
+/instance/org.eclipse.ui.ide/platformState=1706313435556
 /instance/org.eclipse.ui.ide/quickStart=false
 /instance/org.eclipse.ui.ide/tipsAndTricks=true
 /instance/org.eclipse.ui.navigator/org.eclipse.ui.navigator.ProjectExplorer.filterActivation=\:org.eclipse.jdt.java.ui.filters.HidePackageDeclaration\:org.eclipse.jdt.java.ui.filters.HideOutputFolder\:org.eclipse.buildship.ui.navigator.filter.gradle.subProject\:org.eclipse.ui.navigator.resources.nested.HideTopLevelProjectIfNested\:org.eclipse.buildship.ui.navigator.filter.gradle.buildfolder\:org.eclipse.jdt.java.ui.filters.HideEmptyInnerPackages\:org.eclipse.jdt.java.ui.filters.HideInnerClassFiles\:org.eclipse.ui.navigator.resources.filters.startsWithDot\:org.eclipse.jdt.java.ui.filters.HideEmptyLibraryContainers\:org.eclipse.jdt.java.ui.filters.HideImportDeclaration\:org.eclipse.jdt.java.ui.filters.HideSyntheticMembers\:org.eclipse.mylyn.tasks.ui.navigator.filters.tasks\:org.eclipse.ui.navigator.resources.nested.HideFolderWhenProjectIsShownAsNested\:
@@ -428,6 +429,7 @@
 @org.eclipse.mylyn.tasks.ui=4.1.0.v20231125-1125
 @org.eclipse.mylyn.wikitext.ui=3.0.48.202308291007
 @org.eclipse.oomph.workingsets=1.14.0.v20230617-1322
+@org.eclipse.pde.core=3.17.200.v20231118-2008
 @org.eclipse.pde.ui=3.15.0.v20231118-2008
 @org.eclipse.search=3.16.0.v20230921-2245
 @org.eclipse.ui=3.205.0.v20230922-1312

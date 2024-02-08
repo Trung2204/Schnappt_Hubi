@@ -2,7 +2,6 @@ package com.guigame.application.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
 import com.guigame.application.model.MainGameModel;
 import com.guigame.board.GridCell;
@@ -145,8 +144,6 @@ public class MainGameView {
         Image backgroundImage = new Image(getClass().getResource("/resources/wall_background2.jpeg").toExternalForm());
         ImagePattern imagePattern = new ImagePattern(backgroundImage);
         
-//    	background.setStroke(Color.BLACK);
-//    	background.setStrokeWidth(5);
         background.setFill(imagePattern);
         
     	imageView.setFitHeight(32);
@@ -158,7 +155,6 @@ public class MainGameView {
     }
     private StackPane drawGridCell(GridCell cell, int i, int j, int magicDoorX, int magicDoorY) {
         // Create a new Node to represent the cell
-        // This could be an ImageView for an image, a Rectangle for a colored square, etc.
         StackPane stackPane = new StackPane();
         Rectangle background = new Rectangle(100, 100);
 
@@ -314,7 +310,6 @@ public class MainGameView {
     
     private Node drawPlayer(Player player, ArrayList<Image> rabbitImages, ArrayList<Image> mouseImages) {
     	// Create a new Node to represent the cell
-        // This could be an ImageView for an image, a Rectangle for a colored square, etc.
         Rectangle rectangle = new Rectangle(48, 48, Color.BLACK);
         switch (player.getCharacter()) {
 	        case RABBIT: {

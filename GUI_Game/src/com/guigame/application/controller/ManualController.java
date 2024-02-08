@@ -55,10 +55,6 @@ public class ManualController implements Initializable {
 	private ImageView horizontal_window_wall;
 	@FXML
 	private ImageView vertical_open_window_wall;
-//	@FXML
-//	private ImageView vertical_closed_window_wall;
-
-
 
 	private Stage stage;
 	private Scene scene;
@@ -119,10 +115,6 @@ public class ManualController implements Initializable {
 
 		Image vertopenwindow = new Image(getClass().getResource("/resources/vertical_open_window_wall.png").toExternalForm());
 		vertical_open_window_wall.setImage(vertopenwindow);
-//
-//		Image vertclosedwindow = new Image(getClass().getResource("/resources/vertical_closed_window_wall.png").toExternalForm());
-//		vertical_closed_window_wall.setImage(vertclosedwindow);
-
 
 		setGameRulesText();
 	}
@@ -140,8 +132,6 @@ public class ManualController implements Initializable {
 				"\tThe other pages are the guides on how to navigate the game.\n\n";
 		gameRulesTextArea.setText(gameRules);
 	}
-
-
 
 	public void switchToInitialMenuScene(ActionEvent event) throws IOException {
 		root = (AnchorPane)FXMLLoader.load(getClass().getResource("/com/guigame/application/view/InitialMenu.fxml"));

@@ -76,49 +76,41 @@ public class MainGameController {
     public void handleMove(ActionEvent event) {
 		ActionTypes.setText("Move");
 		actionChosen = ActionType.MOVE;
-		System.out.println("Player selected Move");
 		enableDirectionButtons();
 	}
 	@FXML
 	public void handleViewCurtain(ActionEvent event) {
 		ActionTypes.setText("View Curtain");
 		actionChosen = ActionType.VIEW_CURTAIN;
-		System.out.println("Player selected View Curtain");
 		enableDirectionButtons();
 	}
 	@FXML
     public void handleOpenMagicDoor(ActionEvent event) {
 		ActionTypes.setText("Open Magic Door");
 		actionChosen = ActionType.OPEN_MAGIC_DOOR;
-		System.out.println("Player selected Open Magic Door");
 		enableDirectionButtons();
 	}
 	@FXML
     public void handleViewToken(ActionEvent event) {
 		ActionTypes.setText("View Token");
 		actionChosen = ActionType.VIEW_TOKEN;
-		System.out.println("Player selected View Token");
 		directionChosen = DirectionType.NONE;
 	}
 	@FXML
 	public void handleUp(ActionEvent event) {
 		directionChosen = DirectionType.UP;
-		System.out.println("Player selected Up");
 	}
 	@FXML
 	public void handleDown(ActionEvent event) {
 		directionChosen = DirectionType.DOWN;
-		System.out.println("Player selected Down");
 	}
 	@FXML
 	public void handleLeft(ActionEvent event) {
 		directionChosen = DirectionType.LEFT;
-		System.out.println("Player selected Left");
 	}
 	@FXML
 	public void handleRight(ActionEvent event) {
 		directionChosen = DirectionType.RIGHT;
-		System.out.println("Player selected Right");
 	}
 	@FXML
 	public void handleEndTurn(ActionEvent event) {
@@ -185,7 +177,6 @@ public class MainGameController {
                             model.setViewUpdated(true);
                             break;
                         case PERFORM_PLAYER_ACTION:
-                        	System.out.println("Player "+(model.getCurrentPlayerIndex()+1)+" is performing action");
                         	// Get the number of actions of the current player
                         	Player currentPlayer = model.getListOfPlayers()[model.getCurrentPlayerIndex()];
                         	remainingActions = currentPlayer.getNumberOfActions();

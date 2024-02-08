@@ -8,9 +8,9 @@ public class Board {
 	private static final int BOARD_SIZE = 5;
 	private GridCell[][] gridCells;
 	private int magicDoorRow;
-        private int magicDoorCol;
-        private int ghostRow;
-        private int ghostCol;
+	private int magicDoorCol;
+	private int ghostRow;
+	private int ghostCol;
 	private ArrayList<CellType> tokens = new ArrayList<>(Arrays.asList(
 			CellType.CHEESE_TOKEN, CellType.CARROT_TOKEN,
 			CellType.CHEESE_TOKEN, CellType.CARROT_TOKEN,
@@ -19,7 +19,6 @@ public class Board {
 	
 	public Board(int rabbitsNumber, int miceNumber) {
         gridCells = new GridCell[BOARD_SIZE][BOARD_SIZE];
-
         setSpecialCells(rabbitsNumber,miceNumber);
 	}
 
@@ -168,5 +167,4 @@ public class Board {
 		System.out.println("\nMagic door("+magicDoorRow+","+magicDoorCol+")");
 		System.out.println("Ghost("+ghostRow+","+ghostCol+")");
 	}
-	
 }

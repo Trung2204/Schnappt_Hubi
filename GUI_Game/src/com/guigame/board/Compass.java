@@ -3,10 +3,6 @@ import java.util.Random;
 
 import com.guigame.helper.type.FieldType;
 
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.VBox;
-
 public class Compass {
     private FieldType fieldType;
     
@@ -30,13 +26,5 @@ public class Compass {
         } else { // GHOST
         	this.fieldType = FieldType.GHOST;
         }
-    }
-    public VBox drawCompass() {
-    	Label compassLabel = new Label("COMPASS");
-    	TextArea fieldText = new TextArea("Field: "+this.fieldType);
-    	TextArea numberOfActionsText = new TextArea("Number of actions: "+this.getNumberOfAction());
-        
-        VBox compassLayout = new VBox(compassLabel,fieldText,numberOfActionsText);
-    	return compassLayout;
     }
 }

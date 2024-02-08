@@ -38,8 +38,6 @@ public class CreditController implements Initializable {
 		DMTimage.setImage(dmtImage);
 
 		nptpLabel.setText("Nguyen Phuoc\nThien Phu");
-//
-//		setGameRulesText();
 	}
 	public void switchToInitialMenuScene(ActionEvent event) throws IOException {
 		root = (AnchorPane)FXMLLoader.load(getClass().getResource("/com/guigame/application/view/InitialMenu.fxml"));

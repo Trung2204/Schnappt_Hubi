@@ -37,7 +37,7 @@
       <VBox alignment="CENTER" layoutX="857.0" layoutY="210.0" spacing="10">
          <ImageView fitHeight="223" fitWidth="150">
             <image>
-               <Image url="@../../../../../resources/phu.jpg" />
+               <Image url="@/phu.jpg" />
             </image></ImageView>
          <Label fx:id="nptpLabel" style="-fx-text-fill: darkgoldenrod; -fx-font-family: 'Comic Sans MS'; -fx-font-size: 20.0; -fx-font-weight: bold; -fx-stroke: black; -fx-stroke-width: 1;" wrapText="true" />
       </VBox>

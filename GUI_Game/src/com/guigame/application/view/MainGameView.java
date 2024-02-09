@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.guigame.application.model.MainGameModel;
-import com.guigame.board.GridCell;
-import com.guigame.player.Player;
+import com.guigame.application.model.board.GridCell;
+import com.guigame.application.model.player.Player;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

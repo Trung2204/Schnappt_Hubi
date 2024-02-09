@@ -1,4 +1,4 @@
-package com.guigame.helper.type;
+package com.guigame.application.model.helper.type;
 
 public enum ActionType {
 	NONE,

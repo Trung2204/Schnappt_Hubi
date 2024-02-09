@@ -1,7 +1,7 @@
-package com.guigame.board;
+package com.guigame.application.model.board;
 
 import java.util.*;
-import com.guigame.helper.type.CellType;
+import com.guigame.application.model.helper.type.CellType;
 
 public class GridCell {
 	private CellType cellType;

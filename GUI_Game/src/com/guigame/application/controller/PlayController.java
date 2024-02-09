@@ -6,8 +6,8 @@ import java.util.ResourceBundle;
 
 import com.guigame.application.model.MainGameModel;
 import com.guigame.application.view.MainGameView;
-import com.guigame.helper.type.CharacterType;
-import com.guigame.player.Player;
+import com.guigame.application.model.helper.type.CharacterType;
+import com.guigame.application.model.player.Player;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

@@ -69,6 +69,5 @@ public class GridCell {
             this.cellType = newCellType;
             flippedTokens.remove(index);
     	}
-        
     }
 }

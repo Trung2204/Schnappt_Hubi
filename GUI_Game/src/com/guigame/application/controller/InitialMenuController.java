@@ -1,6 +1,8 @@
 package com.guigame.application.controller;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -9,14 +11,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class InitialMenuController implements Initializable {
 	@FXML
@@ -27,7 +25,7 @@ public class InitialMenuController implements Initializable {
 
 	public void initialize(URL location, ResourceBundle resources) {
 		// Load the background image using getClass().getResource()
-		Image backgroundImage = new Image(getClass().getResource("/resources/start_scene_background_1_1.jpeg").toExternalForm());
+		Image backgroundImage = new Image("/start_scene_background_1_1.jpeg");
 		initialBackground.setImage(backgroundImage);
 	}
 

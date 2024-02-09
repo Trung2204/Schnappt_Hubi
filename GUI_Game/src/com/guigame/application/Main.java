@@ -8,20 +8,19 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.fxml.FXMLLoader;
 
-
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
 			primaryStage.setTitle("Schnappt Hubi!");
-			primaryStage.getIcons().add(new Image(getClass().getResource("/resources/Logo.png").toExternalForm()));
+			primaryStage.getIcons().add(new Image("/Logo.png"));
 			primaryStage.setMinWidth(800);
 			primaryStage.setMinHeight(600);
 			primaryStage.setWidth(1280); // 1280
 	        primaryStage.setHeight(720); // 720
 	        primaryStage.setResizable(false);
 			
-			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("/com/guigame/application/view/InitialMenu.fxml"));
+	        AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("/com/guigame/application/view/InitialMenu.fxml"));
 			Scene scene = new Scene(root,1280,720);
 			
 			primaryStage.setScene(scene);

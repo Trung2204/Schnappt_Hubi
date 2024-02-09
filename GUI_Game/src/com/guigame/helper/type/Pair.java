@@ -1,7 +1,7 @@
 package com.guigame.helper.type;
 
 public class Pair {
-	private int row1, col1, row2, col2;
+    private int row1, col1, row2, col2;
 
     public Pair(int row1, int col1, int row2, int col2) {
         this.row1 = row1;

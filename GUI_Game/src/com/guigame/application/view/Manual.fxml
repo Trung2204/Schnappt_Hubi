@@ -34,7 +34,7 @@
                </content>
             </Tab>
 
-            <Tab text="Setup Page">
+            <Tab text="Setup Guide">
                <content>
                   <ScrollPane fitToHeight="true" fitToWidth="true" opacity="0.8" style="-fx-background-color: black;">
                      <VBox alignment="CENTER" spacing="20" style="-fx-background-color: black;">
@@ -60,7 +60,7 @@
                </content>
             </Tab>
 
-            <Tab text="Main Game Screen">
+            <Tab text="Main Game Guide">
                <content>
                   <ScrollPane fitToHeight="true" fitToWidth="true" opacity="0.8" style="-fx-background-color: black;">
                      <VBox alignment="CENTER" spacing="20" style="-fx-background-color: black;">
@@ -81,7 +81,7 @@
                </content>
             </Tab>
 
-            <Tab text="Wall">
+            <Tab text="Walls">
                <content>
                   <ScrollPane fitToHeight="true" fitToWidth="true" opacity="0.95" style="-fx-background-color: black;">
                      <VBox alignment="CENTER" spacing="20" style="-fx-background-color: black;">
@@ -142,10 +142,6 @@
 
          </tabs>
       </TabPane>
-
-
-
-
 
       <Button alignment="CENTER" layoutX="608.0" layoutY="619.0" mnemonicParsing="false" onAction="#switchToInitialMenuScene" text="BACK" textAlignment="CENTER">
          <font>

@@ -584,7 +584,7 @@ public class PlayController implements Initializable {
 	}
 	public void initialize(URL location, ResourceBundle resources) {
 		// Load the background image using getClass().getResource()
-		Image backgroundImage = new Image(getClass().getResource("/resources/playBackground.jpg").toExternalForm());
+		Image backgroundImage = new Image("/playBackground.jpg");
 		playBackground.setImage(backgroundImage);
 	}
 }

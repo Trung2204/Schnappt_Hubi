@@ -29,17 +29,15 @@ public class CreditController implements Initializable {
 
 	public void initialize(URL location, ResourceBundle resources) {
 		// Load the background image using getClass().getResource()
-		Image backgroundImage = new Image(getClass().getResource("/resources/start_scene_background_1_1.jpeg").toExternalForm());
+		Image backgroundImage = new Image(getClass().getResource("/start_scene_background_1_1.jpeg").toExternalForm());
 		creditBackground.setImage(backgroundImage);
 
-		Image hmtImage = new Image(getClass().getResource("/resources/void blep.jpg").toExternalForm());
+		Image hmtImage = new Image(getClass().getResource("/void blep.jpg").toExternalForm());
 		HMTimage.setImage(hmtImage);
-		Image dmtImage = new Image(getClass().getResource("/resources/trung.jpg").toExternalForm());
+		Image dmtImage = new Image(getClass().getResource("/trung.jpg").toExternalForm());
 		DMTimage.setImage(dmtImage);
 
 		nptpLabel.setText("Nguyen Phuoc\nThien Phu");
-//
-//		setGameRulesText();
 	}
 	public void switchToInitialMenuScene(ActionEvent event) throws IOException {
 		root = (AnchorPane)FXMLLoader.load(getClass().getResource("/com/guigame/application/view/InitialMenu.fxml"));

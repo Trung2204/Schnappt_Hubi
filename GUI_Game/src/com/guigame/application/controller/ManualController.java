@@ -55,10 +55,6 @@ public class ManualController implements Initializable {
 	private ImageView horizontal_window_wall;
 	@FXML
 	private ImageView vertical_open_window_wall;
-//	@FXML
-//	private ImageView vertical_closed_window_wall;
-
-
 
 	private Stage stage;
 	private Scene scene;
@@ -66,63 +62,59 @@ public class ManualController implements Initializable {
 
 	public void initialize(URL location, ResourceBundle resources) {
 		// Load the background image using getClass().getResource()
-		Image backgroundImage = new Image(getClass().getResource("/resources/start_scene_background_1_1.jpeg").toExternalForm());
+		Image backgroundImage = new Image("/start_scene_background_1_1.jpeg");
 		manualBackground.setImage(backgroundImage);
 
-		Image noOfPlayers = new Image(getClass().getResource("/resources/setNoPlayers.png").toExternalForm());
+		Image noOfPlayers = new Image("/setNoPlayers.png");
 		setNoPlayers.setImage(noOfPlayers);
 
-		Image setPLayers = new Image(getClass().getResource("/resources/setPlayers.png").toExternalForm());
+		Image setPLayers = new Image("/setPlayers.png");
 		setPlayers.setImage(setPLayers);
 
-		Image settingButton = new Image(getClass().getResource("/resources/buttonSetting.png").toExternalForm());
+		Image settingButton = new Image("/buttonSetting.png");
 		buttonSetting.setImage(settingButton);
 
-		Image buttonStart = new Image(getClass().getResource("/resources/startButton.png").toExternalForm());
+		Image buttonStart = new Image("/startButton.png");
 		startButton.setImage(buttonStart);
 
-		Image boxAction = new Image(getClass().getResource("/resources/actionBox.png").toExternalForm());
+		Image boxAction = new Image("/actionBox.png");
 		actionBox.setImage(boxAction);
 
-		Image horicurt = new Image(getClass().getResource("/resources/horizontal_curtain_wall.png").toExternalForm());
+		Image horicurt = new Image("/horizontal_curtain_wall.png");
 		horizontal_curtain_wall.setImage(horicurt);
 
-		Image vertcurt = new Image(getClass().getResource("/resources/vertical_curtain_wall.png").toExternalForm());
+		Image vertcurt = new Image("/vertical_curtain_wall.png");
 		vertical_curtain_wall.setImage(vertcurt);
 
-		Image horiclosedmagic = new Image(getClass().getResource("/resources/horizontal_closed_magic_door_wall_curtain.png").toExternalForm());
+		Image horiclosedmagic = new Image("/horizontal_closed_magic_door_wall_curtain.png");
 		horizontal_closed_magic_door_wall_curtain.setImage(horiclosedmagic);
 
-		Image horiopenmagic = new Image(getClass().getResource("/resources/horizontal_open_magic_door_wall.png").toExternalForm());
+		Image horiopenmagic = new Image("/horizontal_open_magic_door_wall.png");
 		horizontal_open_magic_door_wall.setImage(horiopenmagic);
 
-		Image vertclosedmagic = new Image(getClass().getResource("/resources/vertical_closed_magic_door_wall_curtain.png").toExternalForm());
+		Image vertclosedmagic = new Image("/vertical_closed_magic_door_wall_curtain.png");
 		vertical_closed_magic_door_wall_curtain.setImage(vertclosedmagic);
 
-		Image vertopenmagic = new Image(getClass().getResource("/resources/vertical_open_magic_door_wall.png").toExternalForm());
+		Image vertopenmagic = new Image("/vertical_open_magic_door_wall.png");
 		vertical_open_magic_door_wall.setImage(vertopenmagic);
 
-		Image horimouse = new Image(getClass().getResource("/resources/horizontal_mousehole_wall.png").toExternalForm());
+		Image horimouse = new Image("/horizontal_mousehole_wall.png");
 		horizontal_mousehole_wall.setImage(horimouse);
 
-		Image vertmouse = new Image(getClass().getResource("/resources/vertical_mousehole_wall.png").toExternalForm());
+		Image vertmouse = new Image("/vertical_mousehole_wall.png");
 		vertical_mousehole_wall.setImage(vertmouse);
 
-		Image vertopen = new Image(getClass().getResource("/resources/vertical_open_wall.png").toExternalForm());
+		Image vertopen = new Image("/vertical_open_wall.png");
 		vertical_open_wall.setImage(vertopen);
 
-		Image horiopen = new Image(getClass().getResource("/resources/horizontal_open_wall.png").toExternalForm());
+		Image horiopen = new Image("/horizontal_open_wall.png");
 		horizontal_open_wall.setImage(horiopen);
 
-		Image horiwindow = new Image(getClass().getResource("/resources/horizontal_window_wall.png").toExternalForm());
+		Image horiwindow = new Image("/horizontal_window_wall.png");
 		horizontal_window_wall.setImage(horiwindow);
 
-		Image vertopenwindow = new Image(getClass().getResource("/resources/vertical_open_window_wall.png").toExternalForm());
+		Image vertopenwindow = new Image("/vertical_open_window_wall.png");
 		vertical_open_window_wall.setImage(vertopenwindow);
-//
-//		Image vertclosedwindow = new Image(getClass().getResource("/resources/vertical_closed_window_wall.png").toExternalForm());
-//		vertical_closed_window_wall.setImage(vertclosedwindow);
-
 
 		setGameRulesText();
 	}
@@ -140,8 +132,6 @@ public class ManualController implements Initializable {
 				"\tThe other pages are the guides on how to navigate the game.\n\n";
 		gameRulesTextArea.setText(gameRules);
 	}
-
-
 
 	public void switchToInitialMenuScene(ActionEvent event) throws IOException {
 		root = (AnchorPane)FXMLLoader.load(getClass().getResource("/com/guigame/application/view/InitialMenu.fxml"));

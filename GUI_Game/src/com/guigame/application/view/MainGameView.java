@@ -39,9 +39,9 @@ public class MainGameView {
         this.gameBoard = new GridPane();
         
         InputStream is = getClass().getResourceAsStream("/digital-7 (mono).ttf");
-		Font font = Font.loadFont(is, 50);
-		BackgroundFill backgroundFill = new BackgroundFill(Color.rgb(0, 0, 0, 0.65), CornerRadii.EMPTY, Insets.EMPTY);
-		Background background = new Background(backgroundFill);
+	Font font = Font.loadFont(is, 50);
+	BackgroundFill backgroundFill = new BackgroundFill(Color.rgb(0, 0, 0, 0.65), CornerRadii.EMPTY, Insets.EMPTY);
+	Background background = new Background(backgroundFill);
         this.clock = new Label();
         clock.setFont(font);
         clock.setTextFill(Color.LIMEGREEN);

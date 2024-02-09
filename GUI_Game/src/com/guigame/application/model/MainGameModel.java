@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.guigame.board.Board;
-import com.guigame.board.Clock;
-import com.guigame.board.Compass;
-import com.guigame.board.GridCell;
-import com.guigame.helper.type.ActionType;
-import com.guigame.helper.type.CellType;
-import com.guigame.helper.type.CharacterType;
-import com.guigame.helper.type.DirectionType;
-import com.guigame.helper.type.FieldType;
-import com.guigame.helper.type.Pair;
-import com.guigame.player.Player;
+import com.guigame.application.model.board.Board;
+import com.guigame.application.model.board.Clock;
+import com.guigame.application.model.board.Compass;
+import com.guigame.application.model.board.GridCell;
+import com.guigame.application.model.helper.type.ActionType;
+import com.guigame.application.model.helper.type.CellType;
+import com.guigame.application.model.helper.type.CharacterType;
+import com.guigame.application.model.helper.type.DirectionType;
+import com.guigame.application.model.helper.type.FieldType;
+import com.guigame.application.model.helper.Pair;
+import com.guigame.application.model.player.Player;
 
 public class MainGameModel {
 	private Board board;

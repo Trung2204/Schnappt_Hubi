@@ -345,8 +345,8 @@ public class MainGameController {
         };
     }
     
-	// Start the game loop
-	private void startGame() {
+    // Start the game loop
+    private void startGame() {
 		gameLoop.start();
     }
 	// Stop the game loop

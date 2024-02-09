@@ -1,8 +1,8 @@
-package com.guigame.board;
+package com.guigame.application.model.board;
 
 import java.util.*;
 
-import com.guigame.helper.type.CellType;
+import com.guigame.application.model.helper.type.CellType;
 
 public class Board {
 	private static final int BOARD_SIZE = 5;

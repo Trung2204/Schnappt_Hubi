@@ -1,7 +1,7 @@
-package com.guigame.board;
+package com.guigame.application.model.board;
 import java.util.Random;
 
-import com.guigame.helper.type.FieldType;
+import com.guigame.application.model.helper.type.FieldType;
 
 public class Compass {
     private FieldType fieldType;

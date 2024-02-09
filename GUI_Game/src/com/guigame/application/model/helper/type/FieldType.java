@@ -1,4 +1,4 @@
-package com.guigame.helper.type;
+package com.guigame.application.model.helper.type;
 public enum FieldType {
     CLOCK1(1),
     CLOCK2(1),

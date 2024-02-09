@@ -1,4 +1,4 @@
-package com.guigame.helper.type;
+package com.guigame.application.model.helper;
 
 public class Pair {
     private int row1, col1, row2, col2;

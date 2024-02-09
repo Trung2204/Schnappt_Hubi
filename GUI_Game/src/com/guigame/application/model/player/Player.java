@@ -1,9 +1,9 @@
-package com.guigame.player;
+package com.guigame.application.model.player;
 
-import com.guigame.board.Board;
-import com.guigame.board.GridCell;
-import com.guigame.helper.type.CharacterType;
-import com.guigame.helper.type.DirectionType;
+import com.guigame.application.model.board.Board;
+import com.guigame.application.model.board.GridCell;
+import com.guigame.application.model.helper.type.CharacterType;
+import com.guigame.application.model.helper.type.DirectionType;
 
 public class Player {
 

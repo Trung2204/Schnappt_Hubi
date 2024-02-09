@@ -5,9 +5,9 @@ import java.io.IOException;
 import com.guigame.application.model.MainGameModel;
 import com.guigame.application.model.MainGameModel.GameState;
 import com.guigame.application.view.MainGameView;
-import com.guigame.helper.type.ActionType;
-import com.guigame.helper.type.DirectionType;
-import com.guigame.player.Player;
+import com.guigame.application.model.helper.type.ActionType;
+import com.guigame.application.model.helper.type.DirectionType;
+import com.guigame.application.model.player.Player;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
@@ -345,8 +345,8 @@ public class MainGameController {
         };
     }
     
-	// Start the game loop
-	private void startGame() {
+    // Start the game loop
+    private void startGame() {
 		gameLoop.start();
     }
 	// Stop the game loop

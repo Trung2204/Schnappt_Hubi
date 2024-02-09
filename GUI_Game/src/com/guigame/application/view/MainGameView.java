@@ -119,7 +119,7 @@ public class MainGameView {
    
 		return new ArrayList<Image>(Arrays.asList(mouseImage1, mouseImage2));
 	}
-	private ArrayList<Image> createRabbitImageList() {
+    private ArrayList<Image> createRabbitImageList() {
         Image rabbitImage1 = new Image("/rabbit_1.png");
         Image rabbitImage2 = new Image("/rabbit_2.png");
 
